@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- show the tegranote hardware version based on config setting. -->
+    <add-resource type="string" name="tnhwrevision_settings_list_item_title" />
+    <string name="tnhwrevision_settings_list_item_title">TegraNote HW revision</string>
+    <add-resource type="string" name="tnhwrevision_settings_list_item_summary" />
+    <string name="tnhwrevision_settings_list_item_summary">"TegraNote HW revision summary"</string>
+
+    <!-- Text to display in regulatory info screen (from device overlay). -->
+    <string name="regulatory_info_text">To be replaced with regulatory info drawable regulatory_info
+.png whose width and height must both > 2 pixels.</string>
+</resources>

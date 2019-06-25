@@ -1,0 +1,79 @@
+#:4efef2ba34f8b2afa5f140be7e95ef5f
+#?format_version=2.0
+#/*****************************************************************************
+# *                                                                           *
+# *                       Audience Inc.                                       *
+# *                     331 Fairchild Dr                                      *
+# *                  Mountain View, CA 95134                                  *
+# *                                                                           *
+# *****************************************************************************
+# *                                                                           *
+# *               Copyright (c) 2015 Audience Inc.                            *
+# *                       All Rights Reserved                                 *
+# *                                                                           *
+# *                   Proprietary and Confidential                            *
+# *             Authorized for use on NVidia Loki Devices                     *
+# ****************************************************************************/
+
+# Protocol
+protocol.sensor-default = inputevent
+
+##
+# format for sensor=<sensor part>_<sensor type>
+# where <sensor type> is the int member "type" of the sensor_t structure.
+# This format allows us to automatically initialize MotionQ with the sensor's
+# configuration by searching this configuration file for a specific sensor
+# using the sensor's part name and sensor type from the OS sensor list.
+#
+
+## Invensense ICM20268 accelerometer (sensor type 1)
+#
+# Noise= 9.81/1024 * 6.0 m/s^2
+#
+sensor=acc1
+acc1.conversion = 1.0, 1.0, 1.0
+acc1.defaultrate = 0.020000
+acc1.dimension = 3
+acc1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+acc1.noise = 0.057500,0.057500,0.057500
+acc1.saturation = 80.000000
+acc1.type = "RAW_ACCELEROMETER"
+acc1.swap = 0,1,2
+
+## Invensense ICM20268 gyroscope (sensor type 4)
+#
+# Noise=  0.45 / 57.3 * 1000 for now
+sensor=gyr1
+gyr1.bias-stability = 0.000000,0.000000,0.000000
+gyr1.conversion =  1.0, 1.0, 1.0
+gyr1.defaultrate = 0.010000
+gyr1.dimension = 3
+gyr1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+gyr1.noise = 0.001500,0.001500,0.001500
+gyr1.non-linear = 0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
+gyr1.saturation = 34.799999
+gyr1.shake = 0.000000,0.000000,0.000000
+gyr1.swap = 0,1,2
+gyr1.type = "RAW_GYROSCOPE"
+
+## AKM8963 magnetometer (sensor type 2)
+#
+# Noise in uT
+#
+sensor=mag1
+mag1.conversion = 1.0, 1.0, 1.0
+mag1.defaultrate = 0.020000
+mag1.dimension = 3
+mag1.expectednorm = 40.000000
+mag1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+mag1.noise = 2.000000,2.000000,2.000000
+mag1.saturation = 2000.000000
+mag1.swap = 0,1,2
+mag1.type = "RAW_MAGNETOMETER"
+
+policy.background-gyrocal = 0
+policy.use-debug-logging = 0
+policy.verbose = 0
+
+module = "Segmenter"
+module = "Attitude"

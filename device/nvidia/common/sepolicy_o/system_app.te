@@ -1,0 +1,183 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+allow system_app quadd_auth_device:chr_file rw_file_perms;
+
+# /sys/devices/virtual/thermal/...
+allow system_app sysfs_thermal:file rw_file_perms;
+allow system_app sysfs_thermal:lnk_file rw_file_perms;
+allow system_app sysfs_thermal:dir r_dir_perms;
+
+# /dev/constraint_*
+allow system_app pmqos_device:{ file chr_file } rw_file_perms;
+
+# /sys/devices/system/cpu/...
+allow system_app sysfs_devices_system_cpu:file rw_file_perms;
+
+# /sys/devices/platform/host1x/tegradc.0/smartdimmer/...
+allow system_app sysfs_smartdimmer:file rw_file_perms;
+
+#/sys/devices/platform/pwm-leds(.*)/leds/led_lightbar(/.*)
+allow system_app sysfs_lightbar:file rw_file_perms;
+
+# /sys/devices/platform/pwm-fan.*
+allow system_app sysfs_pwm_fan:file rw_file_perms;
+
+# /sys/devices/platform/host1x/tegradc.0/cmu_enable
+allow system_app sysfs_cmu:file rw_file_perms;
+
+# sys/devices/soc*/...
+allow system_app sysfs_soc:file r_file_perms;
+allow system_app sysfs_soc:dir r_dir_perms;
+
+# /sys/devices/virtual/misc/uhid/0005:0955:7213.*/timeout
+allow system_app sysfs_pepper_timeout:file rw_file_perms;
+
+# /dev/tegra_dc_*
+allow system_app tegradc_device:chr_file rw_file_perms;
+
+allow system_app device:dir r_dir_perms;
+
+# Blake specific
+allow system_app sysfs_bus_usb:file w_file_perms;
+allow system_app sysfs_sound:{ file lnk_file } r_file_perms;
+allow system_app sysfs_sound:dir r_dir_perms;
+allow system_app sysfs_ozmo:lnk_file read;
+allow system_app sysfs_ozmo:dir rw_dir_perms;
+allow system_app sysfs_ozmo:file rw_file_perms;
+allow system_app sysfs_hid:dir r_dir_perms;
+allow system_app sysfs_hid:file rw_file_perms;
+allow system_app hidraw_device:chr_file rw_file_perms;
+allow system_app ozmo_device:chr_file rw_file_perms;
+allow system_app sysfs_blake:file rw_file_perms;
+allow system_app oem_media_file:dir r_dir_perms;
+allow system_app oem_media_file:file rw_file_perms;
+
+# NvEsrd specific
+allow system_app sysfs_sysedp:dir r_dir_perms;
+allow system_app sysfs_sysedp:file rw_file_perms;
+allow system_app sysfs_nvi2c:dir r_dir_perms;
+allow system_app sysfs_nvi2c:{ file lnk_file } rw_file_perms;
+
+# ShieldStats add service to service_manager
+allow system_app system_app_service:service_manager add;
+
+# Pepper Diagnostic
+allow system_app sysfs_hdmi:file rw_file_perms;
+allow system_app sysfs_usb_state:file rw_file_perms;
+
+# Read and write /data/data subdirectory.
+allow system_app system_app_data_file:lnk_file create_file_perms;
+
+# IKEv2 daemon
+unix_socket_connect(system_app, charon, charon)
+allow system_app ctl_charon_prop:property_service set;
+
+# Gamepad reset
+allow system_app sysfs_gamepad:file rw_file_perms;
+
+# Sku files and RP3 partition
+r_dir_file(system_app, rpx_block_device)
+r_dir_file(system_app, rpx_file)
+
+# Variable refresh rate
+allow system_app sysfs_vrr:file rw_file_perms;
+
+#Shield Remote
+allow system_app uhid_device:chr_file rw_file_perms;
+
+# usb mode setting for Darcy
+set_prop(system_app, usb_mode_prop);
+allow system_app sysfs_usb_convertible:file rw_file_perms;
+allow system_app sysfs_usb_convertible:lnk_file { read write };
+
+# nvfeedback to use dumpstate in order to collect full bugreport
+allow system_app ctl_default_prop:property_service set;
+allow system_app dumpstate_exec:file { read getattr open execute execute_no_trans };
+allow system_app anr_data_file:dir remove_name;
+allow system_app media_rw_data_file:dir { read getattr open search };
+
+# stats share files
+r_dir_file(system_app, stats_share_file)
+
+# ShieldBluetoothManager share ts_config.conf bluetooth data file
+r_dir_file(system_app, bluetooth_data_file)
+
+# Bluedroid log
+r_dir_file(system_app, bluetooth_log_file)
+
+# Allow GL to access ptimer_scale_factor
+allow system_app sysfs_gpu:file r_file_perms;
+
+# Allow system_app to access debugfs_clock
+allow system_app debugfs_clock:file r_file_perms;
+
+# allow system_app to access bluetooth_prop
+set_prop(system_app, bluetooth_prop)
+
+# IDS reads wifi files
+r_dir_file(system_app, wifi_data_file)
+allow system_app self:netlink_socket create_socket_perms_no_ioctl;
+
+# allow system app to access suspend_time
+allow system_app debugfs_suspend_time_stats:file r_file_perms;
+
+# allow system app to access wakeup_irq
+allow system_app debugfs_wake_irq_stats:file r_file_perms;
+
+# Allow netcfg access
+r_dir_file(system_app, sysfs_netcfg)
+
+# Allow Settings to recover after resolution changes
+dontaudit system_app self:capability2 { block_suspend };
+
+# Allow system apps to communicate with ShieldTech HAL
+allow system_app hal_shieldtech_hwservice:hwservice_manager find;
+
+# ShieldTech
+allow system_app hal_shieldtech_default:binder call;
+
+# Allow nvcpl to use powerHAL
+hal_client_domain(system_app, hal_power)
+
+# Allow system apps to communicate with Flynn HAL
+hal_client_domain(system_app, hal_flynn)
+
+# Allow system_app to r/w to downgrade usb3 nodes
+allow system_app sysfs_usb_blacklist:file rw_file_perms;
+
+# Allow system_app to access resources of apps on sdcard
+allow system_app asec_apk_file:dir r_dir_perms;
+allow system_app asec_apk_file:file r_file_perms;
+
+# Allow system app to get nvcpl service
+allow system_app nvcpl_app_service:service_manager find;
+
+# Allow system_app to talk to nvphsd
+allow system_app nvphsd_hwservice:hwservice_manager find;
+
+# Allow system app to use Graphics Display HAL
+hal_client_domain(system_app, hal_graphics_display)
+
+# Write to /data/ota_package for OTA packages.
+allow system_app ota_package_file:dir create_dir_perms;
+allow system_app ota_package_file:file create_file_perms;
+
+# Write to /cache.
+allow system_app { cache_file cache_recovery_file  }:dir create_dir_perms;
+allow system_app { cache_file cache_recovery_file  }:file create_file_perms;
+
+# Allow to read diagtools plug-in on /data/mfgtest
+allow system_app diag_data_file:dir r_dir_perms;
+allow system_app diag_data_file:file r_file_perms;

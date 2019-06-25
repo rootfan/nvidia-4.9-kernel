@@ -1,0 +1,9 @@
+this folder contains RSA private keys for signing the OTA blob
+
+ota_blob_priv_key.pem:
+    This key is used by the latest version of script file i.e. nvblob_v2
+that generates signed OTA blob
+
+signkey.pk8:
+    This key is used by the older version of script file i.e. nvblob that
+generates signed OTA blob. Using this key will be deprecated soon

@@ -1,0 +1,28 @@
+#Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+#NVIDIA Corporation and its licensors retain all intellectual property and
+#proprietary rights in and to this software and related documentation.  Any
+#use, reproduction, disclosure or distribution of this software and related
+#documentation without an express license agreement from NVIDIA Corporation
+#is strictly prohibited.
+
+import init.tegra_emmc.rc
+import init.t210.rc
+import init.cal.rc
+import init.touch.${ro.boot.touch_vendor_id}.rc
+
+on fs
+    setprop ro.crypto.tmpfs_options size=128m,mode=0771,uid=1000,gid=1000
+    setprop ro.crypto.umount_sd false
+    setprop ro.crypto.fuse_sdcard true
+    mount_all /fstab.e2220
+
+on post-fs-data
+    chown root system /sys/class/gps_wake/gps_device/gps_enable
+    chmod 0664 /sys/class/gps_wake/gps_device/gps_enable
+
+on property:persist.gps.present=true
+    symlink /system/etc/android.hardware.location.gps.xml /data/android.hardware.location.gps.xml
+
+on property:persist.gps.present=false
+    rm /data/android.hardware.location.gps.xml

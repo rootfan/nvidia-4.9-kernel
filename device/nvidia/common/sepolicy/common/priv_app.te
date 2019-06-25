@@ -1,0 +1,31 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+allow priv_app storage_stub_file:dir getattr;
+
+allow priv_app system_app_service:service_manager find;
+
+# Allow netcfg/mmc_host/pci access
+r_dir_file(priv_app, sysfs_netcfg)
+r_dir_file(priv_app, sysfs_mmc_host)
+r_dir_file(priv_app, sysfs_pci_device)
+
+# Read /mnt/asec/<pkg-cid>/base.apk which is mounted from app on sdcard (asec)
+allow priv_app asec_apk_file:dir r_dir_perms;
+allow priv_app asec_apk_file:file r_file_perms;
+allow priv_app asec_public_file:dir r_dir_perms;
+allow priv_app asec_public_file:file r_file_perms;
+
+# Allow priv_app to talk to nvphsd
+allow priv_app nvphsd_hwservice:hwservice_manager find;

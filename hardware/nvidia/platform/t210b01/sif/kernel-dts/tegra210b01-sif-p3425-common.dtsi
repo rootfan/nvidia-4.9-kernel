@@ -1,0 +1,1019 @@
+/*
+ * Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+/dts-v1/;
+
+/memreserve/ 0x80000000 0x00020000;
+
+#include <tegra210b01-soc/tegra210b01-soc-common-platform.dtsi>
+#include <tegra210-soc/mods-simple-bus.dtsi>
+#include <tegra210-soc/tegra210-audio.dtsi>
+#include <t210-common-platforms/tegra210-p2530-common.dtsi>
+#include "foster-platforms/tegra210-darcy-gpio-p2894-0000-a00.dtsi"
+#include "foster-platforms/tegra210-pinmux-drive-sdmmc-common.dtsi"
+#include "foster-platforms/tegra210-loki-e-comms.dtsi"
+#include "foster-platforms/tegra210-darcy-pwm-fan.dtsi"
+#include "foster-platforms/tegra210-darcy-prods.dtsi"
+#include "foster-platforms/tegra210-foster-e-camera.dtsi"
+#include <t210-common-platforms/tegra210-ers-hdmi-e2190-1100-a00.dtsi>
+#include "foster-platforms/tegra210-darcy-thermal-fan-est.dtsi"
+#include "foster-platforms/tegra210-loki-e-keys-p2530-0032-e00.dtsi"
+#include <dt-bindings/iio/meter/ina3221x.h>
+#include "sif-platforms/tegra210b01-sif-cpufreq.dtsi"
+#include "sif-platforms/tegra210b01-sif-power-dvfs.dtsi"
+#include "foster-platforms/tegra210-foster-powermon-p2530-0930-e01.dtsi"
+
+/ {
+	firmware {
+		android {
+			compatible = "android,firmware";
+			first_stage_delay = "1";
+
+			fstab {
+				compatible = "android,fstab";
+				system {
+					compatible = "android,system";
+					dev = "/dev/block/platform/sdhci-tegra.3/by-name/APP";
+					type = "ext4";
+					mnt_flags = "ro,noatime";
+					fsmgr_flags = "wait,verify=/dev/block/platform/sdhci-tegra.3/by-name/MDA";
+				};
+				vendor {
+					compatible = "android,vendor";
+					dev = "/dev/block/platform/sdhci-tegra.3/by-name/vendor";
+					type = "ext4";
+					mnt_flags = "ro,noatime";
+					fsmgr_flags = "wait,verify=/dev/block/platform/sdhci-tegra.3/by-name/MDA";
+				};
+			};
+		};
+	};
+
+	usb_cd: usb_cd@7009f000 {
+		compatible = "nvidia,tegra210-usb-cd";
+		reg = <0x0 0x7009f000 0x0 0x1000>;
+		phys = <&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+		phy-names = "otg-phy";
+		status = "okay";
+	};
+
+	gpio-keys {
+		power {
+			gpios = <&gpio TEGRA_GPIO(X, 7) GPIO_ACTIVE_LOW>;
+		};
+
+		sw_lid {
+			status="disabled";
+		};
+	};
+
+	psy_extcon_xudc {
+		/delete-property/ dt-override-status-odm-data;
+	};
+
+	se_elp@70420000 {
+		status = "disabled";
+	};
+
+	dummy_cool_dev: dummy-cool-dev {
+		compatible = "dummy-cooling-dev";
+		#cooling-cells = <2>; /* min followed by max */
+	};
+
+	pmc@7000e400 {
+		#nvidia,wake-cells = <3>;
+		nvidia,suspend-mode = <0>;
+		nvidia,cpu-pwr-good-time = <0>;
+		nvidia,cpu-pwr-off-time = <0>;
+		nvidia,core-pwr-good-time = <4587 3876>;
+		nvidia,core-pwr-off-time = <39065>;
+		nvidia,core-power-req-active-high;
+		nvidia,sys-clock-req-active-high;
+		nvidia,restrict-voltage-switch;
+		pinctrl_iopad_default:iopad-defaults {
+			sdmmc-io-pads {
+				pins = "sdmmc1", "sdmmc3";
+				nvidia,enable-voltage-switching;
+			};
+			sdmmc-dpd-enable {
+				pins = "emmc2";
+				low-power-enable;
+			};
+		};
+	};
+
+	sdhci@700b0600 { /* SDMMC4 for EMMC */
+		uhs-mask = <0x0>;
+		mmc-hs400-enhanced-strobe;
+		built-in;
+		power-off-rail;
+		bus-width = <8>;
+		mmc-ddr-1_8v;
+		mmc-hs200-1_8v;
+		mmc-hs400-1_8v;
+		no-sdio;
+		no-sd;
+		non-removable;
+		status = "okay";
+	};
+
+	sdhci@700b0200 { /* SDMMC2 for Wifi */
+		mmc-ocr-mask = <0x8>;
+		uhs-mask = <0x8>;
+		max-clk-limit = <200000000>;
+		power-off-rail;
+		force-non-removable-rescan;
+		status = "okay";
+	};
+
+	sdhci@700b0000 { /* SDMMC1 for SD card */
+		default-drv-type = <1>;
+		mmc-ocr-mask = <0x0>;
+		cd-gpios = <&gpio TEGRA_GPIO(Z, 1) 0>;
+		sd-uhs-sdr104;
+		sd-uhs-sdr50;
+		sd-uhs-sdr25;
+		sd-uhs-sdr12;
+		mmc-ddr-1_8v;
+		mmc-hs200-1_8v;
+		nvidia,cd-wakeup-capable;
+		no-sdio;
+		no-mmc;
+		status = "okay";
+	};
+
+	chosen {
+		bootargs = "earlycon=uart8250,mmio32,0x70006000,androidboot.secureos=tlk";
+		stdout-path = &uarta;
+		nvidia,tegra-darcy-sku;
+		no-tnid-sn;
+		nvidia,bootloader-xusb-enable;
+		nvidia,bootloader-vbus-enable=<0x1>;
+		fastboot-instructions = "Press Power Button to move highlight\nLong press Power Button to select\n";
+		nvidia,fastboot_without_usb;
+		nvidia,gpu-disable-power-saving;
+		verified-boot {
+			ui-timeout-ms {
+				yellow-state = <7000>;
+				red-state = <10000>;
+				orange-state = <10000>;
+			};
+		};
+	};
+
+	serial@70006000 {
+		compatible = "nvidia,tegra20-uart", "nvidia,tegra114-hsuart";
+		console-port;
+		sqa-automation-port;
+		enable-rx-poll-timer;
+		/delete-property/ resets;
+		/delete-property/ reset-names;
+		status = "okay";
+	};
+
+	serial@70006200 {
+		compatible = "nvidia,tegra114-hsuart";
+		dma-names = "tx";
+		nvidia,adjust-baud-rates = <921600 921600 100>;
+		status = "okay";
+	};
+
+	serial@70006300 {
+		compatible = "nvidia,tegra114-hsuart";
+		status = "okay";
+	};
+
+
+	spi@7000da00 {
+		status = "disabled";
+	};
+
+	aconnect@702c0000 {
+		ahub {
+			i2s@702d1100 {
+				pinctrl-names = "dap_active", "dap_inactive";
+				pinctrl-0 = <>;
+				pinctrl-1 = <>;
+				regulator-supplies = "vdd-1v8-spi-hv", "vdd-1v8-spi-hv-bias";
+				vdd-1v8-spi-hv-supply = <&max77620_sd3>;
+				vdd-1v8-spi-hv-bias-supply = <&max77620_sd3>;
+				fsync-width = <0>;
+			};
+		};
+	};
+
+	watchdog@60005100 {
+		nvidia,enable-on-init;
+		timeout-sec = <120>;
+		status = "disabled";
+	};
+
+	extcon {
+		extcon@0 {
+			status = "disabled";
+		};
+	};
+
+	mailbox@70098000 {
+		status = "okay";
+	};
+
+	xusb_padctl@7009f000 {
+		status = "okay";
+
+		pads {
+			usb2 {
+				status = "okay";
+
+				lanes {
+					usb2-0 {
+						status = "okay";
+						nvidia,function = "xusb";
+					};
+				};
+			};
+
+			pcie {
+				status = "okay";
+
+				lanes {
+					pcie-0 {
+						status = "okay";
+						nvidia,function = "pcie-x1";
+					};
+					pcie-1 {
+						status = "okay";
+						nvidia,function = "xusb";
+					};
+					pcie-2 {
+						status = "okay";
+						nvidia,function = "pcie-x4";
+					};
+					pcie-3 {
+						status = "okay";
+						nvidia,function = "pcie-x4";
+					};
+					pcie-4 {
+						status = "okay";
+						nvidia,function = "xusb";
+					};
+					pcie-5 {
+						status = "okay";
+						nvidia,function = "xusb";
+					};
+				};
+			};
+		};
+
+		ports {
+			usb2-0 {
+				status = "okay";
+				mode = "otg";
+			};
+		};
+	};
+
+	pinctrl@7009f000 {
+		compatible = "nvidia,tegra21xb01-padctl-uphy";
+		clocks = <&tegra_car TEGRA210_CLK_HSIC_TRK>,
+				<&tegra_car TEGRA210_CLK_USB2_TRK>,
+				<&tegra_car TEGRA210_CLK_PLL_E>,
+				<&tegra_car TEGRA210_CLK_PLL_P_UPHY_OUT>;
+		clock-names = "hsic_trk", "usb2_trk", "pll_e", "mgmt_clk";
+		status = "okay";
+		pinctrl-0 = <&tegra_padctl_uphy_pinmux_default>;
+		pinctrl-names = "default";
+		tegra_padctl_uphy_pinmux_default: pinmux {
+			usb2-std-A-J1 {
+				 nvidia,lanes = "otg-0";
+				 nvidia,function = "xusb";
+				 nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_OTG_CAP>;
+			};
+			usb3-std-A-J1 {
+				 nvidia,lanes = "uphy-lane-5";
+				 nvidia,function = "usb3";
+				 nvidia,usb3-port = <0>;
+				 nvidia,usb2-map = <0>;
+				 nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_OTG_CAP>;
+			};
+			usb2-std-A-J2 {
+				 nvidia,lanes = "otg-2";
+				 nvidia,function = "xusb";
+				 nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_HOST_ONLY>;
+			};
+			usb3-std-A-J2 {
+				 nvidia,lanes = "uphy-lane-4";
+				 nvidia,function = "usb3";
+				 nvidia,usb3-port = <1>;
+				 nvidia,usb2-map = <2>;
+				 nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_HOST_ONLY>;
+			};
+			usb2-eth {
+				nvidia,lanes = "otg-1";
+				nvidia,function = "xusb";
+				nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_HOST_ONLY>;
+			};
+			usb3-eth {
+				nvidia,lanes = "uphy-lane-1";
+				nvidia,function = "usb3";
+				nvidia,usb3-port = <2>;
+				nvidia,usb2-map = <1>;
+				nvidia,port-cap =
+					<TEGRA_PADCTL_PORT_HOST_ONLY>;
+			};
+			pcie-0-x2 {
+				 nvidia,lanes =	"uphy-lane-2", "uphy-lane-3";
+				 nvidia,function = "pcie";
+				 nvidia,pcie-controller = <0>;
+				 nvidia,pcie-lane-select =
+					<TEGRA_PADCTL_PCIE_LANE_X4>;
+			};
+			pcie-1-x1 {
+				 nvidia,lanes =	"uphy-lane-0";
+				 nvidia,function = "pcie";
+				 nvidia,pcie-controller = <1>;
+				 nvidia,pcie-lane-select =
+					<TEGRA_PADCTL_PCIE_LANE_X1>;
+			};
+
+		};
+	};
+
+	xusb@70090000 {
+		compatible = "nvidia,tegra210b01-xhci";
+		phys = <&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+		phy-names = "usb2-0";
+		#extcon-cells = <1>;
+		status = "disabled";
+		nvidia,pmc-wakeup =
+			<&tegra_pmc
+				PMC_WAKE_TYPE_EVENT 39 PMC_TRIGGER_TYPE_HIGH>,
+			<&tegra_pmc
+				PMC_WAKE_TYPE_EVENT 40 PMC_TRIGGER_TYPE_HIGH>,
+			<&tegra_pmc
+				PMC_WAKE_TYPE_EVENT 41 PMC_TRIGGER_TYPE_HIGH>,
+			<&tegra_pmc
+				PMC_WAKE_TYPE_EVENT 42 PMC_TRIGGER_TYPE_HIGH>,
+			<&tegra_pmc
+				PMC_WAKE_TYPE_EVENT 44 PMC_TRIGGER_TYPE_HIGH>;
+	};
+
+	xudc@700d0000 {
+		compatible = "nvidia,tegra210b01-xudc";
+		phys =	<&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-0}>;
+		phy-names = "usb2";
+		#extcon-cells = <1>;
+		status = "okay";
+		charger-detector = <&usb_cd>;
+	};
+
+	xotg {
+		#extcon-cells = <1>;
+	};
+
+	pinmux@700008d4 {
+		pinmux_default: common {
+			pz1 {
+				nvidia,pins = "pz1";
+				nvidia,function = "rsvd2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+				nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+			};
+			pz2 {
+				nvidia,pins = "pz2";
+				nvidia,function = "rsvd2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+				nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+			};
+			sdmmc2_clk {
+				nvidia,pins = "sdmmc2_clk";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_clkb {
+				nvidia,pins = "sdmmc2_clkb";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_cmd {
+				nvidia,pins = "sdmmc2_cmd";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat0 {
+				nvidia,pins = "sdmmc2_dat0";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat1 {
+				nvidia,pins = "sdmmc2_dat1";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat2 {
+				nvidia,pins = "sdmmc2_dat2";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat3 {
+				nvidia,pins = "sdmmc2_dat3";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat4 {
+				nvidia,pins = "sdmmc2_dat4";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat5 {
+				nvidia,pins = "sdmmc2_dat5";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat6 {
+				nvidia,pins = "sdmmc2_dat6";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dat7 {
+				nvidia,pins = "sdmmc2_dat7";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+			sdmmc2_dqs {
+				nvidia,pins = "sdmmc2_dqs";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+				nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+			};
+			sdmmc2_dqsb {
+				nvidia,pins = "sdmmc2_dqsb";
+				nvidia,function = "sdmmc2";
+				nvidia,pull = <TEGRA_PIN_PULL_NONE>;
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+				nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+			};
+		};
+		dvfs_pwm_active_state: dvfs_pwm_active {
+			dvfs_pwm_pbb1 {
+				nvidia,pins = "dvfs_pwm_pbb1";
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+			};
+		};
+
+		dvfs_pwm_inactive_state: dvfs_pwm_inactive {
+			dvfs_pwm_pbb1 {
+				nvidia,pins = "dvfs_pwm_pbb1";
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+			};
+		};
+		dsi_ab_pad_default: dsi_ab_pad_default {
+			dsi_ab_pad_enable {
+				nvidia,pins = "pad_dsi_ab";
+				nvidia,pad-power = <TEGRA_PIN_ENABLE>;
+			};
+		};
+		dsi_cd_pad_default: dsi_cd_pad_default {
+			dsi_cd_pad_enable {
+				nvidia,pins = "pad_dsi_cd";
+				nvidia,pad-power = <TEGRA_PIN_ENABLE>;
+			};
+		};
+		dsi_ab_pad_idle: dsi_ab_pad_idle {
+			dsi_ab_pad_disable {
+				nvidia,pins = "pad_dsi_ab";
+				nvidia,pad-power = <TEGRA_PIN_DISABLE>;
+			};
+		};
+		dsi_cd_pad_idle: dsi_cd_pad_idle {
+			dsi_cd_pad_disable {
+				nvidia,pins = "pad_dsi_cd";
+				nvidia,pad-power = <TEGRA_PIN_DISABLE>;
+			};
+		};
+	};
+
+	host1x {
+		/* tegradc.0 */
+		dc@54200000 {
+			status = "okay";
+			nvidia,dc-flags = <TEGRA_DC_FLAG_ENABLED>;
+			nvidia,emc-clk-rate = <300000000>;
+			nvidia,cmu-enable = <1>;
+			nvidia,fb-bpp = <32>; /* bits per pixel */
+			nvidia,fb-flags = <TEGRA_FB_FLIP_ON_PROBE>;
+			nvidia,dc-or-node = "/host1x/sor1";
+			nvidia,50hz-ss-war;
+			nvidia,dc-connector = <&sor1>;
+		};
+		dpaux {
+			status = "okay";
+		};
+		sor1 {
+			status = "okay";
+			hdmi-display {
+				status = "okay";
+			};
+		};
+		dpaux1 {
+			status = "okay";
+		};
+		vi {
+			status = "okay";
+		};
+	};
+
+	pwm@7000a000 {
+		nvidia,no-clk-sleeping-in-ops;
+	};
+
+	pwm@70110000 {
+		pinctrl-0 = <&dvfs_pwm_active_state>;
+		pinctrl-1 = <&dvfs_pwm_inactive_state>;
+		pwm-regulator = <&cpu_ovr_reg>;
+		status = "okay";
+	};
+
+	clock@70110000 {
+		status = "okay";
+		nvidia,pwm-to-pmic;
+		nvidia,init-uv = <800000>;
+		nvidia,sample-rate = <25000>;
+		nvidia,droop-ctrl = <0x00000f00>;
+		nvidia,force-mode = <1>;
+		nvidia,cf = <6>;
+		nvidia,ci = <0>;
+		nvidia,cg = <2>;
+		nvidia,idle-override;
+		nvidia,one-shot-calibrate;
+		nvidia,one-shot-settle-time = <100>;
+		nvidia,pwm-period = <2500>; /* 2.5us */
+		pinctrl-names = "dvfs_pwm_enable", "dvfs_pwm_disable";
+		pinctrl-0 = <&dvfs_pwm_active_state>;
+		pinctrl-1 = <&dvfs_pwm_inactive_state>;
+		nvidia,align-offset-uv = <500000>;
+		nvidia,align-step-uv = <19375>;
+	};
+
+	cpus {
+		cpu@0 {
+			clocks = <&tegra_car TEGRA210_CLK_CCLK_G>,
+				<&tegra_car TEGRA210_CLK_CCLK_LP>,
+				<&tegra_car TEGRA210_CLK_PLL_X>,
+				<&tegra_car TEGRA210_CLK_PLL_P_OUT4>,
+				<&tegra_clk_dfll>;
+			clock-names = "cpu_g", "cpu_lp", "pll_x", "pll_p", "dfll";
+			clock-latency = <300000>;
+		};
+	};
+
+	memory-controller@70019000 {
+		status = "okay";
+        };
+
+	dvfs {
+		compatible = "nvidia,tegra210b01-dvfs", "nvidia,tegra210-dvfs";
+	};
+
+	tegra-supply-tests {
+		compatible = "nvidia,tegra-supply-tests";
+		vdd-core-supply=<&max77620_sd0>;
+	};
+
+	gpu-dvfs-rework {
+		status = "okay";
+	};
+
+	core_dvfs_cdev_cap {
+		clocks = <&tegra_car TEGRA210_CLK_CAP_VCORE_C2BUS>,
+			 <&tegra_car TEGRA210_CLK_CAP_VCORE_C3BUS>,
+			 <&tegra_car TEGRA210_CLK_CAP_VCORE_CBUS>,
+			 <&tegra_car TEGRA210_CLK_CAP_VCORE_APE>;
+		clock-names = "c2bus_cap", "c3bus_cap", "cbus_cap", "ape_cap";
+	};
+
+	dfll_cap: dfll-cdev-cap {
+		compatible = "nvidia,tegra-dfll-cdev-action";
+		act-dev = <&tegra_clk_dfll>;
+		cdev-type = "DFLL-cap";
+		#cooling-cells = <2>; /* min followed by max */
+	};
+
+	dfll_floor: dfll-cdev-floor {
+		compatible = "nvidia,tegra-dfll-cdev-action";
+		act-dev = <&tegra_clk_dfll>;
+		cdev-type = "DFLL-floor";
+		#cooling-cells = <2>; /* min followed by max */
+	};
+
+	gpio-timed-keys {
+		status="disabled";
+		disable-on-recovery-kernel;
+	};
+
+	pwm-leds {
+		compatible = "pwm-leds";
+		lightbar {
+			label = "led_lightbar";
+			pwms = <&tegra_pwm 0 40161>;
+			gpios = <&gpio TEGRA_GPIO(V, 0) GPIO_ACTIVE_LOW>;
+			max-brightness = <255>;
+			default-brightness = <255>;
+			linux,default-trigger = "default-on";
+		};
+	};
+
+	soctherm@0x700E2000 {
+		status = "okay";
+		throttle@oc1 {
+			status = "disabled";
+		};
+	};
+
+	sound_card: sound {
+		compatible = "nvidia,tegra-audio-t210ref-mobile-rt565x";
+		nvidia,model = "tegra-snd-t210ref-mobile-rt565x";
+
+		clocks = <&tegra_car TEGRA210_CLK_PLL_P_OUT1>,
+			<&tegra_car TEGRA210_CLK_PLL_A>,
+			<&tegra_car TEGRA210_CLK_PLL_A_OUT0>,
+			<&tegra_car TEGRA210_CLK_D_AUDIO>,
+			<&tegra_car TEGRA210_CLK_CLK_M>,
+			<&tegra_car TEGRA210_CLK_EXTERN1>;
+		clock-names = "pll_p_out1", "pll_a", "pll_a_out0", "ahub",
+			"clk_m", "extern1";
+
+		assigned-clocks = <&tegra_car TEGRA210_CLK_PLL_A>,
+			<&tegra_car TEGRA210_CLK_PLL_A_OUT0>,
+			<&tegra_car TEGRA210_CLK_D_AUDIO>,
+			<&tegra_car TEGRA210_CLK_EXTERN1>;
+		assigned-clock-rates = <368640000>, <36864000>,
+			<36864000>, <12288000>;
+		nvidia,num-codec-link = <1>;
+
+		nvidia,audio-routing =
+			"y Headphone", 	"y OUT",
+			"y IN",		"y Mic";
+
+		nvidia,xbar = <&tegra_axbar>;
+
+		/* The codec-dai here is initialized to dummy and will be   */
+		/* replaced with rt565x codec-dai on detecting super-module */
+		nvidia,dai-link-1 {
+			link-name = "rt565x-playback";
+			cpu-dai = <&tegra_i2s2>;
+			codec-dai = <&spdif_dit0>;
+			cpu-dai-name = "I2S2";
+			codec-dai-name = "dit-hifi";
+			tx-mask = <0xFF>;
+			rx-mask = <0xFF>;
+			format = "dsp_a";
+			bitclock-slave;
+			frame-slave;
+			bitclock-inversion;
+			frame-noninversion;
+			bit-format = "s16_le";
+			bclk_ratio = <4>;
+			srate = <48000>;
+			num-channel = <1>;
+			ignore_suspend;
+			name-prefix = "y";
+		};
+	};
+
+	i2c@7000c400 {
+		ina3221x: ina3221x@40 {
+			channel@0 {
+				reg = <0x0>;
+				ti,rail-name = "VDD_NOOP";
+				ti,shunt-resistor-mohm = <5>;
+			};
+			channel@1 {
+				reg = <0x1>;
+				ti,rail-name = "VDD_IO";
+				ti,shunt-resistor-mohm = <5>;
+			};
+			channel@2 {
+				reg = <0x2>;
+				ti,rail-name = "VDD_SYS";
+				ti,shunt-resistor-mohm = <5>;
+			};
+		};
+	};
+
+	bcmdhd_wlan {
+		sdhci-host = <&sdmmc2>;
+		pwr-retry-cnt = <5>;
+		builtin-roam-disabled;
+		fw_path = "/vendor/firmware/fw_bcmdhd_4356.bin";
+		nv_path = "/vendor/firmware/nvram_darcy_a00.txt";
+		tuned_nv_path = "/vendor/firmware/nvram_darcy_a00.txt";
+		clm_blob_path = "/system/etc/wifi/bcmdhd_clm_sif.blob";
+
+		country_code_map {
+			CC_XV {
+				iso_abbrev = "XV";
+				custom_locale = "XV";
+				custom_locale_rev = <982>;
+			};
+			CC_US {
+				iso_abbrev = "US";
+				custom_locale = "US";
+				custom_locale_rev = <921>;
+			};
+			CC_CA {
+				iso_abbrev = "CA";
+				custom_locale = "Q2";
+				custom_locale_rev = <937>;
+			};
+			CC_AT {
+				iso_abbrev = "AT";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_BE {
+				iso_abbrev = "BE";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_BG {
+				iso_abbrev = "BG";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_HR {
+				iso_abbrev = "HR";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_CY {
+				iso_abbrev = "CY";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_CZ {
+				iso_abbrev = "CZ";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_DK {
+				iso_abbrev = "DK";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_EE {
+				iso_abbrev = "EE";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_FI {
+				iso_abbrev = "FI";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_FR {
+				iso_abbrev = "FR";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_DE {
+				iso_abbrev = "DE";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_GR {
+				iso_abbrev = "GR";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_HU {
+				iso_abbrev = "HU";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_IS {
+				iso_abbrev = "IS";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_IE {
+				iso_abbrev = "IE";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_IT {
+				iso_abbrev = "IT";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_LV {
+				iso_abbrev = "LV";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_LI {
+				iso_abbrev = "LI";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_LT {
+				iso_abbrev = "LT";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_LU {
+				iso_abbrev = "LU";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_MT {
+				iso_abbrev = "MT";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_NL {
+				iso_abbrev = "NL";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_NO {
+				iso_abbrev = "NO";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_PL {
+				iso_abbrev = "PL";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_PT {
+				iso_abbrev = "PT";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_RO {
+				iso_abbrev = "RO";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_SK {
+				iso_abbrev = "SK";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_SI {
+				iso_abbrev = "SI";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_ES {
+				iso_abbrev = "ES";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_SE {
+				iso_abbrev = "SE";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_CH {
+				iso_abbrev = "CH";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_TR {
+				iso_abbrev = "TR";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_GB {
+				iso_abbrev = "GB";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_EU {
+				iso_abbrev = "EU";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_E0 {
+				iso_abbrev = "E0";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_AU {
+				iso_abbrev = "AU";
+				custom_locale = "AU";
+				custom_locale_rev = <964>;
+			};
+			CC_CN {
+				iso_abbrev = "CN";
+				custom_locale = "CN";
+				custom_locale_rev = <975>;
+			};
+			CC_IN {
+				iso_abbrev = "IN";
+				custom_locale = "IN";
+				custom_locale_rev = <993>;
+			};
+			CC_JP {
+				iso_abbrev = "JP";
+				custom_locale = "JP";
+				custom_locale_rev = <959>;
+			};
+			CC_KR {
+				iso_abbrev = "KR";
+				custom_locale = "KR";
+				custom_locale_rev = <966>;
+			};
+			CC_RU {
+				iso_abbrev = "RU";
+				custom_locale = "RU";
+				custom_locale_rev = <984>;
+			};
+			CC_TW {
+				iso_abbrev = "TW";
+				custom_locale = "TW";
+				custom_locale_rev = <982>;
+			};
+			CC_SG {
+				iso_abbrev = "SG";
+				custom_locale = "US";
+				custom_locale_rev = <921>;
+			};
+			CC_HK {
+				iso_abbrev = "HK";
+				custom_locale = "DE";
+				custom_locale_rev = <987>;
+			};
+			CC_NZ {
+				iso_abbrev = "NZ";
+				custom_locale = "AU";
+				custom_locale_rev = <964>;
+			};
+			CC_AP {
+				iso_abbrev = "AP";
+				custom_locale = "XY";
+				custom_locale_rev = <14>;
+			};
+		};
+	};
+
+	nvdumper {
+		status = "okay";
+	};
+
+	nvs_dsm {
+		compatible = "nvidia,nvs_dsm";
+		status = "okay";
+	};
+
+	tlk {
+		status = "okay";
+	};
+};

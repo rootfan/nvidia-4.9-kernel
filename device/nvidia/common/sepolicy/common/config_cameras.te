@@ -1,0 +1,35 @@
+# Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+type config_cameras, domain;
+type config_cameras_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(config_cameras)
+
+allow config_cameras system_data_file:file { getattr read };
+file_type_auto_trans(config_cameras, system_data_file, camera_config_file)
+
+allow config_cameras vendor_shell_exec:file rx_file_perms;      # allow accessing vendor shell files
+allow config_cameras vendor_toolbox_exec:file rx_file_perms;    # allow accessing vendor toolbox files
+
+allow config_cameras system_file:file rx_file_perms;     # allow accessing files in /system
+allow config_cameras proc:file r_file_perms;             # allow accessing files in /proc/
+allow config_cameras sysfs:dir r_dir_perms;              # allow accessing files in /proc/device-tree(/chosen/plugin-manager/ids/)
+allow config_cameras sysfs:file getattr;                 # allow getting file attributes in /proc/device-tree/chosen/plugin-manager/ids/
+
+# allow accessing dirs/files for video devices such as /dev/usb and /dev/camera
+allow config_cameras video_device:dir r_dir_perms;
+allow config_cameras video_device:chr_file r_file_perms;
+
+# allow config_cameras (for config_cameras.sh) to create files/dirs in /data/camera_config/
+allow config_cameras camera_config_file:{ file lnk_file } create_file_perms;
+allow config_cameras camera_config_file:dir create_dir_perms;
+
+# allow config_cameras to log kernel messages
+allow config_cameras kmsg_device:chr_file { open write };
+

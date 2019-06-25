@@ -1,0 +1,32 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+r_dir_file(domain, sysfs_bus_usb)
+r_dir_file(domain, sysfs_tegra_info)
+r_dir_file(domain, sysfs_tegrafuse_aid)
+
+# Allow all domains to read surfacefinger property
+get_prop(domain, surfaceflinger_prop)
+
+# Allow domains to search for debugfs_clock/debugfs_edp
+allow domain debugfs_clock:dir search;
+allow domain debugfs_edp:dir search;
+
+allow domain proc_version:file r_file_perms;
+allow domain rootfs:lnk_file getattr;
+
+# Allow domains to search debugfs_nvmap directory
+# This is required as every new nvmap client added searches in
+# handles_by_pid directory and creates entry if not present.
+allow domain debugfs_nvmap:dir search;

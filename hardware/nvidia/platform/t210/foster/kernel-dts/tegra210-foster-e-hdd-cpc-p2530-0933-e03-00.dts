@@ -1,0 +1,90 @@
+/*
+ * arch/arm64/boot/dts/tegra210-foster-e-hdd-cpc-p2530-0933-e03-00.dts
+ *
+ * Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+#include <dt-bindings/gpio/tegra-gpio.h>
+
+#include "tegra210-foster-e-p2530-common.dtsi"
+#include <t210-common-platforms/tegra210-otg-gpio-detection-extcon.dtsi>
+#include "foster-platforms/tegra210-loki-e-emc-a01.dtsi"
+#include "foster-platforms/tegra210-foster-powermon-p2530-0930-e01.dtsi"
+#include "foster-platforms/tegra210-foster-e-led-p1961-b00.dtsi"
+#include "foster-platforms/tegra210-foster-e-cpc-p1963.dtsi"
+
+/ {
+	model = "foster_e_hdd";
+	compatible = "nvidia,foster-e", "nvidia,tegra210";
+	nvidia,dtsfilename = __FILE__;
+	nvidia,fastboot-usb-pid = <0xb422>;
+
+	firmware {
+		android {
+			compatible = "android,firmware";
+			hardware = "foster_e_hdd";
+			fstab {
+				system {
+					dev = "/dev/block/platform/tegra-sata.0/by-name/APP";
+				};
+				vendor {
+					dev = "/dev/block/platform/tegra-sata.0/by-name/vendor";
+				};
+			};
+		};
+	};
+
+	chosen {
+		fastboot-instructions = "Tap on power button to navigate menu options.\nHold down power button for 2 sec and release for selecting an option.\nOem unlock may take upto 2 hours.\n";
+		bootargs = "androidboot.secureos=tlk gpt";
+	};
+
+	sata@70020000 {
+		status = "okay";
+		compatible = "nvidia,tegra210-ahci-sata-shield";
+		nvidia,enable-sata-port;
+		aux-device-name = "tegra-sata.0";
+	};
+
+	sdhci@700b0600 {
+		status="disabled";
+	};
+
+	pwm-leds {
+		compatible = "pwm-leds";
+		status = "disabled";
+	};
+
+	rollback-protection {
+		device-name = "cpc";
+		status = "okay";
+	};
+
+	xusb_padctl@7009f000 {
+		status = "okay";
+		pads {
+			sata {
+				status = "okay";
+				lanes {
+					sata-0 {
+						nvidia,function = "sata";
+						status = "okay";
+					};
+				};
+			};
+		};
+	};
+};

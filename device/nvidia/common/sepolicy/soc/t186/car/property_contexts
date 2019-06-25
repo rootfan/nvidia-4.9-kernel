@@ -1,0 +1,38 @@
+# Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+persist.tegra.compositor		u:object_r:system_prop:s0
+persist.tegra.decompression		u:object_r:system_prop:s0
+persist.tegra.composite.policy		u:object_r:system_prop:s0
+persist.tegra.eglspasser.enable		u:object_r:system_prop:s0
+persist.tegra.eglspasser.fifo		u:object_r:system_prop:s0
+persist.tegra.eglspasser.tout		u:object_r:system_prop:s0
+nvidia.hwc.null_display			u:object_r:system_prop:s0
+nvidia.hwc.no_vic			u:object_r:system_prop:s0
+tegra.NV_EGL_STREAM_VMID		u:object_r:system_prop:s0
+# CAN setup
+persist.tegra.can.intf1 	u:object_r:can_prop:s0
+persist.tegra.can.intf2		u:object_r:can_prop:s0
+tegra.net.can0.init		    u:object_r:can_prop:s0
+tegra.net.can1.init		    u:object_r:can_prop:s0
+# setup_ipconfig
+tegra.network.ipAssignment	u:object_r:system_ethernet_prop:s0
+tegra.network.linkAddress	u:object_r:system_ethernet_prop:s0
+tegra.network.gateway		u:object_r:system_ethernet_prop:s0
+tegra.network.dns		u:object_r:system_ethernet_prop:s0
+tegra.network.proxySettings	u:object_r:system_ethernet_prop:s0
+tegra.network.proxyHost		u:object_r:system_ethernet_prop:s0
+tegra.network.proxyPort		u:object_r:system_ethernet_prop:s0
+tegra.network.exclusionList	u:object_r:system_ethernet_prop:s0
+tegra.network.proxyPac		u:object_r:system_ethernet_prop:s0

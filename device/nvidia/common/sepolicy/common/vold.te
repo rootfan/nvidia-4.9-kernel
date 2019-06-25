@@ -1,0 +1,74 @@
+# Copyright (c) 2014-2017 NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+allow vold fuse_device:chr_file rw_file_perms;
+allow vold sysfs_bus_usb:file rw_file_perms;
+allow vold media_rw_data_file:dir { r_dir_perms mounton };
+
+# Access user calibration block device.
+allow vold usercalib_block_device:blk_file rw_file_perms;
+auditallow vold usercalib_block_device:blk_file rw_file_perms;
+allow vold user_calib_file:dir { getattr open read ioctl };
+
+# Access factory  calibration block device.
+allow vold factorycalib_block_device:blk_file rw_file_perms;
+auditallow vold factorycalib_block_device:blk_file rw_file_perms;
+
+allow vold factory_file:filesystem unmount;
+
+# vold need to restart surfaceflinger so that hwcomposer gets correct prop
+allow vold ctl_default_prop:property_service set;
+allow vold system_prop:property_service set;
+
+# vold need to mount cifs fs from remote computer
+allow vold self:capability net_raw;
+
+# hand shake property between system and vold
+set_prop(vold, handshake_sys_vold_prop);
+
+# for filesystems on mnt_media_rw
+allow vold mnt_media_rw_stub_file:dir r_dir_perms;
+
+allow vold storage_stub_file:dir rw_dir_perms;
+
+# Allow vold to access zram
+allow vold swap_block_device:blk_file getattr;
+
+# Request various crypto modules.
+allow vold kernel:system module_request;
+
+allow vold fscheck_block_device:blk_file rw_file_perms;
+
+# Give vold the ability to read the RPx folder during mounting via fstab
+allow vold rpx_file:dir r_dir_perms;
+
+allow vold sysfs_mmc_host:file rw_file_perms;
+r_dir_file(vold, sysfs_mmc_host)
+
+# make_f2fs
+allow vold make_f2fs_exec:file rx_file_perms;
+
+# Allow vold to read misc_block_device
+allow vold misc_block_device:blk_file r_file_perms;
+
+# Allow vold to access pci device sysfs
+allow vold sysfs_pci_device:file rw_file_perms;
+r_dir_file(vold, sysfs_pci_device)
+
+# Allow vold to remount asec (fix perms on apps on sdcard)
+allow vold labeledfs:filesystem { remount };
+
+# Allow vold to read asec_public_file (apps on sdcard)
+allow vold asec_public_file:dir r_dir_perms;
+allow vold asec_public_file:file r_file_perms;

@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2018 NVIDIA CORPORATION. All rights reserved.
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+
+#include "foster-platforms/tegra210-foster-cpufreq.dtsi"
+
+/ {
+    cpufreq {
+            cpu-scaling-data {
+                freq-table = <
+                    102000
+                    204000
+                    306000
+                    408000
+                    510000
+                    612000
+                    714000
+                    816000
+                    918000
+                    1020000
+                    1122000
+                    1224000
+                    1326000
+                    1428000
+                    1581000
+                    1683000
+                    1785000
+                    1887000
+                    1963500
+                >;
+                preserve-across-suspend;
+            };
+    };
+};

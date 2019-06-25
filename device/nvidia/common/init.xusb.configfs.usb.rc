@@ -1,0 +1,227 @@
+on boot
+    mkdir /dev/usb-ffs 0770 shell shell
+    mkdir /dev/usb-ffs/adb 0770 shell shell
+    mount configfs none /config
+    mkdir /config/usb_gadget/g1 0770 shell shell
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/bcdUSB 0x0200
+    mkdir /config/usb_gadget/g1/strings/0x409 0770
+    write /config/usb_gadget/g1/strings/0x409/serialnumber ${ro.serialno}
+    write /config/usb_gadget/g1/strings/0x409/manufacturer ${ro.product.manufacturer}
+    write /config/usb_gadget/g1/strings/0x409/product "Tegra Device"
+    mkdir /config/usb_gadget/g1/functions/accessory.gs2
+    mkdir /config/usb_gadget/g1/functions/audio_source.gs2
+    mkdir /config/usb_gadget/g1/functions/ecm.ecm0
+    mkdir /config/usb_gadget/g1/functions/ffs.adb
+    mkdir /config/usb_gadget/g1/functions/mtp.gs0
+    mkdir /config/usb_gadget/g1/functions/ncm.ncm0
+    mkdir /config/usb_gadget/g1/functions/ptp.gs1
+    mkdir /config/usb_gadget/g1/functions/rndis.gs4
+    mkdir /config/usb_gadget/g1/configs/b.1 0777 shell shell
+    mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409 0770 shell shell
+    write /config/usb_gadget/g1/configs/b.1/MaxPower 2
+    write /config/usb_gadget/g1/os_desc/b_vendor_code 1
+    write /config/usb_gadget/g1/os_desc/qw_sign "MSFT100"
+    symlink /config/usb_gadget/g1/configs/b.1 /config/usb_gadget/g1/os_desc/b.1
+    mount functionfs adb /dev/usb-ffs/adb uid=2000,gid=2000
+    setprop sys.usb.ffs.ready 0
+
+service adb_enable /vendor/bin/adbenable.sh
+    class core
+    user root
+    group root
+    oneshot
+
+on property:init.svc.adbd=stopped
+    setprop sys.usb.ffs.ready 0
+
+on property:sys.usb.config=none && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    setprop sys.usb.ffs.ready 0
+
+on property:sys.usb.config=mtp && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/functions/mtp.gs0/os_desc/interface.MTP/compatible_id "MTP"
+    write /config/usb_gadget/g1/os_desc/use 1
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.mtp}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/functions/mtp.gs0/os_desc/interface.MTP/compatible_id "MTP"
+    write /config/usb_gadget/g1/os_desc/use 1
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.mtp.adb}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+on property:sys.usb.config=rndis && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.rndis}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=rndis,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=rndis,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.rndis.adb}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0xEF
+    write /config/usb_gadget/g1/bDeviceSubClass 0x2
+    write /config/usb_gadget/g1/bDeviceProtocol 0x1
+
+on property:sys.usb.config=ptp && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 1
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ptp}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ptp,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 1
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ptp.adb}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.adb}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+# USB accessory configuration
+on property:sys.usb.config=accessory && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0x2d00
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+# USB accessory configuration, with adb
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=accessory,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor 0x18d1
+    write /config/usb_gadget/g1/idProduct 0x2d01
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+# audio accessory configuration, with adb
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=audio_source,adb && property:sys.usb.configfs=1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor 0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.audio_source.adb}
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xc0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+
+# ncm configuration
+on property:sys.usb.config=ncm && property:sys.usb.configfs=1
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    rm /config/usb_gadget/g1/configs/b.1/f2
+    rm /config/usb_gadget/g1/configs/b.1/f3
+    symlink /config/usb_gadget/g1/functions/ncm.ncm0 /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ncm}
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ncm"
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=ncm,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ncm,adb && property:sys.usb.configfs=1
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    rm /config/usb_gadget/g1/configs/b.1/f2
+    rm /config/usb_gadget/g1/configs/b.1/f3
+    symlink /config/usb_gadget/g1/functions/ncm.ncm0 /config/usb_gadget/g1/configs/b.1/f1
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ncm.adb}
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ncm_adb"
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}
+
+# ecm configuration
+on property:sys.usb.config=ecm && property:sys.usb.configfs=1
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    rm /config/usb_gadget/g1/configs/b.1/f2
+    rm /config/usb_gadget/g1/configs/b.1/f3
+    symlink /config/usb_gadget/g1/functions/ecm.ecm0 /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ecm}
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ecm"
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}
+
+on property:sys.usb.ffs.ready=0 && property:sys.usb.config=ecm,adb && property:sys.usb.configfs=1
+    start adbd
+
+on property:sys.usb.ffs.ready=1 && property:sys.usb.config=ecm,adb && property:sys.usb.configfs=1
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    rm /config/usb_gadget/g1/configs/b.1/f2
+    rm /config/usb_gadget/g1/configs/b.1/f3
+    symlink /config/usb_gadget/g1/functions/ecm.ecm0 /config/usb_gadget/g1/configs/b.1/f1
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
+    write /config/usb_gadget/g1/os_desc/use 0
+    write /config/usb_gadget/g1/idVendor  0x${ro.nv.usb.vid}
+    write /config/usb_gadget/g1/idProduct 0x${ro.nv.usb.pid.ecm.adb}
+    write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "ecm_adb"
+    write /config/usb_gadget/g1/configs/b.1/bmAttributes 0xe0
+    write /config/usb_gadget/g1/bDeviceClass 0x0
+    write /config/usb_gadget/g1/bDeviceSubClass 0x0
+    write /config/usb_gadget/g1/bDeviceProtocol 0x0
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}

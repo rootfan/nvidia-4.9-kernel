@@ -1,0 +1,8 @@
+service badblk /system/bin/badblk.sh
+    class core
+    user root
+    group root
+    oneshot
+
+on post-fs-data
+    mkdir /data/badblk 0770 root root

@@ -1,0 +1,55 @@
+# Copyright (C) 2012 The Android Open Source Project
+
+# Copyright (c) 2014-2016 NVIDIA Corporation.  All Rights Reserved.
+#
+# NVIDIA Corporation and its licensors retain all intellectual property and
+# proprietary rights in and to this software and related documentation.  Any
+# use, reproduction, disclosure or distribution of this software and related
+# documentation without an express license agreement from NVIDIA Corporation
+# is strictly prohibited.
+
+
+# Override some services to prevent them from starting at boot time.
+# Note that in init.rc the first definition of a service is the one that
+# takes precedence.
+
+service healthd /sbin/healthd
+    disabled
+
+service servicemanager /system/bin/servicemanager
+    class core
+    user system
+    group system
+    critical
+
+service surfaceflinger /system/bin/surfaceflinger
+    disabled
+
+service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-system-server
+    disabled
+
+service drm /system/bin/drmserver
+    disabled
+
+service media /system/bin/mediaserver
+    disabled
+
+service installd /system/bin/installd
+    disabled
+
+service keystore /system/bin/keystore /data/misc/keystore
+    disabled
+
+import /init.base.rc
+
+# For simulator, always start adbd because we are not using usb connection
+# to trigger it
+# Also remount rootfs read-write
+on boot
+    start adbd
+    mount rootfs rootfs / rw remount
+
+# Need to bring up this interface when booting from ramdisk
+service ifconfig_eth0 /system/bin/ifconfig eth0 10.0.2.15 up
+    class core
+    oneshot

@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+
+<!-- Nvidia Tegra Partition Layout Version 1.0.0 -->
+
+<partition_layout version="01.00.0000">
+    <device type="spi" instance="0">
+        <partition name="BCT" id="2" type="boot_config_table">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 3080192 </size> <!-- 2.9 MiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> bct.bin </filename>
+        </partition>
+
+        <partition name="GP1" id="3" type="GP1">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 65536 </size> <!-- 64.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="NVC" id="4" type="bootloader">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 262144 </size> <!-- 256.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> nvtboot.bin </filename>
+        </partition>
+
+        <partition name="TBC" id="5" type="bootloader">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 204800 </size> <!-- 200.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> nvtboot_cpu.bin </filename>
+        </partition>
+
+        <partition name="TOS" id="6" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 131072 </size> <!-- 128.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> tos.img </filename>
+        </partition>
+
+        <partition name="WB0" id="7" type="WB0">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 131072 </size> <!-- 128.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> warmboot.bin </filename>
+        </partition>
+
+        <partition name="FB" id="8" type="fuse_bypass">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 2097152 </size> <!-- 2.0 MiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> fb.bin </filename>
+        </partition>
+
+        <partition name="DTB" id="9" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 196608 </size> <!-- 192.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> dtb.bin </filename>
+        </partition>
+
+        <partition name="LNX" id="10" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 26214400 </size> <!-- 25.0 MiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> boot.img </filename>
+        </partition>
+
+        <partition name="UNU" id="10" type="data">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 34708992 </size> <!-- 33.1 MiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 0x8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+        </partition>
+
+        <partition name="GPT" id="11" type="GPT">
+            <allocation_policy> sequential </allocation_policy>
+            <filesystem_type> basic </filesystem_type>
+            <size> 17408 </size> <!-- 17.0 KiB -->
+            <file_system_attribute> 0 </file_system_attribute>
+            <allocation_attribute> 8 </allocation_attribute>
+            <percent_reserved> 0 </percent_reserved>
+            <filename> secondary_gpt.bin </filename>
+        </partition>
+    </device>
+</partition_layout>

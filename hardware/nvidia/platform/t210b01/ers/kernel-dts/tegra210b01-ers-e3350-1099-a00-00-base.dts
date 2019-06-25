@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+#include "ers-platforms/tegra210b01-ers-e3350-1099-a00-00-common.dtsi"
+#include "ers-platforms/tegra210b01-cvb-e3320-1000-a00.dtsi"
+#include "ers-platforms/tegra210b01-e3350-1099-a00-padvoltage-default.dtsi"
+#include "ers-platforms/tegra210b01-e3350-1099-a00-pinmux.dtsi"
+#include "ers-platforms/tegra210b01-ers-power-tree-e2175-1122-a00.dtsi"
+#include "ers-plugin-manager/tegra210b01-ers-plugin-manager.dtsi"
+
+/ {
+	nvidia,dtsfilename = __FILE__;
+	nvidia,dtbbuildtime = __DATE__, __TIME__;
+
+	pwm@70110000 {
+		pwm-enable-gpio = <&pca9535_2 0 0>;
+	};
+};

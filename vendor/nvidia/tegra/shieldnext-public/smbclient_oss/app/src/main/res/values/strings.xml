@@ -1,0 +1,9 @@
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">SMB Authenticator</string>
+
+    <string name="network_storage_login_server_not_reachable"><xliff:g id="name">%1$s</xliff:g> is not available.</string>
+    <string name="network_storage_login_title">Choose Login type for <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="network_storage_login_dscription">Choose \"Connect as register user\" if the network attached storage requires authentication, or choose \"Connect as guest\" if it supports guest login.</string>
+    <string name="network_storage_login_as_guest">Connect as guest</string>
+    <string name="network_storage_login_as_user">Connect as registered user</string>
+</resources>

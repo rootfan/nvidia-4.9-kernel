@@ -1,0 +1,32 @@
+/*
+ * arch/arm64/boot/dts/tegra210-platforms/tegra210-thermal-tmp451-m3402.dtsi"
+ *
+ * Copyright (c) 2016, NVIDIA CORPORATION. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms and conditions of the GNU General Public License,
+ * version 2, as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <dt-bindings/interrupt-controller/arm-gic.h>
+#include <dt-bindings/gpio/tegra-gpio.h>
+
+/ {
+	i2c@7000d000 {
+		temp-sensor {
+			compatible = "ti,tmp451";
+			reg = <0x4c>;
+			vcc-supply = <&vdd_3v3>;
+			interrupt-parent = <&gpio>;
+			interrupts = <TEGRA_GPIO(X, 4) IRQ_TYPE_LEVEL_LOW>;
+		};
+	};
+};

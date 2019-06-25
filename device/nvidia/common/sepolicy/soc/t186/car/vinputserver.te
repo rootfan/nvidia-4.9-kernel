@@ -1,0 +1,23 @@
+# Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# vinputserver
+type vinputserver, domain;
+type vinputserver_exec, exec_type, file_type, vendor_file_type;
+
+typeattribute vinputserver mlstrustedobject;
+
+net_domain(vinputserver)
+init_daemon_domain(vinputserver)
+unix_socket_connect(vinputserver, property, init)
+
+allow vinputserver self:capability net_raw;
+allow vinputserver self:socket { create bind read };
+allow vinputserver uhid_device:chr_file { open write ioctl };
+allow vinputserver self:capability dac_override;
+

@@ -1,0 +1,62 @@
+# Copyright (c) 2015-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+allow dumpstate self:capability sys_admin;
+
+allow dumpstate gatekeeper_service:service_manager find;
+
+# Allow dumpstate read permissions to edid modedb
+r_dir_file(dumpstate, hwc_data_file);
+
+# Allow dumpstate to read and write to sysfs_mmc_host
+r_dir_file(dumpstate, sysfs_mmc_host);
+allow dumpstate sysfs_mmc_host:file w_file_perms;
+
+# Allow dumpstate read permissions to netcfg
+r_dir_file(dumpstate, sysfs_netcfg);
+
+# Allow dumpstate to access WiFi status
+r_dir_file(dumpstate, wifi_data_file);
+
+# Allow dumpstate to get attribute from below block devices
+allow dumpstate block_device:blk_file getattr;
+allow dumpstate userdata_block_device:blk_file getattr;
+allow dumpstate factorycalib_block_device:blk_file getattr;
+allow dumpstate usercalib_block_device:blk_file getattr;
+allow dumpstate user_calib_file:dir getattr;
+
+allow dumpstate mnt_expand_file:dir search;
+
+# allow dumpstate to access suspend_time
+allow dumpstate debugfs_suspend_time_stats:file r_file_perms;
+
+# allow dumpstate to access wakeup_irq
+allow dumpstate debugfs_wake_irq_stats:file r_file_perms;
+
+# allow dumpstate access to mmc
+allow dumpstate debugfs_mmc:dir search;
+allow dumpstate debugfs_mmc:file { read open getattr };
+
+# allow dumpstate to access /d/nvmap/iovmm debugfs_nvmap
+allow dumpstate debugfs_nvmap:file r_file_perms;
+
+# allow dumpstate access to installd binder
+allow dumpstate installd:binder call;
+
+# allow dumpstate to access to /proc/modules, /proc/stats
+allow dumpstate proc_modules:file { getattr read open };
+allow dumpstate proc_stat:file { read open };
+
+# allow dumpstate to access wifi config file
+allow dumpstate rpx_file:dir getattr;

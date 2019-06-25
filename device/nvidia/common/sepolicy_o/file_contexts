@@ -1,0 +1,493 @@
+# Copyright (c) 2014-2019, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+##########################
+# Devices
+
+# GPU
+/dev/nvhost-as-gpu			u:object_r:gpu_device:s0
+/dev/nvhost-ctrl			u:object_r:gpu_device:s0
+/dev/nvhost-ctrl-gpu			u:object_r:gpu_device:s0
+/dev/nvhost-gpu				u:object_r:gpu_device:s0
+/dev/nvhost-dbg-gpu			u:object_r:gpu_device:s0
+/dev/nvhost-tsg-gpu			u:object_r:gpu_device:s0
+/dev/nvhost-prof-gpu			u:object_r:gpu_device:s0
+/dev/nvhost-vic				u:object_r:gpu_device:s0
+/dev/nvmap				u:object_r:gpu_device:s0
+/dev/nvhdcp0				u:object_r:gpu_device:s0
+# camera devices
+/dev/camera.pcl				u:object_r:camera_device:s0
+/dev/nvhost-ctrl-vi([0-9]|\.1)?		u:object_r:camera_device:s0
+/dev/nvhost-vi([0-9]|\.1)?		u:object_r:camera_device:s0
+/dev/nvhost-ctrl-isp([0-9]|\.1)?	u:object_r:camera_device:s0
+/dev/nvhost-isp([0-9]|\.1)?		u:object_r:camera_device:s0
+/dev/nvhost-msenc			u:object_r:camera_device:s0
+/dev/focuser				u:object_r:camera_device:s0
+/dev/torch.*				u:object_r:camera_device:s0
+/dev/mipi-cal				u:object_r:camera_device:s0
+/dev/tegra_camera_ctrl			u:object_r:camera_device:s0
+/dev/camera(/video[0-9]?[0-9])?   	u:object_r:video_device:s0
+/dev/camera/v4l-subdev[0-9]?[0-9]	u:object_r:camera_device:s0
+/dev/capture-vi-channel[0-9]?[0-9]	u:object_r:camera_device:s0
+/dev/capture-isp-channel[0-9]?[0-9]	u:object_r:camera_device:s0
+# Pmqos device
+/dev/constraint.*			u:object_r:pmqos_device:s0
+/dev/emc_freq_min			u:object_r:pmqos_device:s0
+/dev/cpu_freq_max			u:object_r:pmqos_device:s0
+/dev/cpu_freq_min			u:object_r:pmqos_device:s0
+/dev/gpu_freq_max			u:object_r:pmqos_device:s0
+/dev/gpu_freq_min			u:object_r:pmqos_device:s0
+# TLK device
+/dev/tlk_device				u:object_r:tee_device:s0
+# Trusty device
+/dev/trusty-ipc-dev0		u:object_r:tee_device:s0
+# modem devices
+/dev/ttyUSB.*				u:object_r:radio_device:s0
+/dev/ttyACM.*				u:object_r:radio_device:s0
+# Tegra System Profiler
+/dev/quadd				u:object_r:quadd_device:s0
+/dev/quadd_auth				u:object_r:quadd_auth_device:s0
+# Hidraw
+/dev/hidraw[0-9]			u:object_r:hidraw_device:s0
+# Tsec
+/dev/nvhost-tsec			u:object_r:tsec_device:s0
+/dev/nvhost-tsecb			u:object_r:tsec_device:s0
+# Nvdec
+/dev/nvhost-nvdec			u:object_r:video_device:s0
+/dev/nvhost-nvdec1			u:object_r:video_device:s0
+# Nvenc
+/dev/nvhost-nvenc1			u:object_r:video_device:s0
+# Nvjpg
+/dev/nvhost-nvjpg			u:object_r:gpu_device:s0
+# Nvdec control node
+/dev/nvhost-ctrl-nvdec			u:object_r:tee_device:s0
+# Blake OTA path
+/dev/ozwpan				u:object_r:ozmo_device:s0
+# phs
+/dev/socket/nvphsd			u:object_r:nvphsd_socket:s0
+# /dev/tegra_dc devices
+/dev/tegra_dc_.*			u:object_r:tegradc_device:s0
+# /dev/tegra_cec device
+/dev/tegra_cec				u:object_r:tegracec_device:s0
+# rpmb block device
+/dev/block/platform/sdhci-tegra\.3/mmcblk0rpmb		u:object_r:rpmb_block_device:s0
+# setup_fs emmc
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/UDA		u:object_r:userdata_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/CAC		u:object_r:cache_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/UCB		u:object_r:usercalib_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/FCT		u:object_r:factorycalib_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/RP3		u:object_r:rpx_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/LNX		u:object_r:boot_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/SOS		u:object_r:recovery_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/MDA		u:object_r:metadata_block_device:s0
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/MSC		u:object_r:misc_block_device:s0
+/dev/block/mmcblk0boot0					u:object_r:bootloader_block_device:s0
+# fscheck emmc
+/dev/block/platform/sdhci-tegra\.[0-9]/by-name/RP4         u:object_r:fscheck_block_device:s0
+# setup_fs sata
+/dev/block/platform/tegra-sata\.[0-9]/by-name/UDA		u:object_r:userdata_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/CAC		u:object_r:cache_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/UCB		u:object_r:usercalib_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/FCT		u:object_r:factorycalib_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/RP3		u:object_r:rpx_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/LNX		u:object_r:boot_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/SOS		u:object_r:recovery_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/MDA		u:object_r:metadata_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/MSC		u:object_r:misc_block_device:s0
+/dev/block/platform/tegra-sata\.[0-9]/by-name/RP4		u:object_r:fscheck_block_device:s0
+# external usb
+/dev/block/platform/tegra-xhci/by-name/UDA              u:object_r:userdata_block_device:s0
+/dev/block/platform/tegra-xhci/by-name/CAC              u:object_r:cache_block_device:s0
+/dev/block/platform/tegra-xhci/by-name/SOS              u:object_r:recovery_block_device:s0
+/dev/block/platform/tegra-xhci/by-name/LNX              u:object_r:boot_block_device:s0
+# cpc char device
+/dev/tegra_cpc				u:object_r:cpc_device:s0
+# IKEv2 daemon
+/dev/socket/charon			u:object_r:charon_socket:s0
+/dev/socket/charon_status		u:object_r:charon_socket:s0
+# IMS ipsec daemon
+/dev/socket/imsipsec			u:object_r:imsipsec_socket:s0
+# touch
+/dev/touch				u:object_r:touch_device:s0
+# zram
+/dev/block/zram0			u:object_r:swap_block_device:s0
+# /dev/cy8c-led-boot devices
+/dev/cy8c-led-boot			u:object_r:cy8c_device:s0
+# iM501 devices
+/dev/im501_spi				u:object_r:im501_spi_device:s0
+/dev/im501_pcm				u:object_r:im501_pcm_device:s0
+
+#############################
+# System files
+
+# TEE
+(/system)?/vendor/bin/tlk_daemon	u:object_r:tee_exec:s0
+(/system)?/vendor/bin/eks2_client	u:object_r:tee_exec:s0
+(/system)?/vendor/bin/ss_status		u:object_r:tee_exec:s0
+(/system)?/vendor/bin/run_ss_status.sh	u:object_r:tee_exec:s0
+# wifi
+(/system)?/vendor/bin/wifi_loader.sh	u:object_r:wifi_loader_exec:s0
+
+# wpalog
+(/system)?/vendor/bin/supplicant_log_monitor.sh	u:object_r:wpalog_exec:s0
+# bt
+(/system)?/vendor/bin/bt_loader.sh	u:object_r:bt_loader_exec:s0
+# adbenable.sh
+(/system)?/vendor/bin/adbenable.sh	u:object_r:adb_enable_exec:s0
+# gpload
+(/system)?/vendor/bin/gpload		u:object_r:gpload_exec:s0
+# hubcore
+(/system)?/vendor/bin/hubcore		u:object_r:hubcore_exec:s0
+# flynnd
+(/system)?/vendor/bin/hw/flynnd		u:object_r:flynnd_exec:s0
+(/system)?/vendor/bin/start_flynnd.sh		u:object_r:start_flynnd_exec:s0
+# ctload
+(/system)?/vendor/bin/ctload		u:object_r:ctload_exec:s0
+# update_js_touch_fw
+(/system)?/vendor/bin/update_js_touch_fw.sh       u:object_r:update_js_touch_fw_exec:s0
+# phs
+(/system)?/vendor/bin/nvphsd		u:object_r:nvphsd_exec:s0
+(/system)?/vendor/bin/nvphsd_setup.sh	u:object_r:nvphsd_setup_exec:s0
+# pbc
+(/system)?/vendor/bin/pbc		u:object_r:pbc_exec:s0
+(/system)?/vendor/bin/pbc2		u:object_r:pbc_exec:s0
+# nvpmodel
+(/system)?/vendor/bin/nvpmodel		u:object_r:nvpmodel_exec:s0
+# cvc
+(/system)?/vendor/bin/cvc		u:object_r:cvc_exec:s0
+# cyupdate.sh
+(/system)?/vendor/bin/cyupdate.sh	u:object_r:cyupdate_exec:s0
+# cyload
+(/system)?/vendor/bin/cyload		u:object_r:cyupdate_exec:s0
+# qvs shell script
+(/system)?/vendor/bin/qvs_post_boot.sh	u:object_r:qvs_exec:s0
+#setup_fs
+/system/bin/setup_fs			u:object_r:setup_fs_exec:s0
+# make_f2fs
+/system/bin/make_f2fs                   u:object_r:make_f2fs_exec:s0
+# IKEv2 daemon
+/system/bin/charon			u:object_r:charon_exec:s0
+# IMS ipsec daemon
+/system/bin/imsipsec			u:object_r:imsipsec_exec:s0
+# Blake video files
+(/system)?/vendor/oem/media(/.*)?	u:object_r:oem_media_file:s0
+# camera config
+(/system)?/vendor/bin/config_cameras.sh	u:object_r:config_cameras_exec:s0
+# factory key check files
+/vendor/bin/factory_tests		u:object_r:factory_tests_exec:s0
+/vendor/bin/check_eks			u:object_r:factory_tests_exec:s0
+/vendor/bin/dx_provTest			u:object_r:factory_tests_exec:s0
+/vendor/bin/eks_hdcprx			u:object_r:factory_tests_exec:s0
+# cecutil
+/vendor/bin/cecutil			u:object_r:cecutil_exec:s0
+# service to dump logs
+(/system)?/vendor/bin/cac_log_dumper	u:object_r:cac_log_dumper_exec:s0
+# config media shell
+(/system)?/vendor/bin/config_media.sh	u:object_r:config_media_exec:s0
+# service to provide signing
+(/system)?/vendor/bin/mossignerd	u:object_r:mossignerd_exec:s0
+
+#############################
+# Data files
+
+# camera data folder
+/data/nvcam(/.*)?			u:object_r:nv_camera_data_file:s0
+# camera config folder
+/data/camera_config(/.*)?		u:object_r:camera_config_file:s0
+# tlk data folder
+/data/tlk(/.*)?				u:object_r:tee_data_file:s0
+# tlk ss data folder
+/data/ss(/.*)?				u:object_r:tee_data_file:s0
+# user calibration
+/data/touchscreen(/.*)?			u:object_r:user_calib_file:s0
+# stats data share folder
+/data/stats_share(/.*)?                 u:object_r:stats_share_file:s0
+# Keyboard layout files
+/data/system/devices/keylayout(/.*)?		u:object_r:keylayout_data_file:s0
+# dx_provTest data folder
+/data/provTest(/.*)?			u:object_r:dx_data_file:s0
+
+# Misc data
+# nvpmodel data
+/data/misc/nvpmodel(/.*)?			u:object_r:nvpmodel_data:s0
+# phs data
+/data/misc/nvphs(/.*)?			u:object_r:nvphsd_data:s0
+# cvc data folder
+/data/misc/cvc(/.*)?			u:object_r:cvc_data_file:s0
+# mediaserver EGL blob cache
+/data/misc/mediaserver(/.*)?		u:object_r:media_data_file:s0
+#GPS
+/data/system/gps(/.*)?			u:object_r:gps_data_file:s0
+# Keyguard wallpaper data
+/data/system/users/[0-9]+/keyguard_wallpaper	u:object_r:wallpaper_file:s0
+/data/system/users/[0-9]+/home_wallpaper	u:object_r:wallpaper_file:s0
+# NVSensor socket file
+/data/misc/nvsipc(/.*)?			u:object_r:nvs_socket:s0
+# Argus socket file
+/data/misc/argusipc(/.*)?		u:object_r:argus_socket:s0
+# Coredump
+/data/cores(/.*)?			u:object_r:coredump_file:s0
+# HWComposer data
+/data/misc/hwc(/.*)?			u:object_r:hwc_data_file:s0
+# bluedroid_log
+/data/misc/bluedroid_log(/.*)?		u:object_r:bluetooth_log_file:s0
+# hubcore
+/data/misc/smartthings(/.*)?		u:object_r:hubcore_data_file:s0
+# media config data file
+/data/media_config/etc(/.*)?		u:object_r:config_media_file:s0
+# audiohal dump data files
+/data/vendor/audiohal(/.*)?		u:object_r:halaudio_data_file:s0
+# DiagTools data files
+/data/mfgtest(/.*)?                     u:object_r:diag_data_file:s0
+
+#############################
+# sysfs files
+
+# modem sysfs
+/sys/power/sysedp(/.*)?					u:object_r:sysfs_sysedp:s0
+/sys/class/gpio(/.*)?					u:object_r:sysfs_gpio:s0
+/sys/class/gps_wake(/.*)?				u:object_r:sysfs_gps_wake:s0
+/sys/devices/platform/6000d000.gpio/gpio/gpiochip[0-9]+		u:object_r:sysfs_gpio:s0
+/sys/devices/platform/tegra_usb_modem_power(/.*)?	u:object_r:sysfs_radio:s0
+/sys/devices/platform/sysedp_modem(/.*)?		u:object_r:sysfs_radio:s0
+/sys/bus/usb(/.*)?					u:object_r:sysfs_bus_usb:s0
+/sys/devices/platform/tegra-ehci\.[0-9](/.*)?		u:object_r:sysfs_bus_usb:s0
+/sys/devices/tegra-ehci\.[0-9](/.*)?			u:object_r:sysfs_bus_usb:s0
+/sys/devices/[0-9a-f]+\.xusb(/.*)?		u:object_r:sysfs_bus_usb:s0
+# LED sysfs
+/sys/devices/platform/tegra-xhci(/.*)?			u:object_r:sysfs_bus_usb:s0
+# SATA sysfs
+/sys/devices/platform/tegra-sata.*/ata1/power/control					u:object_r:sysfs_sata:s0
+/sys/devices/platform/tegra-sata.*/ata1/host0/target.*/0.*/power/autosuspend_delay_ms	u:object_r:sysfs_sata:s0
+/sys/devices/platform/tegra-sata.*/ata1/host0/target.*/0.*/power/control		u:object_r:sysfs_sata:s0
+# PMQoS files for NvCplSvc
+/sys/devices/virtual/thermal(/.*)		u:object_r:sysfs_thermal:s0
+/sys/class/thermal(/.*)?				u:object_r:sysfs_thermal:s0
+/sys/devices/platform/host1x/tegradc.[0-1]/smartdimmer(/.*)	u:object_r:sysfs_smartdimmer:s0
+/sys/devices/platform/host1x/tegradc\.[0-1]/cmu_enable		u:object_r:sysfs_cmu:s0
+/sys/devices/platform/host1x/tegradc.0/graphics/fb0/modes			u:object_r:sysfs_graphics:s0
+/sys/devices/.*\.host1x/tegradc.0/graphics/fb0/modes				u:object_r:sysfs_graphics:s0
+/sys/devices/platform/psy_extcon.*/power_supply/usb/online		u:object_r:sysfs_power_supply:s0
+/sys/devices/platform/psy_extcon.*/power_supply/ac/online		u:object_r:sysfs_power_supply:s0
+# hid devices
+/sys/bus/hid/drivers/Jarvis(/.*)?                       u:object_r:sysfs_hid:s0
+/sys/bus/hid/drivers/hid-nvidia(/.*)?                   u:object_r:sysfs_hid:s0
+/sys/devices/virtual/misc/uhid(/.*)?			        u:object_r:sysfs_hid:s0
+# pwm-fan sysfs nodes
+/sys/devices/platform/pwm-fan/pwm_cap   		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/pwm_state_map		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/state_cap 		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/cur_pwm   		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/pwm_rpm_table		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/rpm_measured		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/step_time 	    	u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/tach_enable		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/target_pwm		u:object_r:sysfs_pwm_fan:s0
+/sys/devices/platform/pwm-fan/temp_control		u:object_r:sysfs_pwm_fan:s0
+
+# cfboost sysfs for pbc access
+/sys/module/input_cfboost/parameters/boost_freq		u:object_r:sysfs_cfboost:s0
+/sys/module/input_cfboost/parameters/boost_gpu		u:object_r:sysfs_cfboost:s0
+# phs sysfs
+/sys/devices/virtual/misc/tegra-throughput/fps			u:object_r:sysfs_throughput:s0
+/sys/devices/virtual/misc/tegra-throughput/framecount		u:object_r:sysfs_throughput:s0
+# Sound sysfs nodes
+/sys/class/sound(/.*)?			u:object_r:sysfs_sound:s0
+# Configure Ozmo driver
+/sys/devices/virtual/ozmo_wpan/ozwpan/bind	u:object_r:sysfs_ozmo:s0
+/sys/devices/virtual/ozmo_wpan/ozwpan/devices	u:object_r:sysfs_ozmo:s0
+/sys/devices/virtual/ozmo_wpan/ozwpan/select	u:object_r:sysfs_ozmo:s0
+/sys/devices/virtual/ozmo_wpan/ozwpan/latency	u:object_r:sysfs_ozmo:s0
+/sys/class/ozmo_wpan/ozwpan/bind	u:object_r:sysfs_ozmo:s0
+/sys/class/ozmo_wpan/ozwpan/devices	u:object_r:sysfs_ozmo:s0
+/sys/class/ozmo_wpan/ozwpan/select	u:object_r:sysfs_ozmo:s0
+/sys/class/ozmo_wpan/ozwpan/latency	u:object_r:sysfs_ozmo:s0
+
+# Configure LED lightbar
+/sys/devices/pwm-leds/leds/led_lightbar/brightness       u:object_r:sysfs_lightbar:s0
+# soc sysfs
+/sys/devices/soc[0-9]+(/.*)?		u:object_r:sysfs_soc:s0
+# pmic sysfs
+/sys/kernel/pmic			u:object_r:sysfs_pmic:s0
+# wifi sysfs
+/sys/module/bcmdhd/parameters/firmware_path	u:object_r:sysfs_wlan_fwpath:s0
+/sys/module/bcmdhd_pcie/parameters/firmware_path	u:object_r:sysfs_wlan_fwpath:s0
+/sys/module/bcmdhd/parameters/op_mode	u:object_r:sysfs_wlan_fwpath:s0
+/sys/module/bcmdhd_pcie/parameters/op_mode	u:object_r:sysfs_wlan_fwpath:s0
+# Bluetooth rfkill interface for kernel-3.10
+/sys/devices/platform/bluedroid_pm\.[0-9][0-9]?/rfkill/rfkill0/state	u:object_r:sysfs_bluetooth_writable:s0
+# Bluetooth rfkill interface for >= kernel-4.4
+/sys/devices/platform/bluedroid_pm/rfkill/rfkill0/state			u:object_r:sysfs_bluetooth_writable:s0
+# Bluetooth rfkill interface for >= kernel-4.9
+/sys/devices/bluedroid_pm/rfkill/rfkill0/state				u:object_r:sysfs_bluetooth_writable:s0
+# Bluetooth mac address path
+/sys/firmware/devicetree/base/chosen/nvidia,bluetooth-mac	u:object_r:sysfs_bluetooth_mac:s0
+# bcmdhd pcie DT node status path
+/sys/firmware/devicetree/base/bcmdhd_pcie_wlan/status		u:object_r:sysfs_bcmdhd_pcie:s0
+/sys/firmware/devicetree/base/brcmfmac_pcie_wlan/status		u:object_r:sysfs_brcmfmac_pcie:s0
+/sys/module/brcmfmac/parameters/alternative_fw_path		u:object_r:sysfs_brcmfmac_fwpath:s0
+# flynnd node path
+/sys/firmware/devicetree/base/chosen/nvidia,tegra-flynn-sku		u:object_r:sysfs_flynn:s0
+# Tegra i2c devices sysfs
+/sys/devices/platform/7000c[0457]00.i2c(/.*)?		u:object_r:sysfs_nvi2c:s0
+/sys/devices/platform/7000d[01]00.i2c(/.*)?		u:object_r:sysfs_nvi2c:s0
+/sys/devices/7000c[0457]00.i2c(/.*)?			u:object_r:sysfs_nvi2c:s0
+/sys/devices/7000d[01]000.i2c(/.*)?			u:object_r:sysfs_nvi2c:s0
+/sys/devices/31[689abce]0000.i2c(/.*)?			u:object_r:sysfs_nvi2c:s0
+/sys/devices/c2[45]0000.i2c(/.*)?			u:object_r:sysfs_nvi2c:s0
+# Tegra iio devices sysfs
+/sys/devices/aon_shub(/.*)?				u:object_r:sysfs_iio:s0
+# cvc sysfs
+/sys/kernel/tegra_volt_cap(/.*)?		u:object_r:sysfs_cvc:s0
+# Blake touchpad setting
+/sys/devices/platform/ozwpan/.*/mode            u:object_r:sysfs_blake:s0
+/sys/devices/platform/tegra-xhci/.*/mode	u:object_r:sysfs_blake:s0
+# Gamepad reset sysfs
+/sys/devices/platform/gamepad_reset(.*)/gamepad_reset       u:object_r:sysfs_gamepad:s0
+# touch slowscan sysfs
+/sys/devices/virtual/misc/touch/slowscan_enable			u:object_r:sysfs_slowscan:s0
+# Touch sysfs for touch service
+/sys/devices/virtual/misc/touch/log	u:object_r:sysfs_touch_log:s0
+# touch report sysfs node
+/sys/devices/virtual/misc/touch/report_mode	u:object_r:sysfs_touch_mode:s0
+# TCP Window Divisor
+/sys/module/tcp_output/parameters/tcp_window_divisor		u:object_r:sysfs_tcp_window_divisor:s0
+# usb convertible host and device mode sysfs
+/sys/devices/extcon/extcon:extcon@[0-9]/extcon/extcon[0-9]/state     u:object_r:sysfs_usb_convertible:s0
+/sys/devices/platform/sdhci-tegra\.[0-9]/mmc_host(/.*)?		u:object_r:sysfs_mmc_host:s0
+/sys/devices/([0-9a-f]*)\.sdhci/mmc_host(/.*)?		u:object_r:sysfs_mmc_host:s0
+/sys/devices/([0-9a-f]*)\.pcie-controller(/.*)?	u:object_r:sysfs_pci_device:s0
+# netcfg
+/sys/class/net(/.*)?		u:object_r:sysfs_netcfg:s0
+# Tegra info sysfs
+/sys/module/tegra_fuse/parameters(/.*)?				u:object_r:sysfs_tegra_info:s0
+# Tegra gpu info
+/sys/kernel/tegra_gpu/gpu_available_rates			u:object_r:sysfs_tegra_gpu:s0
+# Tegra emc info
+/sys/kernel/tegra_emc/emc_available_rates			u:object_r:sysfs_tegra_emc:s0
+# NVSI sysfs node
+/sys/devices/platform/tegra-fuse/aid			u:object_r:sysfs_tegrafuse_aid:s0
+/sys/devices/7000f800.efuse/7000f800.efuse:efuse-burn/aid			u:object_r:sysfs_tegrafuse_aid:s0
+# udc class info
+/sys/class/udc(/.*)?		u:object_r:sysfs_class_udc:s0
+# backlight class info
+/sys/class/backlight(/.*)?		u:object_r:sysfs_class_backlight:s0
+# Sysfs node for Pepper timeout
+/sys/devices/virtual/misc/uhid/0005:0955:7213.*/timeout		u:object_r:sysfs_pepper_timeout:s0
+# USB 3.0 blacklist
+/sys/module/xhci_tegra/parameters/downgraded_usb3		u:object_r:sysfs_usb_blacklist:s0
+/sys/devices/70090000.xusb/downgrade_usb3		u:object_r:sysfs_usb_blacklist:s0
+# HDMI sysfs
+/sys/devices/platform/host1x/tegradc\.0/graphics/fb0/blank	u:object_r:sysfs_hdmi:s0
+/sys/devices/50000000\.host1x/tegradc\.0/graphics/fb0/blank	u:object_r:sysfs_hdmi:s0
+# USB regulator sysfs
+/sys/devices/platform/regulators\.[0-9]?[0-9]?/[0-9a-f]+\.regulator/regulator/regulator\.27/state	u:object_r:sysfs_usb_state:s0
+/sys/devices/platform/regulators\.[0-9]?[0-9]?/[0-9a-f]+\.regulator/regulator/regulator\.28/state	u:object_r:sysfs_usb_state:s0
+/sys/devices/regulators/regulators:regulator@[0-9]+/regulator/regulator\.27/state	u:object_r:sysfs_usb_state:s0
+/sys/devices/regulators/regulators:regulator@[0-9]+/regulator/regulator\.28/state	u:object_r:sysfs_usb_state:s0
+# nvpmodel emc sysfs
+/sys/kernel/nvpmodel_emc_cap/.*		u:object_r:sysfs_nvpmodel:s0
+# GPU available frequencies
+/sys/devices/17000000\.gv11b/devfreq/17000000\.gv11b/available_frequencies	u:object_r:sysfs_devfreq:s0
+# GPU scaling max and min for nvpmodel to access
+/sys/devices/17000000\.gv11b/devfreq/17000000\.gv11b/max_freq		u:object_r:sysfs_gpu_freq_limit:s0
+/sys/devices/17000000\.gv11b/devfreq/17000000\.gv11b/min_freq		u:object_r:sysfs_gpu_freq_limit:s0
+# GPU TPC sysfs nodes
+/sys/devices/17000000\.gv11b/force_idle		u:object_r:sysfs_gpu_tpc:s0
+/sys/devices/17000000\.gv11b/tpc_fs_mask		u:object_r:sysfs_gpu_tpc:s0
+# hdmi_audio state sysfs
+/sys/class/switch/hdmi_audio(/.*)?		u:object_r:sysfs_hdmi_audio:s0
+/sys/devices/virtual/switch/hdmi_audio(/.*)?	u:object_r:sysfs_hdmi_audio:s0
+# dp_audio state sysfs
+/sys/class/switch/dp_audio(/.*)?		u:object_r:sysfs_dp_audio:s0
+/sys/devices/virtual/switch/dp_audio(/.*)?	u:object_r:sysfs_dp_audio:s0
+#  DT node for Safe Mode w/ ADB access
+/sys/firmware/devicetree/base/chosen/nvidia,safe_mode_adb		u:object_r:sysfs_safe_mode_adb:s0
+
+#############################
+# debugfs files
+#
+/sys/kernel/debug/clock(/.*)?          u:object_r:debugfs_clock:s0
+/sys/kernel/debug/edp(/.*)?          u:object_r:debugfs_edp:s0
+
+# suspend time and wakeup irq stats
+/sys/kernel/debug/suspend_time  u:object_r:debugfs_suspend_time_stats:s0
+/sys/kernel/debug/wake_irq      u:object_r:debugfs_wake_irq_stats:s0
+
+# nvmap for memtrack
+/sys/kernel/debug/nvmap(/.*)?    u:object_r:debugfs_nvmap:s0
+
+#############################
+# SurfaceFlinger to PHS pagefiles
+/mnt/tmp/fc[0-9]			u:object_r:surfaceflinger_fc:s0
+# user calibration
+/usercalib(/.*)?			u:object_r:user_calib_file:s0
+
+# wifi config
+/factory/wifi_config(/.*)?		u:object_r:rpx_file:s0
+/vendor/firmware/fw_bcmdhd.*	u:object_r:vendor_firmware_wifi_file:s0
+/vendor/firmware/nvram.*	u:object_r:vendor_firmware_wifi_file:s0
+
+# iM501 firmware
+/vendor/firmware/im501.*	u:object_r:vendor_firmware_im501_file:s0
+
+# Variable refresh rate sysfs
+/sys/devices/platform/host1x/tegradc.[0-1]/vrr(/.*)    u:object_r:sysfs_vrr:s0
+
+#############################
+# HAL services
+#
+/(vendor|system/vendor)/bin/hw/vendor\.nvidia\.hardware\.shieldtech\.inputflinger@1\.0-service	u:object_r:hal_shieldtech_default_exec:s0
+
+/(vendor|system/vendor)/bin/hw/vendor\.nvidia\.hardware\.power@1\.0-service	u:object_r:hal_power_tegra_exec:s0
+
+/(vendor|system/vendor)/bin/hw/vendor\.nvidia\.hardware\.bluetooth@1\.0-service	u:object_r:hal_bluetooth_tegra_exec:s0
+
+/(vendor|system/vendor)/bin/hw/vendor\.nvidia\.hardware\.keymaster@3\.0-service	u:object_r:hal_keymaster_tegra_exec:s0
+
+/(vendor|system/vendor)/bin/vendor\.nvidia\.hardware\.sensors@1\.0-service	u:object_r:hal_sensors_tegra_exec:s0
+
+/(vendor|system/vendor)/bin/vendor\.nvidia\.hardware\.camera\.provider@2\.4-service	u:object_r:hal_camera_tegra_exec:s0
+/(vendor|system/vendor)/bin/hw/vendor\.nvidia\.hardware\.graphics\.composer@1\.0-service	u:object_r:hal_graphics_composer_tegra_exec:s0
+
+/vendor/bin/hw/vendor\.nvidia\.hardware\.gensysfs@1\.0-service    u:object_r:hal_gensysfs_default_exec:s0
+/vendor/bin/hw/android\.hardware\.dumpstate@1\.0-service.nv    u:object_r:hal_dumpstate_impl_exec:s0
+
+/vendor/bin/hw/android\.hardware\.boot@1\.0-binderized-service    u:object_r:hal_bootctl_default_exec:s0
+/(vendor|system/vendor)/lib(64)?/libnvwsi.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/gralloc.tegra.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvblit.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvddk_vic.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvglsi.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvrm.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvos.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvrm_graphics.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvrmapi_tegra.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvddk_2d_v2.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvphs.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvcolorutil.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvrm_gpu.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libglcore.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvidia-glvkspirv.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvrmvkif.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvgr.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvdc.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvimp.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvcpl.so		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/firmware/gp10b(/.*)?		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/hw/vulkan.tegra.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/firmware/gv11b(/.*)?		u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvomxadaptor.so	u:object_r:same_process_hal_file:s0
+/(vendor|system/vendor)/lib(64)?/libnvmjolnirutils.so	u:object_r:same_process_hal_file:s0
+

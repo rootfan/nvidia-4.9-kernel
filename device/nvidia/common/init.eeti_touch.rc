@@ -1,0 +1,17 @@
+#Copyright (c) 2018 NVIDIA Corporation.  All Rights Reserved.
+#
+#NVIDIA Corporation and its licensors retain all intellectual property and
+#proprietary rights in and to this software and related documentation.  Any
+#use, reproduction, disclosure or distribution of this software and related
+#documentation without an express license agreement from NVIDIA Corporation
+#is strictly prohibited.
+
+on post-fs-data
+    mkdir /data/eeti 0770 system system
+    chown system system /data/eeti/LOG
+    chown system system /sys/devices/virtual/misc/touch/report_mode
+    chmod 0660 /sys/devices/virtual/misc/touch/report_mode
+    chown system system /sys/devices/virtual/misc/touch/version
+    chmod 0660 /sys/devices/virtual/misc/touch/calibration
+    chown system system /sys/devices/virtual/misc/touch/calibration
+

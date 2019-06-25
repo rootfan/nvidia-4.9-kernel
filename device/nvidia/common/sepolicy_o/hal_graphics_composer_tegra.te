@@ -1,0 +1,65 @@
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type hal_graphics_composer_tegra, domain;
+hal_server_domain(hal_graphics_composer_tegra, hal_graphics_composer)
+
+type hal_graphics_composer_tegra_exec, exec_type, file_type, vendor_file_type;
+init_daemon_domain(hal_graphics_composer_tegra)
+
+# Allow hal_graphics_composer_tegra to access tsec
+allow hal_graphics_composer_tegra tsec_device:chr_file rw_file_perms;
+
+# Allow hal_graphics_composer_tegra to access tee
+allow hal_graphics_composer_tegra tee_device:chr_file rw_file_perms;
+
+# Allow hal_graphics_composer_tegra to access pmqos
+allow hal_graphics_composer_tegra pmqos_device:chr_file rw_file_perms;
+
+allow hal_graphics_composer_tegra self:process execmem;
+
+# allow composer hal to access dc device
+allow hal_graphics_composer_tegra tegradc_device:chr_file { rw_file_perms };
+
+r_dir_file(hal_graphics_composer_tegra, proc_meminfo)
+
+set_prop(hal_graphics_composer_tegra, system_prop)
+
+# Allow HWC to write the EDID DB
+allow hal_graphics_composer_tegra hwc_data_file:file {create_file_perms};
+allow hal_graphics_composer_tegra hwc_data_file:dir {create_dir_perms};
+
+# allow /dev to allow adf to search for /dev/adf*
+allow hal_graphics_composer_tegra device:dir r_dir_perms;
+
+allow hal_graphics_composer_tegra hal_graphics_composer_hwservice:service_manager add;
+
+set_prop(hal_graphics_composer_tegra, surfaceflinger_prop)
+
+# for accessing nvhdcp1 device
+allow hal_graphics_composer_tegra video_device:chr_file { rw_file_perms };
+
+allow hal_graphics_composer_tegra sysfs_disp_dev:file rw_file_perms;
+allow hal_graphics_composer_tegra sysfs_slowscan:file rw_file_perms;
+allow hal_graphics_composer_tegra sysfs_thermal:file rw_file_perms;
+allow hal_graphics_composer_tegra sysfs_smartdimmer:file rw_file_perms;
+
+# allow HWC to access mediacodec
+allow hal_graphics_composer_tegra mediacodec:fd use;
+
+# Graphics Display HAL
+hal_server_domain(hal_graphics_composer_tegra, hal_graphics_display)
+allow hal_graphics_composer_tegra hal_graphics_display_hwservice:service_manager add;
+
+vndbinder_use(hal_graphics_composer_tegra)

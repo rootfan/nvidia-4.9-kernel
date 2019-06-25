@@ -1,0 +1,38 @@
+# Copyright (c) 2017 NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type badblk, domain;
+type badblk_exec, exec_type, file_type;
+
+# Need to be in badblk domain so that it gets acces to block devices
+# and badblk directory
+init_daemon_domain(badblk)
+
+domain_auto_trans(kernel, badblk_exec, badblk)
+domain_auto_trans(kernel, shell_exec, badblk)
+
+allow badblk shell_exec:file rx_file_perms;
+# badblk.sh script reads and writes badblk info
+# to /data/badblk directory
+allow badblk badblk_data_file:dir rw_dir_perms;
+allow badblk badblk_data_file:file create_file_perms;
+allow badblk system_file:file execute_no_trans;
+#e2fsck updates the badblk number from
+# file /data/badblk/badblock_cmd.log
+allow badblk fsck_exec:file rx_file_perms;
+allow badblk block_device:dir search;
+allow badblk sda_device:blk_file { getattr read write open ioctl };
+allow badblk swap_block_device:blk_file getattr;
+allow badblk kernel:fd use;
+allow badblk proc:file { getattr open read };

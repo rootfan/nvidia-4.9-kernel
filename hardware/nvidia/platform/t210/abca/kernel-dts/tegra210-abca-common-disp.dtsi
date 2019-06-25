@@ -1,0 +1,162 @@
+/*
+ * arch/arm64/boot/dts/tegra210-abca-common-disp.dtsi
+ *
+ * Copyright (c) 2016-2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ */
+
+#include <panels/panel-a-wuxga-8-0.dtsi>
+#include <panels/panel-o-720p-6-0.dtsi>
+#include <panels/panel-o-720p-6-0-01.dtsi>
+
+/ {
+	backlight {
+		compatible = "pwm-backlight";
+		status = "okay";
+		power-supply = <&max77620_sd3>;
+		panel-a-wuxga-8-0-bl {
+			pwms = <&tegra_pwm 0 40161>;
+		};
+		panel-o-720p-6-0-bl {
+			pwms = <&tegra_pwm 0 40000>;
+			max-brightness = <168>;
+			default-brightness = <168>;
+		};
+		panel-o-720p-6-0-01-bl {
+			status = "okay";
+			pwms = <&tegra_pwm 0 35000>;
+			default-brightness = <168>;
+		};
+	};
+
+	host1x {
+		/* tegradc.0 */
+		dc@54200000 {
+			status = "okay";
+			nvidia,dc-flags = <TEGRA_DC_FLAG_ENABLED>;
+			nvidia,emc-clk-rate = <300000000>;
+			nvidia,fb-bpp = <32>; /* bits per pixel */
+			nvidia,fb-flags = <TEGRA_FB_FLIP_ON_PROBE>;
+			nvidia,dc-or-node = "/host1x/dsi";
+			nvidia,dc-connector = <&dsi>;
+		};
+
+		/* tegradc.1 */
+		dc@54240000 {
+			status = "okay";
+			nvidia,dc-flags = <TEGRA_DC_FLAG_ENABLED>;
+			nvidia,emc-clk-rate = <300000000>;
+			nvidia,fb-bpp = <32>; /* bits per pixel */
+			nvidia,fb-flags = <TEGRA_FB_FLIP_ON_PROBE>;
+			nvidia,dc-or-node = "/host1x/sor1";
+			nvidia,dc-connector = <&sor1>;
+		};
+
+		dsi {
+			nvidia,dsi-controller-vs = <DSI_VS_1>;
+			status = "okay";
+			nvidia,active-panel = <&panel_o_720p_6_0_01>;
+			panel-a-wuxga-8-0 {
+				nvidia,dsi-dpd-pads = <DSIC_DPD_EN DSID_DPD_EN>;
+				nvidia,panel-rst-gpio = <&gpio TEGRA_GPIO(V, 2) 0>; /* PV2 */
+				nvidia,panel-bl-pwm-gpio = <&gpio TEGRA_GPIO(V, 0) 0>; /* PV0 */
+			};
+			panel-o-720p-6-0 {
+				nvidia,dsi-dpd-pads = <DSIC_DPD_EN DSID_DPD_EN>;
+				nvidia,panel-bl-pwm-gpio = <&gpio TEGRA_GPIO(V, 0) 0>; /* PV0 */
+				nvidia,panel-rst-gpio = <&gpio TEGRA_GPIO(V, 2) 0>; /* PV2 */
+				disp-default-out {
+					nvidia,out-rotation = <270>;
+				};
+			};
+			panel-o-720p-6-0-01 {
+				status = "okay";
+				nvidia,dsi-dpd-pads = <DSIC_DPD_EN DSID_DPD_EN>;
+				nvidia,panel-bl-pwm-gpio = <&gpio TEGRA_GPIO(V, 0) 0>; /* PV0 */
+				nvidia,panel-rst-gpio = <&gpio TEGRA_GPIO(V, 2) 0>; /* PV2 */
+				disp-default-out {
+					nvidia,out-rotation = <270>;
+				};
+			};
+		};
+
+		sor {
+			status = "disabled";
+		};
+
+		dpaux {
+			status = "okay";
+		};
+
+		vi {
+			status = "disabled";
+		};
+
+		sor1 {
+			status = "okay";
+			nvidia,active-panel = <&sor1_dp_display>;
+			dp-display {
+				status = "okay";
+				compatible = "dp, display";
+				nvidia,hpd-gpio = <&gpio TEGRA_GPIO(CC, 1) 1>; /* PN7 */
+				nvidia,is_ext_dp_panel = <1>;
+				nvidia,lanes = <2>;
+				disp-default-out {
+					nvidia,out-max-pixclk = <3333>; /* KHZ2PICOS(300000) */
+					nvidia,out-type = <TEGRA_DC_OUT_DP>;
+					nvidia,out-align = <TEGRA_DC_ALIGN_MSB>;
+					nvidia,out-order = <TEGRA_DC_ORDER_RED_BLUE>;
+					nvidia,out-flags = <TEGRA_DC_OUT_CONTINUOUS_MODE>;
+					nvidia,out-pins = <TEGRA_DC_OUT_PIN_H_SYNC TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_V_SYNC TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_PIXEL_CLOCK TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_DATA_ENABLE TEGRA_DC_OUT_PIN_POL_HIGH>;
+					nvidia,out-parent-clk = "pll_d2_out0";
+				};
+				dp-lt-settings {
+					lt-setting@0 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x3>;
+					};
+					lt-setting@1 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x4>;
+					};
+					lt-setting@2 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L1 PRE_EMPHASIS_L1 PRE_EMPHASIS_L1 PRE_EMPHASIS_L1>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x6>;
+					};
+				};
+			};
+			hdmi-display {
+				status = "disabled";
+			};
+		};
+
+		dpaux1 {
+			status = "okay";
+		};
+
+		i2c@546c0000 {
+			status = "disabled";
+		};
+	};
+};

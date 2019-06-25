@@ -1,0 +1,141 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+
+/dts-v1/;
+
+/memreserve/ 0x80000000 0x00020000;
+
+#include "tegra210b01-ers-common.dtsi"
+#include "tegra210b01-ers-e3350-display.dtsi"
+#include "tegra210b01-ers-e3350-eeprom-manager.dtsi"
+
+/ {
+	model = "e3350";
+	compatible = "nvidia,e3350", "nvidia,tegra210b01";
+	nvidia,dtsfilename = __FILE__;
+	nvidia,fastboot-usb-pid = <0x7100>;
+
+	chosen {
+		board-has-eeprom;
+	};
+
+	firmware {
+		android {
+			compatible = "android,firmware";
+			hardware = "e3350";
+		};
+	};
+
+	i2c@7000c000 {
+		pca9535_0: pca9535@20 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x20>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+		};
+		pca9535_1: pca9535@21 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x21>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+		};
+		pca9535_2: pca9535@22 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x22>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+			pcie-atx-ctrl-high {
+				gpio-hog;
+				output-high;
+				gpios = <11 0>;
+				line-name = "pcie-atx-ctrl-high";
+			};
+		};
+		pca9535_3: pca9535@23 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x23>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+		};
+		pca9535_4: pca9535@24 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x24>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+		};
+		pca9535_5: pca9535@25 {
+			compatible = "nxp,pca9535";
+			gpio-controller;
+			#gpio-cells = <2>;
+			#size-cells = <2>;
+			reg = <0x25>;
+			vcc-supply = <&max77620_sd3>;
+			status = "okay";
+			pcie-mux-output-low {
+				gpio-hog;
+				output-low;
+				gpios = <7 0>;
+				line-name = "pcie-mux-output-low";
+			};
+			pcie-mux-output-high {
+				gpio-hog;
+				output-high;
+				gpios = <5 0 6 0>;
+				line-name = "pcie-mux-output-high";
+			};
+		};
+	};
+
+	dummy_cool_dev: dummy-cool-dev {
+		compatible = "dummy-cooling-dev";
+		#cooling-cells = <2>; /* min followed by max */
+	};
+
+	platform-commands {
+		compatible ="platform-init";
+		status = "disabled";
+		bootloader-status = "okay";
+
+		/* Enable LDO5 and LDO6 */
+		block@0 {
+			type = "i2c";
+			controller = <&i2c5>;
+			device-address = <0x3C>;
+			block-delay = <100>;
+			commands = <0x2D 0xFF 0xF0
+				    0x4B 0xC0 0xC0
+				    0x2F 0xFF 0xD4
+				    0x2C 0xC0 0xC0>;
+		};
+	};
+};

@@ -1,0 +1,100 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# phsd - power management service
+#
+type nvphsd, domain, mlstrustedsubject;
+type nvphsd_exec, exec_type, file_type, vendor_file_type;
+type nvphsd_service, service_manager_type;
+type nvphsd_hwservice, hwservice_manager_type, untrusted_app_visible_hwservice;
+
+init_daemon_domain(nvphsd)
+
+not_full_treble(`
+    # Allow nvphsd to be add a new Binder service, be a binder server, and
+    # allow clients to connect to the nvphsd Binder service.
+    binder_use(nvphsd)
+    binder_service(nvphsd)
+    allow nvphsd nvphsd_service:service_manager add;
+')
+
+# Allow nvphsd to be used as a service under hwservice manager and to
+# use hwbinder for communication.
+hwbinder_use(nvphsd)
+add_hwservice(nvphsd, nvphsd_hwservice)
+set_prop(nvphsd, hwservicemanager_prop)
+
+# R/W sysfs, /dev nodes
+allow nvphsd sysfs_devices_system_cpu:file rw_file_perms;
+allow nvphsd pmqos_device:chr_file rw_file_perms;
+allow nvphsd sysfs:file r_file_perms;
+allow nvphsd sysfs_thermal:lnk_file r_file_perms;
+allow nvphsd sysfs_tegra_gpu:file r_file_perms;
+allow nvphsd sysfs_tegra_emc:file r_file_perms;
+
+# /data/misc/phs
+# Rule states that when a process of type nvphsd creates a file in the directory
+# of type system_data_file, by default it should have the type nvphsd_data
+allow nvphsd system_data_file:file { getattr read };
+type_transition nvphsd system_data_file:file nvphsd_data;
+allow nvphsd nvphsd_data:dir { setattr rw_dir_perms };
+allow nvphsd nvphsd_data:file create_file_perms;
+
+# /mnt/tmp/fc[0-9] files.
+allow nvphsd surfaceflinger_fc:file r_file_perms;
+
+# thermal
+allow nvphsd sysfs_thermal:dir rw_dir_perms;
+allow nvphsd sysfs_thermal:file rw_file_perms;
+
+# Allow to write to nvfeedback log file
+allow nvphsd anr_data_file:file write;
+
+# Allow nvphsd to write to set the VRR system property
+set_prop(nvphsd, vrr_prop)
+set_prop(nvphsd, thermal_prop)
+
+# Allow writing to cfboost params
+allow nvphsd sysfs_cfboost:file rw_file_perms;
+
+# Allow reading proc
+allow nvphsd proc:file r_file_perms;
+
+# Allow reading gpu available frequencies
+allow nvphsd sysfs_devfreq:file r_file_perms;
+
+#
+# AffinityDaemon functionality
+#
+
+# read /proc
+ifelse(os_type, `android', allow nvphsd self:capability sys_ptrace);
+r_dir_file(nvphsd, domain)
+
+# set affinity and nice permissions
+allow nvphsd domain:process { getsched setsched };
+allow nvphsd self:capability sys_nice;
+
+not_full_treble(`
+    # netlink access
+    allow nvphsd self:capability net_admin;
+    allow nvphsd self:netlink_socket create_socket_perms_no_ioctl;
+
+    # /dev/socket/nvphsd
+    allow nvphsd nvphsd_socket:unix_stream_socket rw_stream_socket_perms;
+')
+
+# write to /proc/task_weight
+allow nvphsd proc_taskweight:file rw_file_perms;

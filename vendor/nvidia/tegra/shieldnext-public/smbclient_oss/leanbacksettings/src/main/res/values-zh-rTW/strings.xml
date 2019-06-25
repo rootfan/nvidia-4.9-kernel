@@ -1,0 +1,40 @@
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">LeanbackSettings</string>
+
+    <string name="text_obfuscation_toggle_caption">隱藏密碼</string>
+    <string name="network_storage_login_enter_address_title">輸入要連線的磁碟機地址</string>
+    <string name="network_storage_login_enter_username_title">輸入<xliff:g id="ssid">%1$s</xliff:g>的使用者名稱</string>
+    <string name="network_storage_login_enter_password_title">輸入<xliff:g id="ssid">%1$s</xliff:g>的密碼</string>
+    <string name="network_storage_login_connecting">正在連線至<xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_disconnecting">正在切斷<xliff:g id="device">%1$s</xliff:g>連線</string>
+    <string name="network_storage_login_server_not_reachable">此時無法與<xliff:g id="device">%1$s</xliff:g>取得聯繫。</string>
+    <string name="network_storage_login_share_already_mounted">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g>已掛接。</string>
+    <string name="network_storage_login_share_not_availble">找不到\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g></string>
+    <string name="network_storage_login_connection_success">已順利連線。</string>
+    <string name="network_storage_login_connection_failed">連線失敗。</string>
+    <string name="network_storage_login_disconnection_failed">切斷連線失敗。</string>
+    <string name="network_storage_login_disconnection_success">已順利切斷連線。</string>
+    <string name="network_storage_login_host_not_available">主機無法使用。</string>
+    <string name="network_storage_login_incorrect_username_or_password">使用者名稱或密碼不正確</string>
+    <string name="network_storage_login_mount_failed">掛接失敗。</string>
+    <string name="network_storage_login_address_wrong_format">磁碟機地址格式無效。</string>
+    <string name="network_storage_login_access_denied">拒絕存取權限。</string>
+    <string name="network_storage_login_example_address_format">範例：\\\\伺服器\\共享</string>
+
+    <string name="text_guest_toggle_caption">以訪客身分登入</string>
+    <string name="text_prefill_login_as_guest">訪客</string>
+</resources>

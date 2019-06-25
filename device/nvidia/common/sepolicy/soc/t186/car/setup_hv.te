@@ -1,0 +1,39 @@
+# Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type setup_hv, domain;
+type setup_hv_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(setup_hv)
+
+set_prop(setup_hv, system_prop)
+set_prop(setup_hv, shell_prop)
+set_prop(setup_hv, ctl_default_prop)
+
+not_full_treble(`
+    allow setup_hv shell_exec:file rx_file_perms;
+    allow setup_hv toolbox_exec:file rx_file_perms;
+')
+
+full_treble_only(`
+    allow setup_hv vendor_shell_exec:file rx_file_perms;
+    allow setup_hv vendor_toolbox_exec:file rx_file_perms;
+')
+
+allow setup_hv system_file:file execute_no_trans;
+allow setup_hv sysfs_netcfg:dir search;
+allow setup_hv sysfs_netcfg:lnk_file read;
+allow setup_hv sysfs_vgpu_devfreq:file rw_file_perms;
+r_dir_file(setup_hv, sysfs_devicetree_xudc);
+r_dir_file(setup_hv, sysfs_tegra_hv);

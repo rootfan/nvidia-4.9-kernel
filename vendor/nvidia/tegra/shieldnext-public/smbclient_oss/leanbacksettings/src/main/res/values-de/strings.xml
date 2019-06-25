@@ -1,0 +1,40 @@
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">LeanbackSettings</string>
+
+    <string name="text_obfuscation_toggle_caption">Kennwort ausblenden</string>
+    <string name="network_storage_login_enter_address_title">Laufwerksadresse für Verbindung eingeben</string>
+    <string name="network_storage_login_enter_username_title">Benutzernamen für <xliff:g id="ssid">%1$s</xliff:g> eingeben</string>
+    <string name="network_storage_login_enter_password_title">Kennwort für <xliff:g id="ssid">%1$s</xliff:g> eingeben</string>
+    <string name="network_storage_login_connecting">Verbindung zu <xliff:g id="device">%1$s</xliff:g> wird hergestellt</string>
+    <string name="network_storage_login_disconnecting">Verbindung mit <xliff:g id="device">%1$s</xliff:g> wird getrennt</string>
+    <string name="network_storage_login_server_not_reachable"><xliff:g id="device">%1$s</xliff:g> ist derzeit nicht erreichbar.</string>
+    <string name="network_storage_login_share_already_mounted">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> ist bereits bereitgestellt.</string>
+    <string name="network_storage_login_share_not_availble">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> nicht gefunden</string>
+    <string name="network_storage_login_connection_success">Verbindung erfolgreich hergestellt.</string>
+    <string name="network_storage_login_connection_failed">Fehler beim Herstellen der Verbindung.</string>
+    <string name="network_storage_login_disconnection_failed">Fehler beim Trennen der Verbindung.</string>
+    <string name="network_storage_login_disconnection_success">Verbindung erfolgreich getrennt.</string>
+    <string name="network_storage_login_host_not_available">Host ist nicht verfügbar.</string>
+    <string name="network_storage_login_incorrect_username_or_password">Falscher Nutzername oder falsches Passwort</string>
+    <string name="network_storage_login_mount_failed">Bereitstellung fehlgeschlagen.</string>
+    <string name="network_storage_login_address_wrong_format">Format der Laufwerksadresse ist ungültig.</string>
+    <string name="network_storage_login_access_denied">Zugriff verweigert.</string>
+    <string name="network_storage_login_example_address_format">Beispiel: \\\\Server\\teilen</string>
+
+    <string name="text_guest_toggle_caption">Als Gast anmelden</string>
+    <string name="text_prefill_login_as_guest">Gast</string>
+</resources>

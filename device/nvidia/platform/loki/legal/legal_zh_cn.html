@@ -1,0 +1,631 @@
+﻿<html xmlns:ns0="urn-legalmacpac-data/10">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=UTF-8">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
+<!-- Copyright (c) 2013, NVIDIA CORPORATION.  All rights reserved. -->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;}
+@font-face
+	{font-family:Garamond;
+	panose-1:2 2 4 4 3 3 1 1 8 3;}
+@font-face
+	{font-family:Times;
+	panose-1:2 2 6 3 5 4 5 2 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:"Footnote Text Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Header Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Footer Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:#009966;
+	text-decoration:underline;}
+p
+	{margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Balloon Text Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.MsoPlaceholderText
+	{color:gray;}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText, li.O-BodyText, div.O-BodyText
+	{mso-style-name:"O-Body Text \(\)\,1Body\,s1";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyTextDS, li.O-BodyTextDS, div.O-BodyTextDS
+	{mso-style-name:"O-Body Text \(DS\)\,2Body\,s28";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyTextJ, li.O-BodyTextJ, div.O-BodyTextJ
+	{mso-style-name:"O-Body Text \(J\)\,3Body\,s13";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5, li.O-BodyText5, div.O-BodyText5
+	{mso-style-name:"O-Body Text \.5\0022\,1Half\,s2";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-indent:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5DS, li.O-BodyText5DS, div.O-BodyText5DS
+	{mso-style-name:"O-Body Text \.5” \(DS\)\,2Half\,s29";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-indent:.5in;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5J, li.O-BodyText5J, div.O-BodyText5J
+	{mso-style-name:"O-Body Text \.5” \(J\)\,3Half\,s14";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1, li.O-BodyText1, div.O-BodyText1
+	{mso-style-name:"O-Body Text 1\0022\,1Full\,s3";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-indent:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1DS, li.O-BodyText1DS, div.O-BodyText1DS
+	{mso-style-name:"O-Body Text 1” \(DS\)\,2Full\,s30";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-indent:1.0in;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1J, li.O-BodyText1J, div.O-BodyText1J
+	{mso-style-name:"O-Body Text 1” \(J\)\,3Full\,s15";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet, li.O-Bullet, div.O-Bullet
+	{mso-style-name:"O-Bullet \(\)\,1Bullet\,s4";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet5, li.O-Bullet5, div.O-Bullet5
+	{mso-style-name:"O-Bullet \.5\0022\,2Bullet\,s26";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet1, li.O-Bullet1, div.O-Bullet1
+	{mso-style-name:"O-Bullet 1\0022\,3Bullet\,s27";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:1.25in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Indent5, li.O-Indent5, div.O-Indent5
+	{mso-style-name:"O-Indent \.5\0022\,Half Indent\,s5";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Indent1, li.O-Indent1, div.O-Indent1
+	{mso-style-name:"O-Indent 1\0022\,Full Indent\,s6";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Quote, li.O-Quote, div.O-Quote
+	{mso-style-name:"O-Quote \(\)\,1Quote\,s7";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-QuoteDS, li.O-QuoteDS, div.O-QuoteDS
+	{mso-style-name:"O-Quote \(DS\)\,2Quote\,s17";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:0in;
+	margin-left:1.0in;
+	margin-bottom:.0001pt;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-QuoteJ, li.O-QuoteJ, div.O-QuoteJ
+	{mso-style-name:"O-Quote \(J\)\,3Quote\,s16";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-SignatureLA, li.O-SignatureLA, div.O-SignatureLA
+	{mso-style-name:"O-Signature \(LA\)\,Sig \(LA\)\,s18";
+	margin-top:.5in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:27.35pt;
+	text-indent:-27.35pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Signature, li.O-Signature, div.O-Signature
+	{mso-style-name:"O-Signature\,Sigs\,s12";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:3.0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Title3, li.O-Title3, div.O-Title3
+	{mso-style-name:"O-Title 3\,3Title\,s22";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-TITLE, li.O-TITLE, div.O-TITLE
+	{mso-style-name:"O-TITLE\,1Title\,s10";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;}
+p.O-Title6, li.O-Title6, div.O-Title6
+	{mso-style-name:"O-Title 6\,6Title\,s11";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;}
+p.O-Title7, li.O-Title7, div.O-Title7
+	{mso-style-name:"O-Title 7\,7Title\,s19";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-Title5, li.O-Title5, div.O-Title5
+	{mso-style-name:"O-Title 5\,5Title\,s8";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-Title2, li.O-Title2, div.O-Title2
+	{mso-style-name:"O-Title 2\,2Title\,s20";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;}
+span.FootnoteTextChar
+	{mso-style-name:"Footnote Text Char";
+	mso-style-link:"Footnote Text";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+p.Parties, li.Parties, div.Parties
+	{mso-style-name:Parties;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	text-align:justify;
+	text-indent:-.5in;
+	line-height:15.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.Background, li.Background, div.Background
+	{mso-style-name:Background;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	text-align:justify;
+	text-indent:-.5in;
+	line-height:15.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.OPDFooter, li.OPDFooter, div.OPDFooter
+	{mso-style-name:"O PD Footer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:right;
+	font-size:9.0pt;
+	font-family:"Arial Narrow","sans-serif";}
+p.OResumeArticlesNoBullets, li.OResumeArticlesNoBullets, div.OResumeArticlesNoBullets
+	{mso-style-name:"O Resume Articles No Bullets";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeArticlesBullets, li.OResumeArticlesBullets, div.OResumeArticlesBullets
+	{mso-style-name:"O Resume Articles Bullets";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeArticlesHeading, li.OResumeArticlesHeading, div.OResumeArticlesHeading
+	{mso-style-name:"O Resume Articles Heading";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";
+	font-weight:bold;}
+p.OResumeArticlesLeadin, li.OResumeArticlesLeadin, div.OResumeArticlesLeadin
+	{mso-style-name:"O Resume Articles Leadin";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	text-indent:9.0pt;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeAttorneyID, li.OResumeAttorneyID, div.OResumeAttorneyID
+	{mso-style-name:"O Resume Attorney ID";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeBodyText, li.OResumeBodyText, div.OResumeBodyText
+	{mso-style-name:"O Resume Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeBulletQualification, li.OResumeBulletQualification, div.OResumeBulletQualification
+	{mso-style-name:"O Resume Bullet Qualification";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	font-size:11.0pt;
+	font-family:"Garamond","serif";}
+span.OResumeClientCaseProjectName
+	{mso-style-name:"O Resume Client\/Case\/Project Name";
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.OResumeContactInformation, li.OResumeContactInformation, div.OResumeContactInformation
+	{mso-style-name:"O Resume Contact Information";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.35pt;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeEmail, li.OResumeEmail, div.OResumeEmail
+	{mso-style-name:"O Resume Email";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";
+	font-style:italic;}
+p.OResumeFooter, li.OResumeFooter, div.OResumeFooter
+	{mso-style-name:"O Resume Footer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:right;
+	line-height:10.0pt;
+	font-size:9.0pt;
+	font-family:"Arial Narrow","sans-serif";}
+p.OResumeName, li.OResumeName, div.OResumeName
+	{mso-style-name:"O Resume Name";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:16.0pt;
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.OResumeSidebar, li.OResumeSidebar, div.OResumeSidebar
+	{mso-style-name:"O Resume Sidebar";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeSidebarBullet, li.OResumeSidebarBullet, div.OResumeSidebarBullet
+	{mso-style-name:"O Resume Sidebar Bullet";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	margin-bottom:.0001pt;
+	text-indent:-9.0pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeSidebarHead, li.OResumeSidebarHead, div.OResumeSidebarHead
+	{mso-style-name:"O Resume Sidebar Head";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:9.0pt;
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.O-Title4, li.O-Title4, div.O-Title4
+	{mso-style-name:"O-Title 4\,4Title\,s9";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-decoration:underline;}
+p.O-Title8, li.O-Title8, div.O-Title8
+	{mso-style-name:"O-Title 8\,8Title\,s23";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-style:italic;}
+span.HeaderChar
+	{mso-style-name:"Header Char";
+	mso-style-link:Header;}
+span.FooterChar
+	{mso-style-name:"Footer Char";
+	mso-style-link:Footer;}
+p.O-Center, li.O-Center, div.O-Center
+	{mso-style-name:"O-Center\,Center\,s21";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-TITLE9, li.O-TITLE9, div.O-TITLE9
+	{mso-style-name:"O-TITLE 9\,9TITLE\,s31";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;}
+p.indent, li.indent, div.indent
+	{mso-style-name:indent;
+	margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.apple-converted-space
+	{mso-style-name:apple-converted-space;}
+p.MacPacTrailer, li.MacPacTrailer, div.MacPacTrailer
+	{mso-style-name:"MacPac Trailer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:10.0pt;
+	font-size:8.0pt;
+	font-family:"Times New Roman","serif";}
+.MsoChpDefault
+	{font-size:12.0pt;}
+.MsoPapDefault
+	{margin-bottom:12.0pt;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink="#009966">
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:15.75pt; background:white'><b><font size=4 color=black face=Calibri><span style='font-size:14.0pt;font-family:"Calibri","sans-serif";color:black; font-weight:bold'>SHIELD软件许可协议</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>请认真阅读本协议内容，通过点击“接受”按钮表明您是否同意本协议条款。使用您的SHIELD设备（“设备”）是以您接受本协议条款为前提条件的。如果您不点击“接受”按钮，您将不能够使用本设备。</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>本协议是您与NVIDIA公司（“NVIDIA”）之间的合同，只能由达到您注册NVIDIA服务账户所在国家的法定成年年龄的成年人接受。</span></font></b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>如果您不满法定成年年龄，则必须让您的父母或法定监护人同意本协议。通过您本人亲自点击“接受”按钮，确认您已经达到法定成年年龄并且接受本协议。您还确认您代表您的孩子接受本协议，以及接受您孩子的行为所需承担的所有法律和财务责任，如适用的话，您特此明确批准和确认您的孩子以及该设备所有用户的任何行为。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>随您的设备一起提供的软件、固件和任何数据（“软件”），可能根据NVIDIA的决定，通过软件更新、补丁、升级或新版本进行更新，仅由NVIDIA 根据本协议条款许可给您使用，而非出售给您。NVIDIA及其许可方保留软件本身的所有权，并保留未明确授予您的所有权利。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>1. 一般许可限制和条款</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>根据本协议的条款和条件，NVIDIA及其许可方向您授予一项个人、可撤销、非专有的有限权利，让您仅在您的设备上使用本软件。您不得出售、出租、再许可、修改、改编、翻译、逆向工程、反编译或反汇编本软件的任何部分。除本协议规定以外，您不得复制或转让本软件的任何部分。您不得创造任何衍生作品，尝试从目标代码创建源代码，或者下载或将本软件用于明确许可以外的任何其它目的。您不得绕过、禁用或规避本软件中的任何加密、安全、数字版权管理或身份验证机制。您只能根据本协议在转让您的设备所有权并且在接收设备和软件的人阅读并同意接受本协议条款的情况下，才能转让本软件以及本软件中的许可权利。本软件并非许可给您用于转售、公开演出、展示、分销或广播目的。您确认同意某些内容提供商和许可方为有意第三方受益人，有权针对您以及您许可的用户执行本协议。除本协议明确授予之外，NVIDIA及其许可方保留与本软件有关的所有权利、权益和救济。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>2. 维护和升级</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>NVIDIA可能偶尔会向您的设备提供某些补丁、更新或升级。此类升级或更新可能为您的Shield或其它NVIDIA授权硬件提供。您授权NVIDIA提供此类内容，并同意NVIDIA对由于提供此类内容或维护服务而发生的任何损害、数据丢失或功能损失概不负责。建议您定期备份任何可归档的数据。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>3. 终止/取消</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>本协持续有效，直至终止为止。如果您不能遵守本协议的任何条款，则您在本协议项下的权利将自动终止，或者在NVIDIA不提前通知的情况下通过其它方式停止生效。终止本协议时，您应停止对本软件的一切使用。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>4. 附加服务和第三方材料</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>本软件可能能够链接TegraZone网站、Google Play 以及其它NVIDIA和第三方服务和网站（统称和单称为“附加服务”）。此类附加服务可能不会提供所有语言版本或在所有国家提供。使用这些附加服务要求互联网访问，而且使用某些附加服务可能要求您拥有NVIDIA、谷歌或其它用户账户，可能要求您接受额外的条款以及可能需要支付额外的费用。</span></font><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>NVIDIA不对任何第三方网站、信息、材料、产品或服务提供认可或承担任何责任。如果您从设备上链接某一第三方网站，则您应自行承担风险，并且您理解本协议和NVIDIA的隐私政策不适用于您使用此类网站。您明确免除 NVIDIA承担由于您使用任何第三方网站、服务或内容所导致的任何及所有责任。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>5. 光敏感性通知</span></font></b></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt; margin-left:0in;line-height:15.75pt;background:white'><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black'>少数人群在曝露在某些光模式或闪光灯下时可能会癫痫发作或晕厥。这些人在曝露于电视屏幕上的某些模式或背景或播放视频游戏等内容时可能会引发癫痫发作或晕厥。这些状况可能引发以前未发现或没有癫痫发作历史的人发生癫痫症状或癫痫发作。如果您或您家族中有任何人有癫痫症状，或者有任何类型的癫痫发作情况，请在播放之前咨询您的医生。在继续播放之前立即停止使用并咨询您的医生。如果您或您的孩子患有以下任何一种健康问题或症状：头晕、视力改变、眼睛或肌肉抽搐、意识丧失、定向障碍、癫痫发作或任何不自主运动或痉挛。只有在获得医生批准情况下才能继续播放。如果您患有以下任何症状，应立即停止使用内容或设备：头晕、恶心、或类似于晕车的感觉、眼睛、耳朵、手、胳膊或身体的任何部位不适或疼痛。如果症状持续，请咨询医生。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>6. 赔偿</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>由于或与以下情况有关而发生的任何及所有索赔、损害、义务、损失、责任、成本或债务以及费用（包括但不限于律师费），您同意为NVIDIA及其分公司、代理方、许可方、管理方以及其它关联公司及其员工、承包商、代理商、管理人员和董事辩护、赔偿并免受其害：(i)您违反本协议的任何条款，包括但不限于您违反以上任何陈述和保证； (ii) 您侵犯任何第三方权利，包括但不限于任何隐私权或知识产权；(iii) 您侵犯任何适用法律、规则或法规；或(v) 疏忽或故意的渎职行为。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>7. 免责条款</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>本软件是根据“现状”和“现有情况”向您提供。您应自行承担风险使用本软件。在适用法律允许的最大范围内，本软件不提供任何形式的保证，无论明示或默示，包括但不限于对适销性、适用于任何特定用途或无侵权的默示保证。在不限制前述规定的情况下，NVIDIA及其子公司、关联机构以及其许可方将不保证任何内容均是准确、可靠或正确的；软件将满足您的需求；任何缺陷或错误都将得到纠正；或者软件无病毒或无其它有害部件。在使用设备过程中下载或以其它方式获得的任何内容均由您自行承担风险下载的，由于您使用设备而对您的设备、计算机系统造成任何损坏或者数据丢失，将由您自行负责。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>某些国家、省或州可能不允许排除默示保证；因此，上述除外责任可能对您不适用。本协议授予您某些特定法律权利，并且由于辖区不同，您可能会享有其它不同的权利。  本协议下的免责声明和除外责任不适用于在适用法律禁止的情况下。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>NVIDIA不保证、认可、担保或承担第三方通过设备提供的任何附加服务责任，且NVIDIA并非您与第三方附加服务提供商之间交易的其中一方，NVIDIA也不通过任何方式监视任何此类交易。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>8. 责任限制</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>在任何情况下，NVIDIA均不应对任何性质的直接性、间接性、特殊性、惩戒性、惩罚性或后果性损害负责，包括但不限于由于此有限保证引起或与之相关的利润、数据、收入、产量损失，或者使用、营业中断，或者采购替代商品或服务，或者任何产品的使用或性能损失，无论是否基于合同或侵权行为，包括疏忽或任何法律理论，即使已经通知NVIDIA会发生此类损害的可能性。 NVIDIA对于任何性质的累计损害赔偿责任，无论何种形式，在任何情况下均不应超过您在任何责任基础下向NVIDIA支付购买的设备金额总额。某些州和司法管辖区可能不允许排除或限制间接性或后果性损害，因此该责任限制和除外可能对您不适用。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>在不限制上述免责声明一般性的情况下，NVIDIA 不对这些条款和条件项下的任何软件应用做出保证。如有对软件做出任何保证，则包含在相应许可协议中，许可协议附随保证的软件一起提供。 </span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height: 15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black; font-weight:bold'>9. </span></font></b><b><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black;font-weight:bold'>适用法律和您的权利</span></font></b><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'><br> <br></span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height: 15.75pt;background:white'><font size=2 face=Calibri><span style='font-size: 11.0pt;font-family:"Calibri","sans-serif";color:black'>本协议赋予您特殊法律权利。根据所在州以及司法管辖区的不同，您可能还拥有其它权利。您特此同意本协议的所有条款以英语书写。《联合国国际货物销售合同公约》不适用于本协议，应严格排除。本担保与所有因州际间商业销售产品而产生的所有争议,除了适用特拉华州的内部实质性法律以外, 应受《联邦仲裁法》管辖，不适用法律冲突原则。您同意将由于本协议产生或与本协议有关的任何诉讼提交位于加利福尼亚州Santa Clara郡的联邦和州法院的对人管辖权。 </span></font></p><p></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif"; color:black;font-weight:bold'>10. 通用条款</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>本协议以及根据本协议授予的任何权利和许可，不得由您转让，但可由NVIDIA 无限制转让。违反本协议的任何试图转让均无效。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>本协议以及您与NVIDIA签订的与本软件有关的任何修订本和任何额外协议，均应构成您与NVIDIA之间就本软件签订的全部协议。如果本协议的任何条款被具有有效管辖权的法院视为无效，则此类条款的无效性不应影响本协议剩余条款的有效性，本协议剩余条款应继续保持全部效力。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>对本协议任何条款的弃权不应视为进一步或继续对此类条款或任何其它条款的弃权，NVIDIA未能主张本协议的任何权利或条款不应构成对此类权利或条款的弃权。</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>如果软件被许可给美国政府或任何政府机构，则根据DFAR第227.7202节和FAR第12.212节，本软件将根据适用情况分别被视为是“商业计算机软件”和“商业计算机软件文档”。美国政府对本软件以及任何随附文档的使用、复制、公开、演示、展示或披露将接受本协议的管辖，且严禁在本协议明确许可范围之外的使用、复制、公开、演示、展示或披露。</span></font></p>
+
+<p class=MsoNormal><font size=3 face=Calibri><span style='font-size:12.0pt; font-family:"Calibri","sans-serif";color:black'> </span></font></p>
+
+</div>
+
+</body>
+
+</html>

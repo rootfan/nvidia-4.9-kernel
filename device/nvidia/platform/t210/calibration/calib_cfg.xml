@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Sensors>
+	<Sensor id="1">
+		<name>Touch</name>
+		<calib_sysfs>/sys/devices/virtual/misc/touch/touchfile_check</calib_sysfs>
+		<calib_cmd>/system/vendor/bin/raydium_selftest 5</calib_cmd>
+		<instruction_pic></instruction_pic>
+		<reboot_needed>true</reboot_needed>
+	</Sensor>
+</Sensors>

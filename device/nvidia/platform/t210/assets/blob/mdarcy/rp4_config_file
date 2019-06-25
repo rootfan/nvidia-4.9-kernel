@@ -1,0 +1,4 @@
+../../../../device/nvidia/platform/t210/assets/rpb_token/rpb_token.bin RPB 0
+../../sata/NV9D.LOD SATA 0x4E563944
+../../../../vendor/nvidia/tegra/kernel-firmware/xusb_fw_load/t21x/xusb_sil_rel_fw XUSB 0
+../../../../vendor/nvidia/tegra/kernel-firmware/xusb_fw_load/t210b01/xusb_sil_rel_fw XUSB-t210b01 0

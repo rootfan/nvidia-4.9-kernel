@@ -1,0 +1,67 @@
+# Copyright (c) 2014-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Permission for com.nvidia.SHIELD.Platform.Analyzer
+r_dir_file(platform_app, sysfs_nvi2c)
+r_dir_file(platform_app, sysfs_thermal)
+
+# Access service manager
+allow platform_app system_app_service:service_manager find;
+
+# Access external card
+allow platform_app fuseblk:dir create_dir_perms;
+allow platform_app fuseblk:file create_file_perms;
+
+# Sku files and RP3 partition
+r_dir_file(platform_app, rpx_block_device)
+r_dir_file(platform_app, rpx_file)
+
+# Allow to write to nvfeedback log file
+allow platform_app anr_data_file:file write;
+
+allow platform_app batteryproperties_service:service_manager find;
+
+allow platform_app nvphsd_hwservice:hwservice_manager find;
+
+# Write to properties
+set_prop(platform_app, system_prop)
+
+# Allow to find recovery_service to perform system upgrade
+allow platform_app recovery_service:service_manager find;
+
+# Platform app access to debugfs_clock/debugfs_edp
+allow platform_app debugfs_clock:file r_file_perms;
+allow platform_app debugfs_edp:file r_file_perms;
+
+# Access to zram0
+r_dir_file(platform_app, sysfs_zram)
+
+# Allow platform app to access external storage
+allow platform_app storage_stub_file:dir getattr;
+
+# Write to /data/ota_package for OTA packages.
+allow platform_app ota_package_file:dir create_dir_perms;
+allow platform_app ota_package_file:file create_file_perms;
+
+# Allow TegraOTA can invoke update_engine
+allow platform_app update_engine_service:service_manager find;
+binder_call(platform_app, update_engine);
+
+# Write to /cache.
+allow platform_app { cache_file cache_recovery_file  }:dir create_dir_perms;
+allow platform_app { cache_file cache_recovery_file  }:file create_file_perms;
+
+# Likely not needed
+auditallow platform_app cache_recovery_file:dir create_dir_perms;
+auditallow platform_app cache_recovery_file:file create_file_perms;

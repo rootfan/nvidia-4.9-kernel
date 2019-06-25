@@ -1,0 +1,72 @@
+# Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type hal_power_tegra, domain;
+hal_server_domain(hal_power_tegra, hal_power)
+
+type hal_power_tegra_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_power_tegra)
+
+set_prop(hal_power_tegra, system_prop)
+
+# allow powerhal to use binder
+binder_use(hal_power_tegra)
+
+# allow powerhal to use phs
+allow_use_phs(hal_power_tegra)
+
+# allow powerhal to find the phs service through hwservice manager
+allow hal_power_tegra nvphsd_hwservice:hwservice_manager find;
+
+# allow powerhal access tegra cluster debugfs
+allow hal_power_tegra debugfs_cluster:file rw_file_perms;
+
+# allow powerhal read gpu device
+allow hal_power_tegra gpu_device:chr_file  r_file_perms;
+
+# allow powerhal access pmqos device
+allow hal_power_tegra pmqos_device:chr_file  rw_file_perms;
+
+# powerhal searches through sysfs, so we need to allow it to search all dirs
+r_dir_file(hal_power_tegra, sysfs_type)
+
+# allow powerhal access cpu system device knobs
+allow hal_power_tegra sysfs_devices_system_cpu:file  rw_file_perms;
+
+# allow powerhal access gpu devfreq knobs
+allow hal_power_tegra sysfs_devfreq:file  rw_file_perms;
+
+# allow powerhal access gpu driver power knobs
+allow hal_power_tegra sysfs_gpu_power_knobs:file  rw_file_perms;
+
+# allow powerhal access tegra dvfs parameter sysfs
+allow hal_power_tegra sysfs_tegra_dvfs:file  rw_file_perms;
+
+# allow powerhal access ethernet power knobs
+allow hal_power_tegra sysfs_ethernet_power:file rw_file_perms;
+
+# allow powerhal access pwm-fan knobs
+allow hal_power_tegra sysfs_pwm_fan:file rw_file_perms;
+
+# allow powerhal access input device sysfs
+allow hal_power_tegra sysfs_input_dev:file rw_file_perms;
+
+# allow powerhal access tegra_cpu_emc sysfs
+allow hal_power_tegra sysfs_tegra_cpuemc:file rw_file_perms;
+
+#TODO: Label the sysfs node being written and then give permission.
+allow hal_power_tegra sysfs:file  rw_file_perms;
+
+# allow powerhal to access sysfs backlight dir
+allow hal_power_tegra sysfs_class_backlight:dir search;

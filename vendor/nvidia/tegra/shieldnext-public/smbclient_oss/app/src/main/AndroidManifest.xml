@@ -1,0 +1,30 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nvidia.shield.smbauth">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.software.leanback" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.nvidia.shield.smbauth.settings.NetworkStorageLoginActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.Leanback.FormWizard.Solid">
+            <intent-filter>
+                <action android:name="com.nvidia.shield.smbauth.action.GET_AUTH_DETAILS" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.nvidia.shield.smbauth.nas.SmbService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <receiver android:name="com.nvidia.shield.smbauth.nas.SmbReceiver">
+            <intent-filter>
+                <action android:name="com.nvidia.shield.smbauth.action.DO_AUTH" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>

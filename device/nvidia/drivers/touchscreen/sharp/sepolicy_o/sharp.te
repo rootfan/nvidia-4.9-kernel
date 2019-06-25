@@ -1,0 +1,33 @@
+# Copyright (c) 2015-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Sharp RealTouch
+
+type sharp, domain;
+type sharp_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(sharp)
+
+allow sharp graphics_device:chr_file r_file_perms;
+allow sharp graphics_device:dir search;
+allow sharp kmsg_device:chr_file { write getattr open };
+
+allow sharp touch_device:chr_file rw_file_perms;
+allow sharp sysfs_touch_log:file rw_file_perms;
+allow sharp sh_touch_data_file:dir create_dir_perms;
+allow sharp sh_touch_data_file:file create_file_perms;
+allow sharp self:capability { net_admin sys_nice };
+allow sharp self:netlink_socket create_socket_perms_no_ioctl;
+allow sharp self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
+

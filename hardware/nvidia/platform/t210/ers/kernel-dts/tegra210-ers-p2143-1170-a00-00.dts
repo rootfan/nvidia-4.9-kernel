@@ -1,0 +1,45 @@
+/*
+ * Copyright (c) 2015, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+#include "tegra210-ers-e2220-1170-a00-00-common.dts"
+#include "ers-platforms/tegra210-ers-p2143-emc.dtsi"
+
+/ {
+	nvidia,dtsfilename = __FILE__;
+
+	i2c@7000c000 {
+		pca9546@71 {
+			i2c@3 {
+				gpio@76 {
+					pcie-mux-output-low {
+						gpio-hog;
+						output-low;
+						gpios = <12 0 14 0 15 0>;
+						line-name = "pcie-mux-output-low";
+					};
+
+					pcie-mux-output-high {
+						gpio-hog;
+						output-high;
+						gpios = <5 0 6 0 11 0 13 0>;
+						line-name = "pcie-mux-output-high";
+					};
+				};
+			};
+		};
+	};
+};

@@ -1,0 +1,163 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set_prop(system_server, gpsd_prop)
+set_prop(system_server, bdaddr_path_prop)
+set_prop(system_server, handshake_sys_vold_prop)
+
+# Allow system_server read and write gps_data_file
+allow system_server gps_data_file:file rw_file_perms;
+allow system_server gps_data_file:dir rw_dir_perms;
+allow system_server gps_data_file:fifo_file create_file_perms;
+
+# Blake specific
+allow system_server sysfs_bus_usb:file w_file_perms;
+allow system_server sysfs_sound:file r_file_perms;
+allow system_server sysfs_ozmo:dir rw_dir_perms;
+allow system_server sysfs_ozmo:file rw_file_perms;
+allow system_server sysfs_hid:dir r_dir_perms;
+allow system_server sysfs_hid:file rw_file_perms;
+allow system_server hidraw_device:chr_file rw_file_perms;
+#NvWifi Scan
+allow system_server sysfs_pci_device:file write;
+
+# netcfg
+r_dir_file(system_server, sysfs_netcfg)
+
+# Wi-Fi/BT
+allow system_server wifi_data_file:lnk_file read;
+set_prop(system_server, bluetooth_prop)
+
+# Allow system_server to control Foster LED lightbar
+allow system_server sysfs_lightbar:file rw_file_perms;
+
+# hdd control
+allow system_server sysfs_sata:file rw_file_perms;
+
+# pmqos control
+allow system_server pmqos_device:chr_file rw_file_perms;
+
+# i2c control
+allow system_server sysfs_nvi2c:dir r_dir_perms;
+allow system_server sysfs_nvi2c:{ file lnk_file } rw_file_perms;
+
+# phs
+allow_use_phs(system_server)
+allow system_server nvphsd_hwservice:hwservice_manager find;
+
+allow system_server proc_wmem_max_writable:file rw_file_perms;
+r_dir_file(system_server, factory_file)
+
+not_full_treble(`
+    # NVSensor socket permissions
+    allow system_server nvs_socket:dir rw_dir_perms;
+    allow system_server nvs_socket:sock_file create_file_perms;
+')
+
+# mpu sensor
+allow system_server user_calib_file:dir rw_dir_perms;
+allow system_server user_calib_file:file create_file_perms;
+
+# dc for cec
+allow system_server tegradc_device:chr_file { read ioctl open write };
+
+# locality property
+allow system_server locality_prop:property_service set;
+
+# Write to proc/sys/net/unix/max_dgram_qlen
+allow system_server proc_net:file rw_file_perms;
+
+# Access service manager
+allow system_server system_app_service:service_manager find;
+
+# Access nvcpl
+allow system_server nvcpl_app_service:service_manager find;
+
+# hand shake property between system and vold
+allow system_server handshake_sys_vold_prop:property_service set;
+
+# pwm-fan
+allow system_server sysfs_pwm_fan:file r_file_perms;
+
+# configfs
+allow system_server configfs:dir r_dir_perms;
+
+# Storage stub file
+allow system_server storage_stub_file:dir getattr;
+
+# sku info files
+r_dir_file(system_server, rpx_file)
+
+# Bluedroid log
+allow system_server bluetooth_log_file:dir search;
+allow system_server bluetooth_log_file:file rw_file_perms;
+
+allow system_server self:capability sys_module;
+auditallow system_server self:capability sys_module;
+
+# Dont audit system_server accessing dex2oat
+dontaudit system_server dex2oat_exec:file execute;
+
+r_dir_file(system_server, sysfs_mmc_host)
+allow system_server sysfs_mmc_host:file rw_file_perms;
+
+# Allow GL to access ptimer_scale_factor
+allow system_server sysfs_gpu:file r_file_perms;
+
+# allow system_server (for camera features) to read files/dirs in /data/camera_config/
+r_dir_file(system_server, camera_config_file)
+
+# allow system_server to access thermal files for Thermal HAL
+allow system_server sysfs_thermal:lnk_file r_file_perms;
+allow system_server sysfs_thermal:dir r_dir_perms;
+
+# debugfs
+allow system_server debugfs:lnk_file read;
+
+allow system_server user_profile_data_file:dir r_dir_perms;
+
+# allow system_server to search keylayout_data_file
+allow system_server keylayout_data_file:dir search;
+
+# pci device sysfs search
+r_dir_file(system_server, sysfs_pci_device)
+
+# Use HALs
+hal_client_domain(system_server, hal_shieldtech)
+hal_client_domain(system_server, hal_flynn)
+
+# allow system_server to control gpu power knobs
+allow system_server sysfs_gpu_power_knobs:file rw_file_perms;
+
+# ShieldTech
+allow system_server hal_shieldtech_default:fifo_file { read ioctl };
+
+# allow sensor hal to call scheduling policy service in system server
+allow hal_sensors_tegra system_server:binder call;
+
+# allow system server to set sched fifo for sensor hal main thread to achieve right performance
+allow system_server hal_sensors_tegra:process setsched;
+
+# Allow system server to write to a cameraserver file (/proc/*/timerslack_ns).
+allow system_server cameraserver:file write;
+
+# Allow system server to write to an audio hal file (/proc/*/timerslack_ns).
+allow system_server hal_audio_default:file write;
+
+#mapper
+allow system_server nv_mapper_service:service_manager { find };
+
+#HDMI service
+hal_client_domain(system_server, hal_graphics_display)
+hal_client_domain(system_server, hal_graphics_composer)

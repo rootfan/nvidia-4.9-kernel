@@ -1,0 +1,313 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ */
+
+/ {
+	plugin-manager {
+		fragement@0 {
+			ids = "2176-1001-000", "2176-0310-100", "2176-0211-*";
+			override@0 {
+				target = <&gpu_ovr_reg>;
+				_overlay_ {
+					status = "disabled";
+				};
+			};
+
+			override@1 {
+				target = <&cpu_ovr_reg>;
+				_overlay_ {
+					status = "disabled";
+				};
+			};
+
+			override@2 {
+				target = <&max77812>;
+				_overlay_ {
+					status = "okay";
+				};
+			};
+
+			override@3 {
+				target = <&vdd_sys_boost>;
+				_overlay_ {
+					gpio = <&max77620 5 0>;
+				};
+			};
+
+			override@4 {
+				target = <&tegra_pwm_dfll>;
+				_overlay_ {
+					status = "disabled";
+				};
+			};
+
+			override@5 {
+				target = <&tegra_clk_dfll>;
+				_overlay_ {
+					vdd-cpu-supply = <&m4_max_reg>;
+					delete-target-property = "nvidia,pwm-to-pmic";
+					nvidia,align-offset-uv = <0>;
+					nvidia,align-step-uv = <5000>;
+					nvidia,i2c-fs-rate = <400000>;
+					nvidia,sample-rate = <12500>;
+					nvidia,dfll-max-freq-khz = <1683000>;
+					nvidia,one-shot-settle-time = <500>;
+				};
+			};
+
+			override@7 {
+				target = <&{/xusb@70090000}>;
+				_overlay_ {
+					avddio_pll_uerefe-supply = <&max77620_sd3>;
+				};
+			};
+
+			override@8 {
+				target = <&{/pinctrl@7009f000}>;
+				_overlay_ {
+					avdd_pll_uerefe-supply = <&max77620_sd3>;
+				};
+			};
+			override@9 {
+				target = <&{/dvfs}>;
+				_overlay_ {
+					nvidia,gpu-max-freq-khz = <1228800>;
+				};
+			};
+		};
+
+		fragement@1 {
+			ids = "2176-0211-*";
+			override@0 {
+				target = <&max77812>;
+				#address-cells = <1>;
+				#size-cells = <0>;
+				_overlay_ {
+					reg = <0x33>;
+				};
+			};
+
+			override@1 {
+				target = <&m3_max_reg>;
+				_overlay_ {
+					regulator-name = "vdd-cpu";
+				};
+			};
+
+			override@2 {
+				target = <&m4_max_reg>;
+				_overlay_ {
+					regulator-name = "vdd-lp4lv";
+					maxim,enable-forced-pwm-mode;
+				};
+			};
+
+			override@3 {
+				target = <&tegra_clk_dfll>;
+				_overlay_ {
+					vdd-cpu-supply = <&m3_max_reg>;
+				};
+			};
+			override@4 {
+				target = <&{/dvfs}>;
+				_overlay_ {
+					nvidia,gpu-max-freq-khz = <844800>;
+				};
+			};
+		};
+
+                fragement@2 {
+                        odm-data = "enable-tegra-wdt";
+                        override@0 {
+                                target = <&tegra_watchdog>;
+                                _overlay_ {
+                                        status = "okay";
+                                };
+                        };
+                };
+
+                fragement@3 {
+                        odm-data = "enable-pmic-wdt";
+                        override@0 {
+                                target = <&pmic_watchdog>;
+                                _overlay_ {
+                                        status = "okay";
+                                };
+                        };
+                };
+
+                fragement@4 {
+                        odm-data = "enable-tegra-wdt",
+				   "enable-pmic-wdt";
+                        override@0 {
+                                target = <&soft_wdt>;
+                                _overlay_ {
+                                        status = "disabled";
+                                };
+                        };
+                };
+
+		fragement@5 {
+			ids = "2175-*";
+			override@0 {
+				target = <&lpddr4_lv>;
+				_overlay_ {
+					status = "okay";
+				};
+			};
+		};
+
+		fragement@6 {
+			ids = "3320-*";
+			override@0 {
+				target = <&gpio_i2c_0_21>;
+				_overlay_ {
+					status = "okay";
+				};
+			};
+			override@1 {
+				target = <&display_bias_regulator>;
+				_overlay_ {
+					status = "okay";
+				};
+			};
+		};
+
+                fragement@7 {
+                        odm-data = "enable-high-speed-uart";
+                        override@0 {
+                                target = <&uarta>;
+                                _overlay_ {
+					compatible = "nvidia,tegra114-hsuart";
+					early-print-console-channel;
+					resets = <&tegra_car TEGRA210_CLK_UARTA>;
+					reset-names = "serial";
+                                };
+                        };
+                };
+
+		fragement@8 {
+			odm-data = "disable-usb3-host";
+			override@0 {
+				target = <&tegra_padctl_uphy_pinmux_default>;
+				_overlay_ {
+					usb3-std-A-J8110 {
+						status = "disabled";
+					};
+					usb3-std-A-J8120 {
+						status = "disabled";
+					};
+				};
+			};
+			override@1 {
+				target = <&{/xusb@70090000}>;
+				_overlay_ {
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+					phys = <&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-0}>,
+						<&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-1}>,
+						<&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-2}>,
+						<&{/xusb_padctl@7009f000/pads/usb2/lanes/usb2-3}>,
+						<&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-5}>;
+					phy-names = "usb2-0", "usb2-1", "usb2-2", "usb2-3", "usb3-0";
+#else
+					phy-names = "utmi-0", "utmi-1", "utmi-2", "utmi-3",
+						    "usb3-0";
+#endif
+				};
+			};
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+			override@2 {
+				target = <&{/xusb_padctl@7009f000}>;
+				_overlay_ {
+					pads {
+						pcie {
+							lanes {
+								pcie-1 {
+									nvidia,function = "pcie-x4";
+								};
+								pcie-4 {
+									nvidia,function = "pcie-x4";
+								};
+							};
+						};
+					};
+					ports {
+						usb3-1 {
+							status = "disabled";
+						};
+						usb3-2 {
+							status = "disabled";
+						};
+					};
+				};
+			};
+#endif
+		};
+
+		fragment@9 {
+			odm-data = "enable-pcie-x4";
+			override@0 {
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+				target = <&{/pcie-controller@1003000}>;
+				_overlay_ {
+					pci@1,0 {
+						phys = <&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-3}>,
+							<&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-2}>,
+							<&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-1}>,
+							<&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-4}>;
+						phy-names = "pcie-0", "pcie-1", "pcie-2", "pcie-3";
+						nvidia,num-lanes = <4>;
+					};
+				};
+#else
+				target = <&tegra_padctl_uphy_pinmux_default>;
+				_overlay_ {
+					pcie-0 {
+						nvidia,lanes = "uphy-lane-3", "uphy-lane-2",
+							       "uphy-lane-1", "uphy-lane-4";
+					};
+				};
+#endif
+			};
+			override@1 {
+				target = <&pca9535_5>;
+				_overlay_ {
+					pcie-mux-output-low {
+						gpios = <5 0 6 0 7 0>;
+						status = "okay";
+					};
+					pcie-mux-output-high {
+						status = "disabled";
+					};
+				};
+			};
+		};
+
+		fragment@10 {
+			odm-data = "enable-pcie-m2";
+			override@0 {
+				target = <&pca9535_5>;
+				_overlay_ {
+					pcie-mux-output-low {
+						gpios = <5 0 6 0>;
+						status = "okay";
+					};
+					pcie-mux-output-high {
+						gpios = <7 0>;
+						status = "okay";
+					};
+				};
+			};
+		};
+	};
+};

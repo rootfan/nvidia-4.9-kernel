@@ -1,0 +1,36 @@
+# Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type hal_sensors_tegra, domain;
+hal_server_domain(hal_sensors_tegra, hal_sensors)
+
+type hal_sensors_tegra_exec, exec_type, vendor_file_type, file_type;
+init_daemon_domain(hal_sensors_tegra)
+
+# allow accessing NVSensor socket files
+allow hal_sensors_tegra nvs_socket:dir rw_dir_perms;
+allow hal_sensors_tegra nvs_socket:sock_file { unlink create read write };
+
+allow hal_sensors_tegra sysfs_nvi2c:dir rw_dir_perms;
+allow hal_sensors_tegra sysfs_nvi2c:file rw_file_perms;
+
+#allow sensor hal to read/write iio devices
+allow hal_sensors_tegra iio_device:chr_file  rw_file_perms;
+
+allow hal_sensors_tegra sysfs_iio:file  rw_file_perms;
+
+allow hal_sensors_default fwk_scheduler_hwservice:hwservice_manager find;
+
+# sensor hal searches through sysfs, so we need to allow it to search all dirs
+r_dir_file(hal_sensors_tegra, sysfs_type)

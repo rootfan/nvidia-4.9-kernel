@@ -1,0 +1,27 @@
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# config_media.sh
+type config_media, domain;
+type config_media_exec, exec_type, file_type, vendor_file_type;
+
+# typeattribute config_media mlstrustedobject;
+init_daemon_domain(config_media)
+allow config_media system_data_file:file { getattr read };
+file_type_auto_trans(config_media, system_data_file, config_media_file);
+
+allow config_media vendor_shell_exec:file rx_file_perms;      # allow accessing vendor shell files
+allow config_media vendor_toolbox_exec:file rx_file_perms;    # allow accessing vendor toolbox files
+allow config_media system_file:file rx_file_perms;
+
+# allow config_media (for config_media.sh) to create files/dirs in /data/camera_config/
+allow config_media config_media_file:{ file lnk_file } create_file_perms;
+allow config_media config_media_file:dir create_dir_perms;
+
+# allow config_media to log kernel messages
+allow config_media kmsg_device:chr_file { open write };

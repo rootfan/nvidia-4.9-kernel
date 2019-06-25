@@ -1,0 +1,79 @@
+# Copyright (C) 2012 The Android Open Source Project
+
+# Copyright (c) 2014-2017 NVIDIA Corporation.  All Rights Reserved.
+#
+# NVIDIA Corporation and its licensors retain all intellectual property and
+# proprietary rights in and to this software and related documentation.  Any
+# use, reproduction, disclosure or distribution of this software and related
+# documentation without an express license agreement from NVIDIA Corporation
+# is strictly prohibited.
+
+# This file implements a very lean boot, suitable for running native tests
+# on pre-silicon platforms.
+
+import init.base.rc
+
+# Override some services to prevent them from starting at boot time.
+# Note that in init.rc the first definition of a service is the one that
+# takes precedence, and import commands are only processed after the current
+# file is completely parsed.
+
+service healthd /sbin/healthd
+    disabled
+
+service servicemanager /system/bin/servicemanager
+    class core
+    user system
+    group system readproc
+    critical
+    writepid /dev/cpuset/system-background/tasks
+
+service surfaceflinger /system/bin/surfaceflinger
+    disabled
+
+service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-system-server --socket-name=zygote
+    disabled
+
+service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary
+    disabled
+
+service drm /system/bin/drmserver
+    disabled
+
+service media /system/bin/mediaserver
+    disabled
+
+service installd /system/bin/installd
+    disabled
+
+service keystore /system/bin/keystore /data/misc/keystore
+    disabled
+
+service cameraserver /system/bin/cameraserver
+    disabled
+
+# Don't run the real boot animation, it slows down the system when explicitly
+# starting surfaceflinger.
+service bootanim /system/bin/true
+
+# File created by generate_full_filesystem.sh, only present when booting from
+# a ramdisk that contains the full Android filesystem.
+import /init.no_emmc.rc
+
+# Apply SELinux context to some subfolders of the rootfs, before mounting other
+# partitions.
+# This is required to get proper contexts on all files and services for pure
+# ramdisk boot (no EMMC).
+on early-fs
+    restorecon_recursive /data /system /vendor
+
+# Remount / rw after init.base.rc makes it ro.
+# For pure ramdisk boot, this is the only way to make /data, /system etc. writable.
+on post-fs-data
+    mount rootfs rootfs / rw remount
+
+# For simulator, always start adbd because we are not using usb connection
+# to trigger it
+on boot
+    start adbd
+

@@ -1,0 +1,101 @@
+/*
+ * arch/arm64/boot/dts/tegra210-platforms/tegra210-darcy-pci.dtsi
+ *
+ * Copyright (c) 2015, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ */
+/ {
+	pinmux@700008d4 {
+		pinmux_default: common {
+			pex_l0_rst_n_pa0 {
+				nvidia,pins = "pex_l0_rst_n_pa0";
+				nvidia,function = "pe0";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_DISABLE>;
+				nvidia,io-high-voltage = <TEGRA_PIN_DISABLE>;
+			};
+			pex_l0_clkreq_n_pa1 {
+				nvidia,pins = "pex_l0_clkreq_n_pa1";
+				nvidia,function = "pe0";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_DISABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+				nvidia,io-high-voltage = <TEGRA_PIN_DISABLE>;
+			};
+			pex_wake_n_pa2 {
+				nvidia,pins = "pex_wake_n_pa2";
+				nvidia,function = "pe";
+				nvidia,pull = <TEGRA_PIN_PULL_UP>;
+				nvidia,tristate = <TEGRA_PIN_ENABLE>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+				nvidia,io-high-voltage = <TEGRA_PIN_DISABLE>;
+			};
+		};
+	};
+
+	pcie-controller@1003000 {
+		compatible = "nvidia,tegra210b01-pcie";
+		/delete-property/ iommus;
+		nvidia,wake-gpio = <&gpio TEGRA_GPIO(A, 2) 0>;
+		dvdd-pex-pll-supply = <&max77620_ldo1>;
+		l0-dvddio-pex-supply = <&max77620_ldo1>;
+		l1-dvddio-pex-supply = <&max77620_ldo1>;
+		l2-dvddio-pex-supply = <&max77620_ldo1>;
+		l3-dvddio-pex-supply = <&max77620_ldo1>;
+		l4-dvddio-pex-supply = <&max77620_ldo1>;
+		l5-dvddio-pex-supply = <&max77620_ldo1>;
+		l6-dvddio-pex-supply = <&max77620_ldo1>;
+		hvdd-pex-pll-e-supply = <&max77620_sd3>;
+		l0-hvddio-pex-supply = <&max77620_sd3>;
+		l1-hvddio-pex-supply = <&max77620_sd3>;
+		l2-hvddio-pex-supply = <&max77620_sd3>;
+		l3-hvddio-pex-supply = <&max77620_sd3>;
+		l4-hvddio-pex-supply = <&max77620_sd3>;
+		l5-hvddio-pex-supply = <&max77620_sd3>;
+		l6-hvddio-pex-supply = <&max77620_sd3>;
+		vddio-pex-ctl-supply = <&max77620_sd3>;
+		status = "okay";
+
+		pci@1,0 {
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+			phys = <&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-3}>,
+				<&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-2}>;
+			phy-names = "pcie-0", "pcie-1";
+#endif
+			nvidia,num-lanes = <2>;
+			status = "okay";
+		};
+
+		pci@2,0 {
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+			phys = <&{/xusb_padctl@7009f000/pads/pcie/lanes/pcie-0}>;
+			phy-names = "pcie-0";
+#endif
+			nvidia,num-lanes = <1>;
+			status = "okay";
+		};
+
+		prod-settings {
+			prod_c_pad {
+				prod = <
+					0x000000C8 0xFFFFFFFF 0x00F8D0B8	// PADS_REFCLK_CFG0	31:0	0x00F8D0B8
+					0x000000D0 0x00000038 0x0		// PADS_REFCLK_BIAS	5:3	0x0
+				>;
+			};
+		};
+	};
+};

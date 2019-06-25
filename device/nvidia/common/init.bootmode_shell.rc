@@ -1,0 +1,91 @@
+# Copyright (C) 2012 The Android Open Source Project
+
+# Copyright (c) 2014-2017 NVIDIA Corporation.  All Rights Reserved.
+#
+# NVIDIA Corporation and its licensors retain all intellectual property and
+# proprietary rights in and to this software and related documentation.  Any
+# use, reproduction, disclosure or distribution of this software and related
+# documentation without an express license agreement from NVIDIA Corporation
+# is strictly prohibited.
+
+
+# This file implements support for stopping boot at the shell, with only the
+# most basic services started. The user can continue booting the UI by running
+# "adb shell start".
+
+import /init.base.rc
+
+# Report shell boot completion for tools such as sanity.
+
+service bootcomplete /system/bin/logwrapper /system/bin/sh -c "echo Shell Boot is finished"
+    # Print the boot completion message in class main. At that point
+    # services required for shell-only tests are up, as well as logcat.
+    class main
+    oneshot
+
+# Override some services to prevent them from starting at boot time.
+# Note that in init.rc the first definition of a service is the one that
+# takes precedence, and import commands are only processed after the current
+# file is completely parsed.
+
+service servicemanager /system/bin/servicemanager
+    class core
+    user system
+    group system readproc
+    critical
+    onrestart restart healthd
+#   onrestart restart zygote
+#   onrestart restart audioserver
+#   onrestart restart media
+#   onrestart restart surfaceflinger
+    onrestart restart inputflinger
+    onrestart restart drm
+#   onrestart restart cameraserver
+    writepid /dev/cpuset/system-background/tasks
+
+service surfaceflinger /system/bin/surfaceflinger
+    class core
+    user system
+    group graphics drmrpc readproc
+#   onrestart restart zygote
+    writepid /dev/stune/foreground/tasks
+    disabled
+
+service media /system/bin/mediaserver
+    class main
+    user media
+    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm
+    ioprio rt 4
+    writepid /dev/cpuset/foreground/tasks /dev/stune/foreground/tasks
+    disabled
+
+service cameraserver /system/bin/cameraserver
+    disabled
+
+service zygote /system/bin/app_process64 -Xzygote /system/bin --zygote --start-system-server --socket-name=zygote
+    class main
+    socket zygote stream 660 root system
+    onrestart write /sys/android_power/request_state wake
+    onrestart write /sys/power/state on
+    onrestart restart audioserver
+    onrestart restart cameraserver
+    onrestart restart media
+    onrestart restart netd
+    writepid /dev/cpuset/foreground/tasks
+    disabled
+
+service zygote_secondary /system/bin/app_process32 -Xzygote /system/bin --zygote --socket-name=zygote_secondary
+    class main
+    socket zygote_secondary stream 660 root system
+    onrestart restart zygote
+    writepid /dev/cpuset/foreground/tasks
+    disabled
+
+# Media is not explicitly started/stopped by toolbox's commands start/stop.
+# We tie it to Zygote.
+
+on property:init.svc.zygote=running
+    start media
+
+on property:init.svc.zygote=stopped
+    stop media

@@ -1,0 +1,8 @@
+ro.nv.usb.pid.mtp=EE02
+ro.nv.usb.pid.mtp.adb=EE03
+ro.nv.usb.pid.ptp=EE04
+ro.nv.usb.pid.ptp.adb=EE05
+ro.nv.usb.pid.midi=EE06
+ro.nv.usb.pid.midi.adb=EE07
+ro.nv.usb.pid.rndis=EE08
+ro.nv.usb.pid.rndis.adb=EE09

@@ -1,0 +1,33 @@
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set_prop(hal_audio_default, audio_prop)
+
+allow hal_audio_default stats_share_file:dir create_dir_perms;
+allow hal_audio_default stats_share_file:file create_file_perms;
+
+allow hal_audio_default halaudio_data_file:dir create_dir_perms;
+allow hal_audio_default halaudio_data_file:file create_file_perms;
+
+# hal_audio_default searches through sysfs, so we need to allow it to search all dirs we retag
+r_dir_file(hal_audio_default, sysfs_ozmo);
+r_dir_file(hal_audio_default, sysfs_hdmi_audio);
+r_dir_file(hal_audio_default, sysfs_dp_audio);
+
+# for receiving hotword uevent
+allow hal_audio_default self:netlink_kobject_uevent_socket { create setopt bind read };
+
+# for reading im501 char device
+allow hal_audio_default im501_spi_device:chr_file { rw_file_perms };
+allow hal_audio_default im501_pcm_device:chr_file { rw_file_perms };

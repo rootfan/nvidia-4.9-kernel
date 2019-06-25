@@ -1,0 +1,88 @@
+# Copyright (c) 2016-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#Device access permissions
+allow cameraserver gpu_device:chr_file rw_file_perms;
+allow cameraserver camera_device:chr_file rw_file_perms;
+
+# Camera data files
+allow cameraserver nv_camera_data_file:dir create_dir_perms;
+allow cameraserver nv_camera_data_file:file create_file_perms;
+
+# NVSensor socket files
+allow cameraserver nvs_socket:dir rw_dir_perms;
+allow cameraserver nvs_socket:sock_file rw_file_perms;
+
+# Argus socket server
+allow cameraserver argus_socket:dir rw_dir_perms;
+allow cameraserver argus_socket:sock_file create_file_perms;
+
+# cameraserver searches through sysfs, so we need to allow it to search all dirs we retag
+r_dir_file(cameraserver, sysfs)
+r_dir_file(cameraserver, sysfs_soc)
+allow cameraserver sysfs_tegra_gpu:file r_file_perms;
+allow cameraserver sysfs_tegra_emc:file r_file_perms;
+
+allow cameraserver tmpfs:dir search;
+
+# Allow cameraserver read write and connect access to system_server
+# It needs to access the sensors as video stabilization uses
+# the sensor data
+allow cameraserver system_server:unix_stream_socket { read write connectto };
+
+# Perform binder IPC to system_server
+binder_call(cameraserver, system_server)
+
+allow_use_phs(cameraserver)
+
+r_dir_file(cameraserver, factory_file)
+r_dir_file(cameraserver, proc)
+r_dir_file(cameraserver, proc_meminfo)
+allow cameraserver media_data_file:dir create_dir_perms;
+allow cameraserver media_data_file:file create_file_perms;
+allow cameraserver system_file:dir r_dir_perms;
+
+# Allow cameraserver to read files/dirs in sysfs_pci_device
+r_dir_file(cameraserver, sysfs_pci_device)
+
+# Allow cameraserver to access system app services using service manager
+allow cameraserver system_app_service:service_manager find;
+allow cameraserver nvphsd_service:service_manager find;
+
+# Allow cameraserver to access sensor service to get orientation and
+# video stabilization data.
+allow cameraserver sensorservice_service:service_manager find;
+allow cameraserver power_service:service_manager find;
+
+# Allow access to blake video files
+allow cameraserver oem_media_file:file { read getattr };
+
+# Allow to write to nvfeedback log file
+allow cameraserver anr_data_file:file write;
+
+#Allow process to perform mmap
+allow cameraserver self:process execmem;
+
+# Allow sending hints to PHS
+allow_use_phs(cameraserver);
+
+# Allow GL to access ptimer_scale_factor
+allow cameraserver sysfs_gpu:file r_file_perms;
+
+# allow cameraserver to read files/dirs in /data/camera_config/
+r_dir_file(cameraserver, camera_config_file)
+
+# allow cameraserver to read /dev folder for scanning /dev/capture-isp-channel*
+allow cameraserver device:dir r_dir_perms;
+

@@ -1,0 +1,849 @@
+<html xmlns:ns0="urn-legalmacpac-data/10">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
+<!-- Copyright (c) 2013, NVIDIA CORPORATION.  All rights reserved. -->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Arial Narrow";
+	panose-1:2 11 6 6 2 2 2 3 2 4;}
+@font-face
+	{font-family:Garamond;
+	panose-1:2 2 4 4 3 3 1 1 8 3;}
+@font-face
+	{font-family:Times;
+	panose-1:2 2 6 3 5 4 5 2 3 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoFootnoteText, li.MsoFootnoteText, div.MsoFootnoteText
+	{mso-style-link:"Footnote Text Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-link:"Header Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-link:"Footer Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.MsoFootnoteReference
+	{vertical-align:super;}
+a:link, span.MsoHyperlink
+	{color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{color:#009966;
+	text-decoration:underline;}
+p
+	{margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Balloon Text Char";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.MsoPlaceholderText
+	{color:gray;}
+p.MsoNoSpacing, li.MsoNoSpacing, div.MsoNoSpacing
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText, li.O-BodyText, div.O-BodyText
+	{mso-style-name:"O-Body Text \(\)\,1Body\,s1";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyTextDS, li.O-BodyTextDS, div.O-BodyTextDS
+	{mso-style-name:"O-Body Text \(DS\)\,2Body\,s28";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyTextJ, li.O-BodyTextJ, div.O-BodyTextJ
+	{mso-style-name:"O-Body Text \(J\)\,3Body\,s13";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5, li.O-BodyText5, div.O-BodyText5
+	{mso-style-name:"O-Body Text \.5\0022\,1Half\,s2";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-indent:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5DS, li.O-BodyText5DS, div.O-BodyText5DS
+	{mso-style-name:"O-Body Text \.5” \(DS\)\,2Half\,s29";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-indent:.5in;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText5J, li.O-BodyText5J, div.O-BodyText5J
+	{mso-style-name:"O-Body Text \.5” \(J\)\,3Half\,s14";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1, li.O-BodyText1, div.O-BodyText1
+	{mso-style-name:"O-Body Text 1\0022\,1Full\,s3";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-indent:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1DS, li.O-BodyText1DS, div.O-BodyText1DS
+	{mso-style-name:"O-Body Text 1” \(DS\)\,2Full\,s30";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-indent:1.0in;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-BodyText1J, li.O-BodyText1J, div.O-BodyText1J
+	{mso-style-name:"O-Body Text 1” \(J\)\,3Full\,s15";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:justify;
+	text-indent:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet, li.O-Bullet, div.O-Bullet
+	{mso-style-name:"O-Bullet \(\)\,1Bullet\,s4";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.25in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet5, li.O-Bullet5, div.O-Bullet5
+	{mso-style-name:"O-Bullet \.5\0022\,2Bullet\,s26";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.75in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Bullet1, li.O-Bullet1, div.O-Bullet1
+	{mso-style-name:"O-Bullet 1\0022\,3Bullet\,s27";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:1.25in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Indent5, li.O-Indent5, div.O-Indent5
+	{mso-style-name:"O-Indent \.5\0022\,Half Indent\,s5";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Indent1, li.O-Indent1, div.O-Indent1
+	{mso-style-name:"O-Indent 1\0022\,Full Indent\,s6";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Quote, li.O-Quote, div.O-Quote
+	{mso-style-name:"O-Quote \(\)\,1Quote\,s7";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-QuoteDS, li.O-QuoteDS, div.O-QuoteDS
+	{mso-style-name:"O-Quote \(DS\)\,2Quote\,s17";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:0in;
+	margin-left:1.0in;
+	margin-bottom:.0001pt;
+	line-height:200%;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-QuoteJ, li.O-QuoteJ, div.O-QuoteJ
+	{mso-style-name:"O-Quote \(J\)\,3Quote\,s16";
+	margin-top:0in;
+	margin-right:1.0in;
+	margin-bottom:12.0pt;
+	margin-left:1.0in;
+	text-align:justify;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-SignatureLA, li.O-SignatureLA, div.O-SignatureLA
+	{mso-style-name:"O-Signature \(LA\)\,Sig \(LA\)\,s18";
+	margin-top:.5in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:27.35pt;
+	text-indent:-27.35pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Signature, li.O-Signature, div.O-Signature
+	{mso-style-name:"O-Signature\,Sigs\,s12";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:3.0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-Title3, li.O-Title3, div.O-Title3
+	{mso-style-name:"O-Title 3\,3Title\,s22";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-TITLE, li.O-TITLE, div.O-TITLE
+	{mso-style-name:"O-TITLE\,1Title\,s10";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;}
+p.O-Title6, li.O-Title6, div.O-Title6
+	{mso-style-name:"O-Title 6\,6Title\,s11";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;}
+p.O-Title7, li.O-Title7, div.O-Title7
+	{mso-style-name:"O-Title 7\,7Title\,s19";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-Title5, li.O-Title5, div.O-Title5
+	{mso-style-name:"O-Title 5\,5Title\,s8";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;
+	text-decoration:underline;}
+p.O-Title2, li.O-Title2, div.O-Title2
+	{mso-style-name:"O-Title 2\,2Title\,s20";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-weight:bold;}
+span.FootnoteTextChar
+	{mso-style-name:"Footnote Text Char";
+	mso-style-link:"Footnote Text";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+p.Parties, li.Parties, div.Parties
+	{mso-style-name:Parties;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	text-align:justify;
+	text-indent:-.5in;
+	line-height:15.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.Background, li.Background, div.Background
+	{mso-style-name:Background;
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:.5in;
+	text-align:justify;
+	text-indent:-.5in;
+	line-height:15.0pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.OPDFooter, li.OPDFooter, div.OPDFooter
+	{mso-style-name:"O PD Footer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:right;
+	font-size:9.0pt;
+	font-family:"Arial Narrow","sans-serif";}
+p.OResumeArticlesNoBullets, li.OResumeArticlesNoBullets, div.OResumeArticlesNoBullets
+	{mso-style-name:"O Resume Articles No Bullets";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeArticlesBullets, li.OResumeArticlesBullets, div.OResumeArticlesBullets
+	{mso-style-name:"O Resume Articles Bullets";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:.5in;
+	text-indent:-.25in;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeArticlesHeading, li.OResumeArticlesHeading, div.OResumeArticlesHeading
+	{mso-style-name:"O Resume Articles Heading";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";
+	font-weight:bold;}
+p.OResumeArticlesLeadin, li.OResumeArticlesLeadin, div.OResumeArticlesLeadin
+	{mso-style-name:"O Resume Articles Leadin";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	text-indent:9.0pt;
+	page-break-after:avoid;
+	font-size:11.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeAttorneyID, li.OResumeAttorneyID, div.OResumeAttorneyID
+	{mso-style-name:"O Resume Attorney ID";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeBodyText, li.OResumeBodyText, div.OResumeBodyText
+	{mso-style-name:"O Resume Body Text";
+	margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Garamond","serif";}
+p.OResumeBulletQualification, li.OResumeBulletQualification, div.OResumeBulletQualification
+	{mso-style-name:"O Resume Bullet Qualification";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:9.0pt;
+	text-indent:-9.0pt;
+	font-size:11.0pt;
+	font-family:"Garamond","serif";}
+span.OResumeClientCaseProjectName
+	{mso-style-name:"O Resume Client\/Case\/Project Name";
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.OResumeContactInformation, li.OResumeContactInformation, div.OResumeContactInformation
+	{mso-style-name:"O Resume Contact Information";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.35pt;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeEmail, li.OResumeEmail, div.OResumeEmail
+	{mso-style-name:"O Resume Email";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:.25in;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";
+	font-style:italic;}
+p.OResumeFooter, li.OResumeFooter, div.OResumeFooter
+	{mso-style-name:"O Resume Footer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	text-align:right;
+	line-height:10.0pt;
+	font-size:9.0pt;
+	font-family:"Arial Narrow","sans-serif";}
+p.OResumeName, li.OResumeName, div.OResumeName
+	{mso-style-name:"O Resume Name";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:16.0pt;
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.OResumeSidebar, li.OResumeSidebar, div.OResumeSidebar
+	{mso-style-name:"O Resume Sidebar";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:6.0pt;
+	margin-left:0in;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeSidebarBullet, li.OResumeSidebarBullet, div.OResumeSidebarBullet
+	{mso-style-name:"O Resume Sidebar Bullet";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:0in;
+	margin-left:9.0pt;
+	margin-bottom:.0001pt;
+	text-indent:-9.0pt;
+	font-size:8.0pt;
+	font-family:"Arial","sans-serif";}
+p.OResumeSidebarHead, li.OResumeSidebarHead, div.OResumeSidebarHead
+	{mso-style-name:"O Resume Sidebar Head";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:9.0pt;
+	font-family:"Arial","sans-serif";
+	font-weight:bold;}
+p.O-Title4, li.O-Title4, div.O-Title4
+	{mso-style-name:"O-Title 4\,4Title\,s9";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-decoration:underline;}
+p.O-Title8, li.O-Title8, div.O-Title8
+	{mso-style-name:"O-Title 8\,8Title\,s23";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	font-style:italic;}
+span.HeaderChar
+	{mso-style-name:"Header Char";
+	mso-style-link:Header;}
+span.FooterChar
+	{mso-style-name:"Footer Char";
+	mso-style-link:Footer;}
+p.O-Center, li.O-Center, div.O-Center
+	{mso-style-name:"O-Center\,Center\,s21";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	text-align:center;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+p.O-TITLE9, li.O-TITLE9, div.O-TITLE9
+	{mso-style-name:"O-TITLE 9\,9TITLE\,s31";
+	margin-top:0in;
+	margin-right:0in;
+	margin-bottom:12.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	text-transform:uppercase;
+	font-weight:bold;}
+p.indent, li.indent, div.indent
+	{mso-style-name:indent;
+	margin-right:0in;
+	margin-left:0in;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+span.apple-converted-space
+	{mso-style-name:apple-converted-space;}
+p.MacPacTrailer, li.MacPacTrailer, div.MacPacTrailer
+	{mso-style-name:"MacPac Trailer";
+	margin:0in;
+	margin-bottom:.0001pt;
+	line-height:10.0pt;
+	font-size:8.0pt;
+	font-family:"Times New Roman","serif";}
+.MsoChpDefault
+	{font-size:12.0pt;}
+.MsoPapDefault
+	{margin-bottom:12.0pt;}
+ /* Page Definitions */
+ @page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US link=blue vlink="#009966">
+<!-- Copyright (c) 2013, NVIDIA CORPORATION.  All rights reserved. -->
+
+<div class=WordSection1>
+
+<p class=MsoNormal align=center style='text-align:center;line-height:15.75pt;
+background:white'><b><font size=4 color=black face=Calibri><span
+style='font-size:14.0pt;font-family:"Calibri","sans-serif";color:black;
+font-weight:bold'>SHIELD SOFTWARE LICENSE AGREEMENT</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>PLEASE READ THIS ENTIRE AGREEMENT AND INDICATE
+WHETHER YOU AGREE TO ITS TERMS BY CLICKING THE &ldquo;ACCEPT&rdquo; BUTTON. YOUR USE
+OF YOUR SHIELD DEVICE (&ldquo;DEVICE&rdquo;) IS EXPRESSLY CONDITIONED UPON YOUR ACCEPTANCE
+OF THE TERMS OF THIS AGREEMENT. IF YOU DO NOT CLICK THE &ldquo;ACCEPT&rdquo; BUTTON, YOU
+WILL NOT BE ABLE TO ACCESS THE DEVICE.</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>THIS AGREEMENT IS A CONTRACT BETWEEN YOU AND
+NVIDIA CORPORATION (&ldquo;NVIDIA&rdquo;) AND CAN BE ACCEPTED ONLY BY AN ADULT OF LEGAL AGE
+OF MAJORITY IN THE COUNTRY IN WHICH YOUR NVIDIA SERVICES ACCOUNT IS
+REGISTERED.&nbsp;</span></font></b><font size=2 color=black face=Calibri><span
+style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>If you
+are under the legal age of majority, you must ask your parent or legal guardian
+to consent to this Agreement. By clicking the &ldquo;ACCEPT&rdquo; button yourself, you
+affirm that you have reached the legal age of majority and you accept this
+Agreement. You also affirm that you are accepting this Agreement on behalf of,
+and all legal and financial responsibility and liability for the actions of your
+child, if applicable, and you hereby expressly ratify and confirm any acts of
+your child and all users of the Device.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>The software, firmware and any data that came with your Device (the
+&ldquo;Software&rdquo;), as may be updated by software updates, patches, upgrades
+or new versions from NVIDIA at its sole discretion, are licensed, not sold, to
+you by NVIDIA for use only under the terms of this Agreement. NVIDIA and its
+licensors retain ownership of the Software itself and reserve all rights not
+expressly granted to you.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>1. GENERAL LICENSE RESTRICTIONS AND TERMS</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>Subject to the terms and conditions of this Agreement, NVIDIA and
+its licensors grant you a personal, revocable, non-exclusive limited right to
+use the Software solely on your Device. You may not sell, rent, sublicense,
+modify, adapt, translate, reverse engineer, decompile, or disassemble any
+portion of the Software. Except as stated in this Agreement, you may not
+reproduce or transfer any portion of the Software. You may not create any
+derivative works, attempt to create the source code from the object code, or
+download or use the Software for any purpose other than as expressly permitted.
+You may not bypass, disable, or circumvent any encryption, security, digital
+rights management or authentication mechanism in the Software. You may only
+transfer the Software and your license rights in the Software under this
+Agreement in connection with the transfer of ownership of your Device and the
+person receiving the Device and the Software reads and agrees to accept the
+terms of this Agreement. The Software is not licensed to you for resale,
+public performance, display, distribution or broadcast. You acknowledge that
+some content providers and licensors are intended third party beneficiaries who
+have rights to enforce this Agreement against you and your permitted users.
+Except as expressly granted in this Agreement, NVIDIA and its licensors reserve
+all rights, interests, and remedies in connection with the Software.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>2. MAINTENANCE AND UPGRADES</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>NVIDIA may occasionally provide certain patches, updates or upgrades
+to your Device. Such upgrades or updates may be provided for system software
+for your Shield or other NVIDIA-authorized hardware. You authorize NVIDIA to
+provide such content and agree that NVIDIA shall not be liable for any damages,
+loss of data or loss of functionalities arising from provision of such content
+or maintenance services. It is recommended that you regularly back up any
+archivable data.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>3. TERMINATION/CANCELLATION</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>This Agreement is effective until terminated. Your rights under
+this Agreement will terminate automatically or otherwise cease to be effective
+without notice from NVIDIA if you fail to comply with any term(s) of this
+Agreement. Upon the termination of this Agreement, you shall cease all use of
+the Software.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>4. ADDITIONAL SERVICES AND THIRD PARTY MATERIALS</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>The Software may enable access to the TegraZone site, Google Play
+and other NVIDIA and third party services and web sites (collectively and
+individually, &ldquo;Additional Services&rdquo;). Such Additional Services may
+not be available in all languages or in all countries. Use of the Additional
+Services requires Internet access and use of certain Additional Services may
+require an NVIDIA, Google or other user account, may require you to accept
+additional terms and may be subject to additional fees. </span></font><font
+size=2 face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>NVIDIA
+does not endorse or assume any responsibility for any third-party sites,
+information, materials, products, or services. If you access a third party
+website from the Device, you do so at your own risk, and you understand that
+this Agreement and NVIDIA&#39;s Privacy Policy do not apply to your use of such
+sites. You expressly relieve NVIDIA from any and all liability arising from
+your use of any third-party website, service, or content.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>5. PHOTOSENSITIVITY NOTICE</span></font></b></p>
+
+<p class=MsoNormal style='margin-top:6.0pt;margin-right:0in;margin-bottom:6.0pt;
+margin-left:0in;line-height:15.75pt;background:white'><font size=2 color=black
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black'>A very small percentage of individuals may experience epileptic
+seizures or blackouts when exposed to certain light patterns or flashing
+lights. Exposure to certain patterns or backgrounds on a television screen or
+when playing content such as video games may trigger epileptic seizures or
+blackouts in these individuals. These conditions may trigger previously
+undetected epileptic symptoms or seizures in persons who have no history of
+prior seizures or epilepsy. If you or anyone in your family has an epileptic
+condition or has had seizures of any kind, consult your physician before
+playing. IMMEDIATELY DISCONTINUE use and consult your physician before resuming
+play. If you or your child experience any of the following health problems or
+symptoms: dizziness; altered vision; eye or muscle twitches; loss of awareness;
+disorientation; seizures or any involuntary movement or convulsion. RESUME PLAY
+ONLY ON APPROVAL OF YOUR PHYSICIAN. Stop using the content or the Device
+immediately if you experience any of the following symptoms: lightheadedness,
+nausea, or a sensation similar to motion sickness, discomfort or pain in the
+eyes, ears, hands, arms, or any other part of the body. If the condition
+persists, consult a doctor.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>6. INDEMNITY</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>You
+agree to defend, indemnify and hold harmless NVIDIA and its subsidiaries,
+agents, licensors, managers, and other affiliated companies, and their
+employees, contractors, agents, officers and directors, from and against any
+and all claims, damages, obligations, losses, liabilities, costs or debt, and
+expenses (including but not limited to attorney&#39;s fees) arising out of or
+related to: (i) your violation of any term of this Agreement, including without
+limitation your breach of any of the representations and warranties above; (ii)
+your violation of any third-party right, including without limitation any right
+of privacy or intellectual property rights; (iii) your violation of any
+applicable law, rule or regulation; or (v) negligent or willful misconduct.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>7. DISCLAIMER OF WARRANTIES</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>THE
+SOFTWARE IS PROVIDED ON AN &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; BASIS. USE OF THE SOFTWARE
+IS AT YOUR OWN RISK. TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE SOFTWARE
+ARE PROVIDED WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED,
+INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. WITHOUT LIMITING THE FOREGOING,
+NVIDIA, ITS SUBSIDIARIES, ITS AFFILIATES, AND ITS LICENSORS DO NOT WARRANT THAT
+ANY CONTENT IS ACCURATE, RELIABLE OR CORRECT; THAT THE SOFTWARE WILL MEET YOUR
+REQUIREMENTS; THAT ANY DEFECTS OR ERRORS WILL BE CORRECTED; OR THAT THE SOFTWARE
+ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. ANY CONTENT DOWNLOADED OR
+OTHERWISE OBTAINED THROUGH THE USE OF THE DEVICEARE DOWNLOADED AT YOUR OWN RISK
+AND YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR DEVICE, COMPUTER
+SYSTEM OR LOSS OF DATA THAT RESULTS FROM YOUR USE OF THE DEVICE.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>SOME
+COUNTRIES, PROVINCES OR STATES MAY NOT ALLOW THE EXCLUSION OF IMPLIED
+WARRANTIES, SO THE ABOVE EXCLUSIONS MAY NOT APPLY TO YOU. THIS AGREEMENT GIVES
+YOU SPECIFIC LEGAL RIGHTS, AND YOU MAY ALSO HAVE OTHER RIGHTS WHICH VARY BY
+JURISDICTION. THE DISCLAIMERS AND EXCLUSIONS UNDER THIS AGREEMENT WILL NOT
+APPLY TO THE EXTENT PROHIBITED BY APPLICABLE LAW.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>NVIDIA
+DOES NOT WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR ANY
+ADDITIONAL SERVICES OFFERED BY A THIRD PARTY THROUGH THE DEVICE AND NVIDIA WILL
+NOT BE A PARTY TO OR IN ANY WAY MONITOR ANY TRANSACTION BETWEEN YOU AND
+THIRD-PARTY PROVIDERS OF ADDITIONAL SERVICES.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>8. LIMITATION OF LIABILITY</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>IN
+NO EVENT SHALL NVIDIA BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+PUNITIVE, OR CONSEQUENTIAL DAMAGES OF ANY NATURE INCLUDING, BUT NOT LIMITED TO,
+LOSS OF PROFITS, DATA, REVENUE, PRODUCTION, OR USE, BUSINESS INTERRUPTION, OR
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES ARISING OUT OF OR IN CONNECTION
+WITH THIS LIMITED WARRANTY, OR THE USE OR PERFORMANCE OF ANY PRODUCT, WHETHER
+BASED ON CONTRACT OR TORT, INCLUDING NEGLIGENCE, OR ANY OTHER LEGAL THEORY,
+EVEN IF NVIDIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. NVIDIA'S
+TOTAL AGGREGATE LIABILITY FOR DAMAGES OF ANY NATURE, REGARDLESS OF FORM OF
+ACTION, SHALL IN NO EVENT EXCEED THE AMOUNT PAID BY YOU TO NVIDIA FOR THE
+DEVICE UPON WHICH LIABILITY IS BASED. SOME STATES AND JURISDICTIONS DO NOT
+ALLOW FOR THE EXCLUSION OR LIMITATION OF INCIDENTAL OR CONSEQUENTIAL DAMAGES,
+SO THIS LIMITATION AND EXCLUSION MAY NOT APPLY TO YOU.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>WITHOUT
+LIMITING THE GENERALITY OF THE ABOVE DISCLAIMERS, NVIDIA DOES NOT WARRANT ANY
+SOFTWARE APPLICATIONS UNDER THESE TERMS AND CONDITIONS. WARRANTIES, IF ANY, FOR
+SOFTWARE ARE CONTAINED IN THE APPLICABLE LICENSE AGREEMENT WHICH ACCOMPANIES
+THE WARRANTED SOFTWARE. </span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+15.75pt;background:white'><b><font size=2 color=black face=Calibri><span
+style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black;
+font-weight:bold'>9. </span></font></b><b><font size=2 face=Calibri><span
+style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black;font-weight:bold'>GOVERNING
+LAW AND YOUR RIGHTS</span></font></b><font size=2 face=Calibri><span
+style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'><br>
+<br>
+</span></font></p>
+
+<p class=MsoNormal style='margin-bottom:0in;margin-bottom:.0001pt;line-height:
+15.75pt;background:white'><font size=2 face=Calibri><span style='font-size:
+11.0pt;font-family:"Calibri","sans-serif";color:black'>This Agreement gives you specific
+legal rights. You may also have other rights which vary from state to state,
+and jurisdiction to jurisdiction. You hereby agree to all terms of this
+warranty in the English language. The United Nations Convention on Contracts
+for the International Sale of Goods does not apply to this warranty and is
+strictly excluded. This warranty and all disputes that may arise from it arise
+out of the sale of a product in interstate commerce and shall be governed by
+the Federal Arbitration Act, in addition to the internal substantive laws of
+the State of Delaware, without respect to its conflict of laws principles. You
+agree to submit to the personal jurisdiction of the federal and state courts
+located in Santa Clara County, California for any actions arising from or
+related to this Agreement. </span></font></p><p></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><b><font
+size=2 color=black face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";
+color:black;font-weight:bold'>10. GENERAL</span></font></b></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>This
+Agreement, and any rights and licenses granted hereunder, may not be
+transferred or assigned by you, but may be assigned by NVIDIA without
+restriction. Any attempted transfer or assignment in violation hereof shall be
+null and void.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>This
+Agreement, together with any amendments and any additional agreements you may
+enter into with NVIDIA in connection with the Software, shall constitute the
+entire agreement between you and NVIDIA concerning the Software. If any
+provision of this Agreement is deemed invalid by a court of competent
+jurisdiction, the invalidity of such provision shall not affect the validity of
+the remaining provisions of this Agreement, which shall remain in full force
+and effect.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>No
+waiver of any term of this Agreement shall be deemed a further or continuing
+waiver of such term or any other term, and NVIDIA&#39;s failure to assert any right
+or provision under this Agreement shall not constitute a waiver of such right
+or provision.</span></font></p>
+
+<p class=MsoNormal style='line-height:15.75pt;background:white'><font size=2
+face=Calibri><span style='font-size:11.0pt;font-family:"Calibri","sans-serif";color:black'>If
+the Software is licensed to the United States government or any agency thereof,
+then the Software will be deemed to be &ldquo;commercial computer software&rdquo; and &ldquo;commercial
+computer software documentation,&rdquo; respectively, pursuant to DFAR Section
+227.7202 and FAR Section 12.212, as applicable. Any use, reproduction,
+release, performance, display or disclosure of the Software and any
+accompanying documentation by the U.S. Government will be governed solely by this
+Agreement and is prohibited except to the extent expressly permitted by this
+Agreement.</span></font></p>
+
+<p class=MsoNormal><font size=3 face=Calibri><span style='font-size:12.0pt;
+font-family:"Calibri","sans-serif";color:black'>&nbsp;</span></font></p>
+
+</div>
+
+</body>
+
+</html>

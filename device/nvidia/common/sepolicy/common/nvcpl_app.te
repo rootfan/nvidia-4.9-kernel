@@ -1,0 +1,125 @@
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type nvcpl_app, domain;
+app_domain(nvcpl_app)
+
+allow nvcpl_app cvc_data_file:dir r_dir_perms;
+allow nvcpl_app cvc_data_file:file rw_file_perms;
+allow nvcpl_app keylayout_data_file:file create_file_perms;
+allow nvcpl_app keylayout_data_file:dir rw_dir_perms;
+
+# Allow nvcpl to read /proc/device-tree/compatible
+r_dir_file(nvcpl_app, proc)
+
+# /dev/constraint_*
+allow nvcpl_app pmqos_device:{ file chr_file } rw_file_perms;
+
+# /dev/tegra_dc_*
+allow nvcpl_app tegradc_device:chr_file rw_file_perms;
+
+# allow nvcpl accessing power related dirs/files such as /dev/cpu_freq_min, cpu_freq_max
+allow nvcpl_app device:dir r_dir_perms;
+
+allow nvcpl_app nvcpl_app_service:service_manager add;
+allow nvcpl_app activity_service:service_manager find;
+allow nvcpl_app connectivity_service:service_manager find;
+allow nvcpl_app display_service:service_manager find;
+allow nvcpl_app network_management_service:service_manager find;
+allow nvcpl_app sensorservice_service:service_manager find;
+allow nvcpl_app user_service:service_manager find;
+allow nvcpl_app power_service:service_manager find;
+allow nvcpl_app hal_power_hwservice:hwservice_manager find;
+allow nvcpl_app mount_service:service_manager find;
+allow nvcpl_app content_service:service_manager find;
+allow nvcpl_app device_identifiers_service:service_manager find;
+
+allow nvcpl_app hal_power_tegra:binder call;
+
+# ==== START sysfs rules =====
+
+# Allow nvcpl to read /sys/module/tcp_output/parameters/tcp_window_divisor
+allow nvcpl_app sysfs_tcp_window_divisor:file rw_file_perms;
+
+allow nvcpl_app sysfs_gpu_freq_limit:file r_file_perms;
+allow nvcpl_app sysfs_devices_system_cpu:file write;
+
+# Allow nvcpl to read from sysfs: /sys/devices/platform/gpu.0/fmax_at_vmin_safe
+r_dir_file(nvcpl_app, sysfs)
+
+# /sys/devices/virtual/thermal/...
+allow nvcpl_app sysfs_thermal:{ file lnk_file } rw_file_perms;
+allow nvcpl_app sysfs_thermal:dir r_dir_perms;
+
+# /sys/devices/platform/host1x/tegradc.0/smartdimmer/...
+allow nvcpl_app sysfs_smartdimmer:file rw_file_perms;
+
+# /sys/devices/platform/pwm-fan.*
+allow nvcpl_app sysfs_pwm_fan:file rw_file_perms;
+
+# /sys/devices/platform/host1x/tegradc.0/cmu_enable
+allow nvcpl_app sysfs_cmu:file rw_file_perms;
+
+# Allow nvcpl_app to r/w to downgrade usb3 nodes
+allow nvcpl_app sysfs_usb_blacklist:file rw_file_perms;
+
+# Variable refresh rate: /sys/devices/platform/host1x/tegradc.[0-1]/vrr(/.*)
+allow nvcpl_app sysfs_vrr:file rw_file_perms;
+
+# ==== END sysfs rules =====
+
+# allow nvcpl to read and write to system property
+#  persist.sys.NV_ECO.STATE.ISECO
+#  persist.sys.NV_ECO.IF.CHARGING
+#  persist.sys.pbc.inf.game.mode
+#  persist.sys.pbc.inf.socthres
+#  persist.sys.tnreport.enable
+#  persist.sys.NV_STEREOCTRL
+#  persist.sys.NV_STEREOMETHOD
+#  persist.sys.NV_STEREOSEP
+#  persist.sys.NV_STEREOSEPCHG
+#  persist.sys.NV_STEREOCONV
+#  persist.sys.NV_STEREOCUTOFF
+#  persist.sys.NV_STEREOCUTOFFDIR
+#  persist.sys.tegra.74095214
+#  persist.sys.NV_USBHOST
+#  persist.sys.hdmi.allowRot
+#  persist.sys.hdmi.overscan
+#  persist.sys.NV_PBC_PWR_LIMIT
+#  persist.sys.NV_MIRROR_MODE
+#  persist.sys.NV_CINEMA_MODE
+#  persist.sys.NV_VIDEO_MODE
+#  persist.sys.display.resolution
+#  persist.tegra.hdmi.resolution
+#  persist.sys.drm_error_popup
+#  persist.sys.hdmi.videoview
+#  persist.sys.cinemamode
+#  persist.sys.NV_CAMERA_AOHDR_DENOISE
+#  persist.sys.NV_CAMERA_AOHDR_STYLE
+#  persist.sys.NV_CAMERA_AOHDR_ENABLE
+#  persist.sys.dpy0.prism
+#  persist.sys.tnreport.enable
+#  persist.sys.NV_TCPDIVISOR
+#  persist.sys.NV_POWER_MODE
+#  persist.sys.NV_FPSLIMIT
+#  persist.sys.phs.cpufreq.boost
+#  persist.sys.phs.gpufreq.boost
+#  persist.sys.phs.frt.boost
+#  persist.sys.phs.frt.min
+#  persist.sys.phs.tbc.prethrottle
+#  persist.sys.phs.tbc.loadappfrt
+#  persist.sys.NV_PBC_PWR_LIMIT
+#  persist.sys.pbc.psys.cap
+#  persist.sys.pbc.ibat.cap
+set_prop(nvcpl_app, system_prop)

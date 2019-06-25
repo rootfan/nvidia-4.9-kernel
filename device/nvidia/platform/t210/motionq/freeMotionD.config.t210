@@ -1,0 +1,199 @@
+#?format_version=2.0
+#/*****************************************************************************
+# *                                                                           *
+# *                       Audience Inc.                                       *
+# *                     331 Fairchild Dr                                      *
+# *                  Mountain View, CA 95134                                  *
+# *                                                                           *
+# *****************************************************************************
+# *                                                                           *
+# *               Copyright (c) 2015 Audience Inc.                            *
+# *                       All Rights Reserved                                 *
+# *                                                                           *
+# *                   Proprietary and Confidential                            *
+# *             Authorized for use on NVidia Loki Devices                     *
+# ****************************************************************************/
+
+# Protocol
+protocol.sensor-default = inputevent
+
+##
+# format for sensor=<sensor part>_<sensor type>
+# where <sensor type> is the int member "type" of the sensor_t structure.
+# This format allows us to automatically initialize MotionQ with the sensor's
+# configuration by searching this configuration file for a specific sensor
+# using the sensor's part name and sensor type from the OS sensor list.
+#
+
+## Invensense MPU6050 accelerometer (sensor type 1)
+#
+# Noise= 9.81/1024 * 6.0 m/s^2
+#
+sensor=MPU6050_1
+MPU6050_1.conversion = 1.0, 1.0, 1.0
+MPU6050_1.defaultrate = 0.020000
+MPU6050_1.dimension = 3
+MPU6050_1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6050_1.noise = 0.057500,0.057500,0.057500
+MPU6050_1.saturation = 80.000000
+MPU6050_1.type = "RAW_ACCELEROMETER"
+MPU6050_1.swap = 0,1,2
+
+## Invensense MPU6500 accelerometer (sensor type 1)
+#
+# Noise= 9.81/1024 * 6.0 m/s^2
+#
+sensor=MPU6500_1
+MPU6500_1.conversion = 1.0, 1.0, 1.0
+MPU6500_1.defaultrate = 0.020000
+MPU6500_1.dimension = 3
+MPU6500_1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6500_1.noise = 0.057500,0.057500,0.057500
+MPU6500_1.saturation = 80.000000
+MPU6500_1.type = "RAW_ACCELEROMETER"
+MPU6500_1.swap = 0,1,2
+
+## Invensense MPU6515 accelerometer (sensor type 1)
+#
+# Noise= 9.81/1024 * 6.0 m/s^2
+#
+sensor=MPU6515_1
+MPU6515_1.conversion = 1.0, 1.0, 1.0
+MPU6515_1.defaultrate = 0.020000
+MPU6515_1.dimension = 3
+MPU6515_1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6515_1.noise = 0.057500,0.057500,0.057500
+MPU6515_1.saturation = 80.000000
+MPU6515_1.type = "RAW_ACCELEROMETER"
+MPU6515_1.swap = 0,1,2
+
+## Invensense ICM20268 accelerometer (sensor type 1)
+#
+# Noise= 9.81/1024 * 6.0 m/s^2
+#
+sensor=ICM20628_1
+ICM20628_1.conversion = 1.0, 1.0, 1.0
+ICM20628_1.defaultrate = 0.020000
+ICM20628_1.dimension = 3
+ICM20628_1.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+ICM20628_1.noise = 0.057500,0.057500,0.057500
+ICM20628_1.saturation = 80.000000
+ICM20628_1.type = "RAW_ACCELEROMETER"
+ICM20628_1.swap = 0,1,2
+
+## Invensense MPU6050 gyroscope (sensor type 4)
+#
+# Noise=  0.45 / 57.3 * 1000 for now
+sensor=MPU6050_4
+MPU6050_4.bias-stability = 0.000000,0.000000,0.000000
+MPU6050_4.conversion =  1.0, 1.0, 1.0
+MPU6050_4.defaultrate = 0.010000
+MPU6050_4.dimension = 3
+MPU6050_4.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6050_4.noise = 0.001500,0.001500,0.001500
+MPU6050_4.non-linear = 0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
+MPU6050_4.saturation = 34.799999
+MPU6050_4.shake = 0.000000,0.000000,0.000000
+MPU6050_4.swap = 0,1,2
+MPU6050_4.type = "RAW_GYROSCOPE"
+
+## Invensense MPU6500 gyroscope (sensor type 4)
+#
+# Noise=  0.45 / 57.3 * 1000 for now
+sensor=MPU6500_4
+MPU6500_4.bias-stability = 0.000000,0.000000,0.000000
+MPU6500_4.conversion =  1.0, 1.0, 1.0
+MPU6500_4.defaultrate = 0.010000
+MPU6500_4.dimension = 3
+MPU6500_4.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6500_4.noise = 0.001500,0.001500,0.001500
+MPU6500_4.non-linear = 0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
+MPU6500_4.saturation = 34.799999
+MPU6500_4.shake = 0.000000,0.000000,0.000000
+MPU6500_4.swap = 0,1,2
+MPU6500_4.type = "RAW_GYROSCOPE"
+
+## Invensense MPU6515 gyroscope (sensor type 4)
+#
+# Noise=  0.45 / 57.3 * 1000 for now
+sensor=MPU6515_4
+MPU6515_4.bias-stability = 0.000000,0.000000,0.000000
+MPU6515_4.conversion =  1.0, 1.0, 1.0
+MPU6515_4.defaultrate = 0.010000
+MPU6515_4.dimension = 3
+MPU6515_4.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+MPU6515_4.noise = 0.001500,0.001500,0.001500
+MPU6515_4.non-linear = 0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
+MPU6515_4.saturation = 34.799999
+MPU6515_4.shake = 0.000000,0.000000,0.000000
+MPU6515_4.swap = 0,1,2
+MPU6515_4.type = "RAW_GYROSCOPE"
+
+## Invensense ICM20268 gyroscope (sensor type 4)
+#
+# Noise=  0.45 / 57.3 * 1000 for now
+sensor=ICM20628_4
+ICM20628_4.bias-stability = 0.000000,0.000000,0.000000
+ICM20628_4.conversion =  1.0, 1.0, 1.0
+ICM20628_4.defaultrate = 0.010000
+ICM20628_4.dimension = 3
+ICM20628_4.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+ICM20628_4.noise = 0.001500,0.001500,0.001500
+ICM20628_4.non-linear = 0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000,0.000000
+ICM20628_4.saturation = 34.799999
+ICM20628_4.shake = 0.000000,0.000000,0.000000
+ICM20628_4.swap = 0,1,2
+ICM20628_4.type = "RAW_GYROSCOPE"
+
+## AKM8963 magnetometer (sensor type 2)
+#
+# Noise in uT
+#
+sensor=ak8963_2
+ak8963_2.conversion = 1.0, 1.0, 1.0
+ak8963_2.defaultrate = 0.020000
+ak8963_2.dimension = 3
+ak8963_2.expectednorm = 40.000000
+ak8963_2.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+ak8963_2.noise = 2.000000,2.000000,2.000000
+ak8963_2.saturation = 2000.000000
+ak8963_2.swap = 0,1,2
+ak8963_2.type = "RAW_MAGNETOMETER"
+
+## AKM8975 magnetometer (sensor type 2)
+#
+# Noise in uT
+#
+sensor=ak8975_2
+ak8975_2.conversion = 1.0, 1.0, 1.0
+ak8975_2.defaultrate = 0.020000
+ak8975_2.dimension = 3
+ak8975_2.expectednorm = 40.000000
+ak8975_2.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+ak8975_2.noise = 2.000000,2.000000,2.000000
+ak8975_2.saturation = 2000.000000
+ak8975_2.swap = 0,1,2
+ak8975_2.type = "RAW_MAGNETOMETER"
+
+## AKM09911 magnetometer (sensor type 2)
+#
+# Noise in uT
+#
+sensor=ak09911_2
+ak09911_2.conversion = 1.0, 1.0, 1.0
+ak09911_2.defaultrate = 0.020000
+ak09911_2.dimension = 3
+ak09911_2.expectednorm = 40.000000
+ak09911_2.factorycal = 1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000,1.000000,0.000000,0.000000,0.000000
+ak09911_2.noise = 2.000000,2.000000,2.000000
+ak09911_2.saturation = 2000.000000
+ak09911_2.swap = 0,1,2
+ak09911_2.type = "RAW_MAGNETOMETER"
+
+policy.background-gyrocal = 0
+policy.use-debug-logging = 0
+policy.verbose = 0
+
+module = "Segmenter"
+module = "Attitude"
+

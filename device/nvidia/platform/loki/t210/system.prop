@@ -1,0 +1,44 @@
+#pbc properties
+persist.sys.pbc.enabled = 1
+persist.sys.pbc.pbat.cap = 30000
+persist.sys.pbc.ibat.cap = 4000
+persist.sys.pbc.inf.game.mode = 1
+pbc.inf.socthres = 20
+pbc.pbat.slope = 1.5
+pbc.pbat.intercept = -7
+
+#audio specific properties
+ro.audio.usb.period_us = 5000
+
+# VRR properties
+# SF will not activate VRR because ro.sf.vrr.enabled 0
+# read-once enable
+ro.sf.vrr.enabled = 1
+ro.sys.vrr.hdmi = 1
+
+# Default power brick info
+persist.power.brick = PB1000
+
+# Set nrdp tags
+ro.nrdp.modelgroup=SHIELDANDROIDTV
+ro.nrdp.audio.otfs=true
+ro.nrdp.validation=ninja_6
+
+# hwcomposer CPU/GPU/EMC boost frequencies
+ro.tegra.yuv.cpu_min = -1
+ro.tegra.yuv.cpu_max = -1
+ro.tegra.yuv.cpu_pri = 15
+ro.tegra.yuv.gpu_min = 691200
+ro.tegra.yuv.gpu_max = 998400
+ro.tegra.yuv.gpu_pri = 15
+ro.tegra.yuv.emc_min = 106560
+ro.tegra.glc.cpu_min = -1
+ro.tegra.glc.cpu_max = -1
+ro.tegra.glc.cpu_pri = 15
+ro.tegra.glc.gpu_min = 614400
+ro.tegra.glc.gpu_max = 998400
+ro.tegra.glc.gpu_pri = 15
+ro.tegra.glc.emc_min = 4080
+
+# Gamestreaming specific properties
+ro.gamestream.display.optimize = 1

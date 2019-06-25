@@ -1,0 +1,6 @@
+README
+
+This directory contains EKS2 blobs required for products and platforms
+
+eks2_[darcy|foster] => EKS2 blob for Darcy and Foster
+eks2_public => EKS2 blob for reference platforms like Jetson

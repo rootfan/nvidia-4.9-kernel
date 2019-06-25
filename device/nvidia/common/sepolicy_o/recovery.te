@@ -1,0 +1,44 @@
+# Copyright (c) 2014-2018 NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# Allow recovery read and write on sdcard and USB
+recovery_only(`
+  r_dir_file(recovery, vfat)
+  allow recovery cache_file:dir mounton;
+  allow recovery mtd_device:dir r_dir_perms;
+  allow recovery mtd_device:chr_file rw_file_perms;
+  allow recovery vfat:dir { add_name write };
+  allow recovery vfat:file { write create };
+
+  # Change USB mode in recovery kernel
+  allow recovery sysfs_usb_convertible:file rw_file_perms;
+
+  # Allow recovery to read /proc/device-tree/chosen/plugin-manager/tnspec
+  r_dir_file(recovery, proc_tnspec)
+  r_dir_file(recovery, sysfs_tnspec)
+
+  # Allow recovery to write /sys/block/mmcblk0boot0/force_ro
+  allow recovery sysfs_mmc_host:dir search;
+  allow recovery sysfs_mmc_host:file rw_file_perms;
+
+  # Allow recovery to write emmc boot partitions
+  allow recovery bootloader_block_device:blk_file rw_file_perms;
+
+  # Allow recovery to read OTA properties
+  get_prop(recovery, ota_prop)
+
+  # Enable adb in recovery kernel
+  set_prop(recovery, ffs_prop)
+')

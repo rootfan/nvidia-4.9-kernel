@@ -1,0 +1,16 @@
+#Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
+#
+#NVIDIA Corporation and its licensors retain all intellectual property and
+#proprietary rights in and to this software and related documentation.  Any
+#use, reproduction, disclosure or distribution of this software and related
+#documentation without an express license agreement from NVIDIA Corporation
+#is strictly prohibited.
+
+on post-fs-data
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/LNX-A /dev/block/platform/sdhci-tegra.3/by-name/boot-A
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/LNX-B /dev/block/platform/sdhci-tegra.3/by-name/boot-B
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/APP-A /dev/block/platform/sdhci-tegra.3/by-name/system-A
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/APP-B /dev/block/platform/sdhci-tegra.3/by-name/system-B
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/SOS-A /dev/block/platform/sdhci-tegra.3/by-name/recovery-A
+    symlink /dev/block/platform/sdhci-tegra.3/by-name/SOS-B /dev/block/platform/sdhci-tegra.3/by-name/recovery-B
+

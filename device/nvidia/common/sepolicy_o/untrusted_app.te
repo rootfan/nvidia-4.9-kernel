@@ -1,0 +1,69 @@
+# Copyright (c) 2014-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Allow untrusted apps to access tsecb dev node
+allow untrusted_app tsec_device:chr_file rw_file_perms;
+allow untrusted_app_25 tsec_device:chr_file rw_file_perms;
+
+# Allow untrusted apps to access tegrafuse AID node
+allow untrusted_app_25 sysfs_tegrafuse_aid:file { open read };
+allow untrusted_app_25 vendor_file:file read;
+
+# Access to read SOC family
+r_dir_file(untrusted_app, sysfs_soc)
+allow untrusted_app sysfs_tegra_gpu:file r_file_perms;
+allow untrusted_app sysfs_tegra_emc:file r_file_perms;
+
+allow untrusted_app system_app_service:service_manager find;
+
+# Dont audit untrusted app accessing kernel
+dontaudit untrusted_app kernel:dir { search getattr };
+
+# Allow access to external storage
+allow untrusted_app storage_stub_file:dir getattr;
+
+# Allow netcfg for TegraZone apk
+r_dir_file(untrusted_app, sysfs_netcfg)
+
+# Allow untrusted app to search for sysfs_zram only on userdebug
+userdebug_or_eng(`
+r_dir_file(untrusted_app, sysfs_zram)
+')
+
+# Apps on sdcard: access shared lib in asec
+allow untrusted_app asec_public_file:dir r_dir_perms;
+allow untrusted_app asec_public_file:file r_file_perms;
+
+# Dont allow untrusted apps to access MAC address
+dontauditxperm untrusted_app self:udp_socket ioctl SIOCGIFHWADDR;
+
+# Allow untrusted_app to access hubcore. In this case, we have the
+# SmartThings app from the playstore which needs to access the
+# service published through hubcore.
+allow untrusted_app hubcore:service_manager find;
+binder_call(untrusted_app, hubcore)
+
+# Allow frameworks to find 'nvcpl' system service; enables app profiles
+allow untrusted_app_25 nvcpl_app_service:service_manager find;
+
+# Allow untrusted_app_25 to talk to nvphsd
+allow untrusted_app_25 nvphsd_hwservice:hwservice_manager find;
+
+# Allow untrusted_app to talk to hwservice_manager.
+# A particular use case is with SmartThings Link device. There is an interaction
+# between SmartThings Link and SmartThings app during firmware update sequence.
+allow untrusted_app nvphsd_hwservice:hwservice_manager find;
+
+# Allow untrusted apps to access oem media files
+r_dir_file(untrusted_app, oem_media_file)

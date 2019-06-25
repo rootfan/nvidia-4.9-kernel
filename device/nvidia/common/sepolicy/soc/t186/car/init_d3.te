@@ -1,0 +1,37 @@
+# Copyright (c) 2015-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+#
+# init_d3
+#
+type init_d3, domain;
+type init_d3_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(init_d3)
+
+not_full_treble(`
+    allow init_d3 shell_exec:file rx_file_perms;
+    allow init_d3 toolbox_exec:file rx_file_perms;
+')
+
+full_treble_only(`
+    allow init_d3 vendor_shell_exec:file rx_file_perms;
+    allow init_d3 vendor_toolbox_exec:file rx_file_perms;
+')
+
+allow init_d3 dirana_device:chr_file rw_file_perms;
+allow init_d3 system_file:file rx_file_perms;
+allow init_d3 audio_device:dir r_dir_perms;
+allow init_d3 audio_device:chr_file rw_file_perms;
+allow init_d3 saf775x_util_exec:file rx_file_perms;

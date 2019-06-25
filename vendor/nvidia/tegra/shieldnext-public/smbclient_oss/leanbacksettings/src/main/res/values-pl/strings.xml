@@ -1,0 +1,40 @@
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">LeanbackSettings</string>
+
+    <string name="text_obfuscation_toggle_caption">Ukryj hasło</string>
+    <string name="network_storage_login_enter_address_title">Wprowadź adres napędu, aby nawiązać połączenie</string>
+    <string name="network_storage_login_enter_username_title">Wprowadź nazwę użytkownika dla sieci <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_enter_password_title">Wprowadź hasło dla sieci <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_connecting">Łączenie z urządzeniem <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_disconnecting">Rozłączanie z urządzeniem <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_server_not_reachable">Połączenie z urządzeniem <xliff:g id="device">%1$s</xliff:g> jest aktualnie niemożliwe.</string>
+    <string name="network_storage_login_share_already_mounted">Udział \\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> jest już zamontowany.</string>
+    <string name="network_storage_login_share_not_availble">Nie można znaleźć udziału \\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g></string>
+    <string name="network_storage_login_connection_success">Połączenie nawiązane pomyślnie.</string>
+    <string name="network_storage_login_connection_failed">Połączenie nie powiodło się.</string>
+    <string name="network_storage_login_disconnection_failed">Rozłączenie nie powiodło się.</string>
+    <string name="network_storage_login_disconnection_success">Rozłączenie przeprowadzono pomyślnie.</string>
+    <string name="network_storage_login_host_not_available">Host jest niedostępny.</string>
+    <string name="network_storage_login_incorrect_username_or_password">Nieprawidłowa nazwa użytkownika lub hasło</string>
+    <string name="network_storage_login_mount_failed">Podłączenie nie powiodło się.</string>
+    <string name="network_storage_login_address_wrong_format">Format adresu napędu jest nieprawidłowy.</string>
+    <string name="network_storage_login_access_denied">Dostęp zabroniony.</string>
+    <string name="network_storage_login_example_address_format">Przykład: \\\\serwer\\udzial</string>
+
+    <string name="text_guest_toggle_caption">Zaloguj jako gość</string>
+    <string name="text_prefill_login_as_guest">Gość</string>
+</resources>

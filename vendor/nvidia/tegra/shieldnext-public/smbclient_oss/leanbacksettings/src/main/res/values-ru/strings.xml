@@ -1,0 +1,40 @@
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">LeanbackSettings</string>
+
+    <string name="text_obfuscation_toggle_caption">Скрыть пароль</string>
+    <string name="network_storage_login_enter_address_title">Введите адрес диска для подключения</string>
+    <string name="network_storage_login_enter_username_title">Введите имя пользователя для <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_enter_password_title">Введите пароль для <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_connecting">Подключение к <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_disconnecting">Отключение <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_server_not_reachable">В данный момент не удается связаться с <xliff:g id="device">%1$s</xliff:g>.</string>
+    <string name="network_storage_login_share_already_mounted">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> уже подключено.</string>
+    <string name="network_storage_login_share_not_availble">Не удается найти \\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g></string>
+    <string name="network_storage_login_connection_success">Успешное подключение.</string>
+    <string name="network_storage_login_connection_failed">Сбой подключения.</string>
+    <string name="network_storage_login_disconnection_failed">Сбой отключения.</string>
+    <string name="network_storage_login_disconnection_success">Успешное отключение.</string>
+    <string name="network_storage_login_host_not_available">Хост недоступен.</string>
+    <string name="network_storage_login_incorrect_username_or_password">Неверное имя пользователя или пароль.</string>
+    <string name="network_storage_login_mount_failed">Сбой подключения.</string>
+    <string name="network_storage_login_address_wrong_format">Неверный формат адреса диска.</string>
+    <string name="network_storage_login_access_denied">Доступ не разрешен.</string>
+    <string name="network_storage_login_example_address_format">Пример:\\\\server\\share</string>
+
+    <string name="text_guest_toggle_caption">Войти как гость</string>
+    <string name="text_prefill_login_as_guest">Гость</string>
+</resources>

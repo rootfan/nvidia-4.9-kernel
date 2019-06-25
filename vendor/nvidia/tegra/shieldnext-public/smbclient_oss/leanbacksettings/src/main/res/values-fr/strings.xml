@@ -1,0 +1,40 @@
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">LeanbackSettings</string>
+
+    <string name="text_obfuscation_toggle_caption">Masquer le mot de passe</string>
+    <string name="network_storage_login_enter_address_title">Saisir l\&apos;adresse du disque pour la connexion</string>
+    <string name="network_storage_login_enter_username_title">Saisir le nom d\&apos;utilisateur de <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_enter_password_title">Saisir le mot de passe de <xliff:g id="ssid">%1$s</xliff:g></string>
+    <string name="network_storage_login_connecting">Connexion à <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_disconnecting">Déconnexion de <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="network_storage_login_server_not_reachable">Impossible d\&apos;atteindre <xliff:g id="device">%1$s</xliff:g> pour le moment.</string>
+    <string name="network_storage_login_share_already_mounted">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> est déjà monté(e).</string>
+    <string name="network_storage_login_share_not_availble">\\\\<xliff:g id="device">%1$s</xliff:g>\\<xliff:g id="share">%2$s</xliff:g> est introuvable</string>
+    <string name="network_storage_login_connection_success">Connexion réussie.</string>
+    <string name="network_storage_login_connection_failed">Échec de la connexion.</string>
+    <string name="network_storage_login_disconnection_failed">Échec de la déconnexion.</string>
+    <string name="network_storage_login_disconnection_success">Déconnexion réussie.</string>
+    <string name="network_storage_login_host_not_available">L\&apos;hôte n\&apos;est pas disponible.</string>
+    <string name="network_storage_login_incorrect_username_or_password">Nom d\&apos;utilisateur ou mot de passe incorrect</string>
+    <string name="network_storage_login_mount_failed">Le montage a échoué.</string>
+    <string name="network_storage_login_address_wrong_format">Le format d\&apos;adresse du disque n\&apos;est pas valide.</string>
+    <string name="network_storage_login_access_denied">Accès refusé.</string>
+    <string name="network_storage_login_example_address_format">Exemple :\\\\serveur\\partage</string>
+
+    <string name="text_guest_toggle_caption">Se connecter en tant qu\&apos;invité</string>
+    <string name="text_prefill_login_as_guest">Invité</string>
+</resources>

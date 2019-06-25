@@ -1,0 +1,41 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ */
+
+#include "tegra210b01-abca-01-00.dts"
+
+/ {
+	nvidia,dtsfilename = __FILE__;
+
+	i2c@7000d000 {
+		max77812: max77812@31 {
+			reg = <0x33>;
+			regulators {
+				m3vout {
+					regulator-name = "vdd-lp4lv";
+					regulator-always-on;
+					regulator-boot-on;
+				};
+			};
+		};
+	};
+	i2c@7000d000 {
+		fan53528@52 {
+			status = "disabled";
+		};
+	};
+
+	dvfs {
+		nvidia,gpu-max-freq-khz = <768000>;
+	};
+};

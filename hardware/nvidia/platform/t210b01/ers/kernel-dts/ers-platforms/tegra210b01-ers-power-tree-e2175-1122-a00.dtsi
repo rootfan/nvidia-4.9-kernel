@@ -1,0 +1,371 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+
+#include "tegra210b01-ers-pmic-e2175-1122-a00.dtsi"
+#include "tegra210b01-ers-fixed-e2175-1122-a00.dtsi"
+#include "tegra210b01-ers-pmic-e2176-1001-a00.dtsi"
+
+/ {
+
+	host1x {
+		/* tegradc.0 */
+		dc@54200000 {
+			/* hdmi */
+			avdd_hdmi-supply = <&max77620_ldo8>;
+			avdd_hdmi_pll-supply = <&max77620_sd3>;
+			vdd_hdmi_5v0-supply = <&vdd_hdmi>;
+
+			/* dsi */
+			avdd_dsi_csi-supply = <&max77620_gpio7>;
+
+			/* dp */
+			vdd-dp-pwr-supply = <&vdd_3v3>;
+			avdd-dp-pll-supply = <&max77620_sd3>;
+			vdd-edp-sec-mode-supply = <&vdd_sys_boost>;
+			vdd-dp-pad-supply = <&max77620_ldo8>;
+
+			/* panel */
+			avdd_lcd-supply = <&vdd_3v3>;
+			dvdd_lcd-supply = <&en_vdd_lcd_1v8>;
+			vdd_lcd_bl_en-supply = <&lcd_bl_en>;
+			vdd_lcd_bl-supply = <&battery_reg>;
+			vdd_ds_1v8-supply = <&battery_reg>;
+		};
+
+		/* tegradc.1 */
+		dc@54240000 {
+			/* hdmi */
+			avdd_hdmi-supply = <&max77620_ldo8>;
+			avdd_hdmi_pll-supply = <&max77620_sd3>;
+			vdd_hdmi_5v0-supply = <&vdd_hdmi>;
+
+			/* dsi */
+			avdd_dsi_csi-supply = <&max77620_gpio7>;
+
+			/* dp */
+			vdd-dp-pwr-supply = <&vdd_3v3>;
+			avdd-dp-pll-supply = <&max77620_sd3>;
+			vdd-edp-sec-mode-supply = <&vdd_sys_boost>;
+			vdd-dp-pad-supply = <&max77620_ldo8>;
+
+			/* panel */
+			avdd_lcd-supply = <&vdd_3v3>;
+			dvdd_lcd-supply = <&en_vdd_lcd_1v8>;
+			vdd_lcd_bl_en-supply = <&lcd_bl_en>;
+			vdd_lcd_bl-supply = <&battery_reg>;
+			vdd_ds_1v8-supply = <&battery_reg>;
+		};
+		vi {
+			avdd_dsi_csi-supply = <&max77620_gpio7>;
+		};
+		i2c@546c0000 {
+			bus-pullup-supply = <&en_vdd_cam>;
+			avdd_dsi_csi-supply = <&max77620_gpio7>;
+		};
+	};
+
+	i2c@7000d000 {
+		max77620@3c {
+			regulators {
+				sd0 {
+					regulator-enable-ramp-delay = <120>;
+					regulator-disable-ramp-delay = <1720>;
+					maxim,ramp-rate-setting = <27500>;
+					regulator-ramp-delay = <6900>;
+				};
+
+				sd1 {
+					regulator-enable-ramp-delay = <120>;
+					regulator-disable-ramp-delay = <29200>;
+					maxim,ramp-rate-setting = <27500>;
+					regulator-ramp-delay = <6900>;
+				};
+
+				sd2 {
+					regulator-enable-ramp-delay = <164>;
+					regulator-disable-ramp-delay = <7320>;
+					maxim,ramp-rate-setting = <27500>;
+					regulator-ramp-delay = <6900>;
+				};
+
+				sd3 {
+					regulator-enable-ramp-delay = <204>;
+					regulator-disable-ramp-delay = <58000>;
+					maxim,ramp-rate-setting = <27500>;
+					regulator-ramp-delay = <6900>;
+				};
+
+				ldo0 {
+					regulator-enable-ramp-delay = <88>;
+					regulator-disable-ramp-delay = <4480>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <12500>;
+				};
+
+				ldo1 {
+					regulator-enable-ramp-delay = <96>;
+					regulator-disable-ramp-delay = <3160>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <8500>;
+				};
+
+				ldo2 {
+					regulator-enable-ramp-delay = <124>;
+					regulator-disable-ramp-delay = <5160>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <3500>;
+				};
+
+				ldo3 {
+					regulator-enable-ramp-delay = <56>;
+					regulator-disable-ramp-delay = <788>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <50000>;
+				};
+
+				ldo4 {
+					regulator-enable-ramp-delay = <18>;
+					regulator-disable-ramp-delay = <568>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <50000>;
+				};
+
+				ldo5 {
+					regulator-enable-ramp-delay = <300>;
+					regulator-disable-ramp-delay = <7360>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <9900>;
+				};
+
+				ldo6 {
+					regulator-enable-ramp-delay = <204>;
+					regulator-disable-ramp-delay = <4720>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <12500>;
+				};
+
+				ldo7 {
+					regulator-enable-ramp-delay = <112>;
+					regulator-disable-ramp-delay = <11720>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <2000>;
+				};
+
+				ldo8 {
+					maxim,active-fps-source = <MAX77620_FPS_SRC_0>;
+					maxim,suspend-fps-source = <MAX77620_FPS_SRC_NONE>;
+					regulator-enable-ramp-delay = <48>;
+					regulator-disable-ramp-delay = <6160>;
+					maxim,ramp-rate-setting = <100000>;
+					regulator-ramp-delay = <2500>;
+				};
+			};
+		};
+	};
+
+	regulators {
+		regulator@1 {
+			regulator-enable-ramp-delay = <720>;
+			regulator-disable-ramp-delay = <14480>;
+		};
+
+		regulator@2 {
+			regulator-enable-ramp-delay = <1056>;
+			regulator-disable-ramp-delay = <2580>;
+		};
+
+		regulator@4 {
+			regulator-enable-ramp-delay = <360>;
+			regulator-disable-ramp-delay = <5880>;
+		};
+
+		regulator@5 {
+			regulator-enable-ramp-delay = <704>;
+			regulator-disable-ramp-delay = <220>;
+		};
+
+		regulator@6 {
+			regulator-enable-ramp-delay = <3000>;
+			regulator-disable-ramp-delay = <584000>;
+		};
+
+		regulator@7 {
+			regulator-enable-ramp-delay = <468>;
+			regulator-disable-ramp-delay = <398>;
+		};
+	};
+
+	pmc-iopower {
+		vddio-sys-supply = <&max77620_sd3>;
+		vddio-uart-supply = <&max77620_sd3>;
+		vddio-audio-supply = <&max77620_sd3>;
+		vddio-cam-supply = <&max77620_sd3>;
+		vddio-pex-ctrl-supply = <&max77620_sd3>;
+		vddio-sdmmc1-supply = <&max77620_ldo2>;
+		vddio-sdmmc3-supply = <&en_vddio_sdmmc3>;
+		vddio-sdmmc4-supply = <&max77620_sd3>;
+		vddio-audio-hv-supply = <&max77620_sd3>;
+		vddio-dbg-supply = <&max77620_sd3>;
+		vddio-dmic-supply = <&max77620_sd3>;
+		vddio-gpio-supply = <&max77620_sd3>;
+		vddio-spi-supply = <&max77620_sd3>;
+		vddio-spi-hv-supply = <&max77620_sd3>;
+		vddio-sdmmc2-supply = <&max77620_sd3>;
+		vddio-dp-supply = <&max77620_sd3>;
+	};
+
+	pmc@7000e400 {
+		bootrom-commands {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			commands@4-003c {
+				nvidia,command-names = "pmic-rails";
+				reg = <0x3c>;
+				nvidia,enable-8bit-register;
+				nvidia,enable-8bit-data;
+				nvidia,controller-type-i2c;
+				nvidia,controller-id = <4>;
+				nvidia,enable-controller-reset;
+				nvidia,write-commands = <0x00000016 0x00000020>;
+			};
+		};
+	};
+
+	xusb@70090000 {
+		hvdd_usb-supply = <&vdd_3v3>;
+		avdd_pll_utmip-supply = <&max77620_sd3>;
+		avddio_usb-supply = <&max77620_ldo1>;
+		avddio_pll_uerefe-supply = <&max77620_ldo7>; /* Is it always ON? */
+	};
+
+
+	xudc@700d0000 {
+		hvdd_usb-supply = <&vdd_3v3>;
+		avdd_pll_utmip-supply = <&max77620_sd3>;
+		avddio_usb-supply = <&max77620_ldo1>;
+	};
+
+	xotg {
+		usb_vbus-supply = <&battery_reg>;
+	};
+
+#if TEGRA_XUSB_PADCONTROL_VERSION >= DT_VERSION_2
+	xusb_padctl@7009f000 {
+		vddio-hsic-supply = <&max77620_ldo0>;
+		avdd_pll_uerefe-supply = <&max77620_ldo7>;
+		hvdd_pex_pll_e-supply = <&max77620_sd3>;
+		dvdd_pex_pll-supply = <&max77620_ldo1>;
+		hvddio_pex-supply = <&max77620_sd3>;
+		dvddio_pex-supply = <&max77620_ldo1>;
+
+		ports {
+			usb2-0 {
+				vbus-supply = <&vdd_usb23_5v0>;
+			};
+			usb2-1 {
+				vbus-supply = <&vdd_usb1_5v0>;
+			};
+			usb2-2 {
+				vbus-supply = <&vdd_usb1_5v0>;
+			};
+			usb2-3 {
+				vbus-supply = <&vdd_usb1_5v0>;
+			};
+		};
+	};
+#endif
+
+	pinctrl@7009f000 {
+		vbus-0-supply = <&vdd_usb23_5v0>; /* usb23_5v0 : VBUS_EN1 */
+		/* Use the below regulators when OC support is enabled
+		vbus-1-supply = <&vdd_usb_oc_5v0>;
+		vbus-2-supply = <&vdd_usb_oc_5v0>;
+		vbus-3-supply = <&vdd_usb_oc_5v0>;
+		*/
+		vbus-1-supply = <&vdd_usb1_5v0>; /* usb1_5v0 : VBUS_EN0 */
+		vbus-2-supply = <&vdd_usb1_5v0>;
+		vbus-3-supply = <&vdd_usb1_5v0>;
+		vddio-hsic-supply = <&max77620_ldo0>;
+		avdd_pll_uerefe-supply = <&max77620_ldo7>;
+		hvdd_pex_pll_e-supply = <&max77620_sd3>;
+		dvdd_pex_pll-supply = <&max77620_ldo1>;
+		hvddio_pex-supply = <&max77620_sd3>;
+		dvddio_pex-supply = <&max77620_ldo1>;
+	};
+
+	sdhci@700b0600 { /* eMMC device (SDMMC4) regulator settings */
+		vqmmc-supply = <&max77620_sd3>;
+		vmmc-supply = <&vdd_3v3>;
+	};
+
+	sdhci@700b0400 { /* SD device (SDMMC3) regulator settings */
+		vqmmc-supply = <&en_vddio_sdmmc3>;
+		vmmc-supply = <&vdd_3v3>;
+	};
+
+	sdhci@700b0200 { /* SDIO device (SDMMC2) regulator settings */
+		vqmmc-supply = <&max77620_sd3>;
+		vmmc-supply = <&vdd_3v3>;
+	};
+
+	sdhci@700b0000 { /* SD device (SDMMC1) regulator settings */
+		vqmmc-supply = <&max77620_ldo2>;
+		vmmc-supply = <&en_vdd_sd>;
+	};
+
+	pcie-controller@1003000 {
+		dvdd-pex-pll-supply = <&max77620_ldo1>;
+		l0-dvddio-pex-supply = <&max77620_ldo1>;
+		l1-dvddio-pex-supply = <&max77620_ldo1>;
+		l2-dvddio-pex-supply = <&max77620_ldo1>;
+		l3-dvddio-pex-supply = <&max77620_ldo1>;
+		l4-dvddio-pex-supply = <&max77620_ldo1>;
+		l5-dvddio-pex-supply = <&max77620_ldo1>;
+		l6-dvddio-pex-supply = <&max77620_ldo1>;
+		hvdd-pex-pll-e-supply = <&max77620_sd3>;
+		l0-hvddio-pex-supply = <&max77620_sd3>;
+		l1-hvddio-pex-supply = <&max77620_sd3>;
+		l2-hvddio-pex-supply = <&max77620_sd3>;
+		l3-hvddio-pex-supply = <&max77620_sd3>;
+		l4-hvddio-pex-supply = <&max77620_sd3>;
+		l5-hvddio-pex-supply = <&max77620_sd3>;
+		l6-hvddio-pex-supply = <&max77620_sd3>;
+		vddio-pex-ctl-supply = <&max77620_sd3>;
+	};
+
+	clock@70110000 {
+                vdd-cpu-supply = <&cpu_ovr_reg>;
+	};
+
+	cpu_edp {
+		status = "okay";
+		nvidia,edp_limit = <25000>;
+	};
+
+	gpu_edp {
+		status = "okay";
+		nvidia,edp_limit = <20000>;
+	};
+
+	spi@7000da00 {
+		spi-touch-sharp19x12@0 {
+			avdd-supply = <&max77620_ldo5>;
+			dvdd-supply = <&max77620_ldo6>;
+		};
+	};
+};

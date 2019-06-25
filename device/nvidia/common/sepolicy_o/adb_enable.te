@@ -1,0 +1,40 @@
+# Copyright (c) 2015-2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+type adb_enable, domain;
+type adb_enable_exec, exec_type, file_type, vendor_file_type;
+
+init_daemon_domain(adb_enable)
+set_prop(adb_enable, system_radio_prop)
+set_prop(adb_enable, udc_prop)
+
+allow adb_enable vendor_shell_exec:file rx_file_perms;
+not_full_treble(`allow adb_enable shell_exec:file rx_file_perms;')
+allow adb_enable vendor_toolbox_exec:file rx_file_perms;
+not_full_treble(`allow adb_enable toolbox_exec:file rx_file_perms;')
+
+allow adb_enable system_file:file execute_no_trans;
+allow adb_enable configfs:dir search;
+allow adb_enable configfs:file r_file_perms;
+
+r_dir_file(adb_enable, sysfs_class_udc)
+
+# For persist.convertible.usb.mode
+get_prop(adb_enable, usb_mode_prop)
+# For sys.usb.config
+get_prop(adb_enable, system_radio_prop)
+# For accessing /sys/class/extcon/ID/connect (device/host mode)
+allow adb_enable sysfs_usb_convertible:file rw_file_perms;
+#For accessing /sys/firmware/devicetree/base/chosen/nvidia,safe_mode_adb
+allow adb_enable sysfs_safe_mode_adb:file getattr;

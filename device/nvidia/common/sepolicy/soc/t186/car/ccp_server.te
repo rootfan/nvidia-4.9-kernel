@@ -1,0 +1,34 @@
+# Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# ccp_server
+type ccp_server, domain;
+type ccp_server_exec, exec_type, file_type, vendor_file_type;
+
+typeattribute ccp_server mlstrustedobject;
+
+net_domain(ccp_server)
+init_daemon_domain(ccp_server)
+
+# use network socket
+allow ccp_server self:capability net_raw;
+# video encording
+allow ccp_server gpu_device:chr_file { open read write };
+# read a conf file from /sdcard
+allow ccp_server tmpfs:dir search;
+# fuse is a part of /sdcard file access
+allow ccp_server fuse:dir search;
+allow ccp_server fuse:file { getattr open read };
+# mnt is a part of /sdcard file access
+allow ccp_server mnt_user_file:dir search;
+allow ccp_server mnt_user_file:lnk_file read;
+# storage is a part of /sdcard file access
+allow ccp_server storage_file:dir search;
+allow ccp_server storage_file:lnk_file read;
+# /dev/uinput device node access
+allow ccp_server uhid_device:chr_file { ioctl open write };

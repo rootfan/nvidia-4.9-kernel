@@ -1,0 +1,47 @@
+#include <dt-bindings/gpio/tegra-gpio.h>
+
+/ {
+	regulators {
+		compatible = "simple-bus";
+		device_type = "fixed-regulators";
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		battery_reg: regulator@0 {
+			compatible = "regulator-fixed";
+			reg = <0>;
+			regulator-name = "vdd-ac-bat";
+		};
+
+		/* "max*" lables just resolve references from disabled devices */
+		max77620: gpu_max77621_reg: cpu_max77621_reg: en_vdd_cpu_fixed: regulator@1 {
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "vdd_cpu_fixed";
+			regulator-min-microvolt = <1000000>;
+			regulator-max-microvolt = <1000000>;
+		};
+
+		max77620_sd0: regulator@2 {
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "vdd_core_fixed";
+			regulator-min-microvolt = <1000000>;
+			regulator-max-microvolt = <1000000>;
+		};
+	};
+
+	gpio_regulator: gpio-regulator {
+		compatible = "regulator-gpio";
+		regulator-name = "vddio-sdmmc";
+		regulator-type = "voltage";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <3300000>;
+
+		gpios = <&gpio TEGRA_GPIO(Z, 4) 0>;
+		states = <1800000 0x0
+			3300000 0x1>;
+		enable-active-high;
+	};
+};

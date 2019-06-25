@@ -1,0 +1,179 @@
+/*
+ * Copyright (c) 2015, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "tegra210-vcm31-pmic.dtsi"
+
+/ {
+
+	efuse@7000f800 {
+		vpp_fuse-supply = <&vdd_dummy>;
+	};
+
+	host1x {
+		/* tegradc.0 */
+		dc@54200000 {
+			avdd_dsi_csi-supply = <&vdd_dummy>;
+			vdd_ds_1v8-supply = <&vdd_dummy>;
+			vdd_lcd_bl-supply = <&vdd_dummy>;
+			vdd_lcd_bl_en-supply = <&vdd_dummy>;
+			avdd_lcd-supply = <&vdd_dummy>;
+			vdd-dp-pwr-supply = <&vdd_dummy>;
+			avdd-dp-pll-supply = <&vdd_dummy>;
+			vdd-edp-sec-mode-supply = <&vdd_dummy>;
+			vdd-dp-pad-supply = <&vdd_dummy>;
+		};
+		/* tegradc.1 */
+		dc@54240000 {
+			avdd_hdmi-supply = <&vdd_dummy>;
+			avdd_hdmi_pll-supply = <&vdd_dummy>;
+			vdd_hdmi_5v0-supply = <&vdd_dummy>;
+		};
+
+		vi {
+			avdd_dsi_csi-supply = <&vdd_dummy>;
+		};
+	};
+	sound {
+		ldoen-supply = <&vdd_dummy>;
+		spkvdd-supply = <&vdd_dummy>;
+		dbvdd-supply = <&vdd_dummy>;
+		dmicvdd-supply = <&vdd_dummy>;
+	};
+
+	xusb@70090000 {
+		hvdd_usb-supply = <&vdd_dummy>;
+		avdd_pll_utmip-supply = <&vdd_dummy>;
+		vddio_hsic-supply = <&vdd_dummy>;
+		avddio_usb-supply = <&vdd_dummy>;
+		dvdd_sata-supply = <&vdd_dummy>;
+		avddio_pll_uerefe-supply = <&vdd_dummy>;
+	};
+
+	pinctrl@7009f000 {
+		vbus-0-supply = <&vdd_dummy>;
+		vbus-1-supply = <&vdd_dummy>;
+		vbus-2-supply = <&vdd_dummy>;
+		vbus-3-supply = <&vdd_dummy>;
+		avdd_pll_uerefe-supply = <&vdd_dummy>;
+		hvdd_pex_pll_e-supply = <&vdd_dummy>;
+		dvdd_pex_pll-supply = <&vdd_dummy>;
+		hvddio_pex-supply = <&vdd_dummy>;
+		dvddio_pex-supply = <&vdd_dummy>;
+		hvdd_sata-supply = <&vdd_dummy>;
+		dvdd_sata_pll-supply = <&vdd_dummy>;
+		hvddio_sata-supply = <&vdd_dummy>;
+		dvddio_sata-supply = <&vdd_dummy>;
+		vddio-hsic-supply = <&vdd_dummy>;
+	};
+
+	xudc@700d0000 {
+		usb_vbus0-supply = <&vdd_dummy>;
+		hvdd_usb-supply = <&vdd_dummy>;
+		avdd_pll_utmip-supply = <&vdd_dummy>;
+		avddio_usb-supply = <&vdd_dummy>;
+		avddio_pll_uerefe-supply = <&vdd_dummy>;
+	};
+
+	xotg {
+		usb_vbus-supply = <&vdd_dummy>;
+	};
+
+	sdhci@700b0600 {
+		vqmmc-supply = <&vdd_dummy_1v8>;
+		vmmc-supply = <&vdd_3v3>;
+	};
+
+	sdhci@700b0400 {
+		vqmmc-supply = <&max20024_ldo5>;
+		vmmc-supply = <&en_vdd_sdcard3>;
+	};
+
+	sdhci@700b0000 {
+		vqmmc-supply = <&max20024_ldo3>;
+		vmmc-supply = <&en_vdd_sdcard1>;
+	};
+
+	sata@70020000 {
+		hvdd_sata-supply = <&vdd_dummy>;
+		hvdd_pex_pll_e-supply = <&vdd_dummy>;
+		l0_hvddio_sata-supply = <&vdd_dummy>;
+		l0_dvddio_sata-supply = <&vdd_dummy>;
+		dvdd_sata_pll-supply = <&vdd_dummy>;
+	};
+
+	pcie-controller@1003000 {
+		dvdd-pex-pll-supply = <&vdd_dummy>;
+		l0-dvddio-pex-supply = <&vdd_dummy>;
+		l1-dvddio-pex-supply = <&vdd_dummy>;
+		l2-dvddio-pex-supply = <&vdd_dummy>;
+		l3-dvddio-pex-supply = <&vdd_dummy>;
+		l4-dvddio-pex-supply = <&vdd_dummy>;
+		l5-dvddio-pex-supply = <&vdd_dummy>;
+		l6-dvddio-pex-supply = <&vdd_dummy>;
+		hvdd-pex-pll-e-supply = <&vdd_dummy>;
+		l0-hvddio-pex-supply = <&vdd_dummy>;
+		l1-hvddio-pex-supply = <&vdd_dummy>;
+		l2-hvddio-pex-supply = <&vdd_dummy>;
+		l3-hvddio-pex-supply = <&vdd_dummy>;
+		l4-hvddio-pex-supply = <&vdd_dummy>;
+		l5-hvddio-pex-supply = <&vdd_dummy>;
+		l6-hvddio-pex-supply = <&vdd_dummy>;
+		vddio-pex-ctl-supply = <&vdd_dummy>;
+	};
+
+	tegra-supply-tests {
+		vdd-core-supply=<&vdd_dummy>;
+	};
+
+	spi@7000da00 {
+		spi-touch19x12@0 {
+			avdd-supply = <&vdd_dummy>;
+			dvdd-supply = <&vdd_dummy>;
+		};
+		spi-touch25x16@0 {
+			avdd-supply = <&vdd_dummy>;
+			dvdd-supply = <&vdd_dummy>;
+		};
+		spi-touch14x8@0 {
+			avdd-supply = <&vdd_dummy>;
+			dvdd-supply = <&vdd_dummy>;
+		};
+	};
+
+	pmc-iopower {
+		vddio-sys-supply = <&vdd_dummy>;
+		vddio-uart-supply = <&vdd_dummy>;
+		vddio-audio-supply = <&vdd_dummy>;
+		vddio-cam-supply = <&vdd_dummy>;
+		vddio-pex-ctrl-supply = <&vdd_dummy>;
+		vddio-sdmmc1-supply = <&vdd_dummy>;
+		vddio-sdmmc3-supply = <&vdd_dummy>;
+		vddio-sdmmc4-supply = <&vdd_dummy>;
+		vddio-audio-hv-supply = <&vdd_dummy>;
+		vddio-debug-supply = <&vdd_dummy>;
+		vddio-dmic-supply = <&vdd_dummy>;
+		vddio-gpio-supply = <&vdd_dummy>;
+		vddio-spi-supply = <&vdd_dummy>;
+		vddio-spi-hv-supply = <&vdd_dummy>;
+		vddio-sdmmc2-supply = <&vdd_dummy>;
+		vddio-dp-supply = <&vdd_dummy>;
+	};
+
+	pwm-fan {
+		vdd-fan-supply = <&vdd_dummy>;
+	};
+};

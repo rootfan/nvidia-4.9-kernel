@@ -1,0 +1,75 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include "tegra210b01-ers-pmic-e2175-1122-a00.dtsi"
+
+/ {
+
+	i2c@7000d000 {
+		max77812: max77812@31 {
+			compatible = "maxim,max77812-regulator";
+			reg = <0x31>;
+			status = "disabled";
+			maxim,ramp-up-slew-rate = <5000>;
+
+			regulators {
+				gpu_max_reg: m1vout {
+					regulator-name = "vdd-gpu";
+					regulator-min-microvolt = <250000>;
+					regulator-max-microvolt = <1525000>;
+					regulator-init-microvolt = <800000>;
+					regulator-init-mode = <REGULATOR_MODE_NORMAL>;
+					regulator-ramp-delay = <20000>;
+					regulator-enable-ramp-delay = <5000>;
+					maxim,peak-current-limit-ua = <7200000>;
+				};
+
+				m2vout {
+					regulator-name = "vdd-mvout2";
+					regulator-min-microvolt = <250000>;
+					regulator-max-microvolt = <1525000>;
+					regulator-init-mode = <REGULATOR_MODE_NORMAL>;
+					regulator-ramp-delay = <20000>;
+					regulator-enable-ramp-delay = <5000>;
+					maxim,peak-current-limit-ua = <7200000>;
+				};
+
+				m3_max_reg: m3vout {
+					regulator-name = "vdd-mvout3";
+					regulator-min-microvolt = <250000>;
+					regulator-max-microvolt = <1525000>;
+					regulator-init-mode = <REGULATOR_MODE_NORMAL>;
+					regulator-ramp-delay = <20000>;
+					regulator-enable-ramp-delay = <5000>;
+					maxim,peak-current-limit-ua = <7200000>;
+				};
+
+				m4_max_reg: m4vout {
+					regulator-name = "vdd-cpu";
+					regulator-min-microvolt = <250000>;
+					regulator-max-microvolt = <1525000>;
+					regulator-always-on;
+					regulator-boot-on;
+					regulator-init-mode = <REGULATOR_MODE_NORMAL>;
+					regulator-ramp-delay = <20000>;
+					regulator-enable-ramp-delay = <5000>;
+					maxim,peak-current-limit-ua = <7200000>;
+				};
+			};
+		};
+	};
+};

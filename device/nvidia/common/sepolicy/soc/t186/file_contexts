@@ -1,0 +1,120 @@
+# Copyright (c) 2014-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# NVIDIA CORPORATION and its licensors retain all intellectual property
+# and proprietary rights in and to this software, related documentation
+# and any modifications thereto.  Any use, reproduction, disclosure or
+# distribution of this software and related documentation without an express
+# license agreement from NVIDIA CORPORATION is strictly prohibited.
+
+# enable UART port permission for BT
+/dev/ttyTHS3				u:object_r:hci_attach_dev:s0
+/dev/ttyTHS4				u:object_r:hci_attach_dev:s0
+
+# gps
+/dev/ttyTHS0				u:object_r:gps_device:s0
+
+# camera device
+/dev/nvhost-ctrl-nvcsi			u:object_r:camera_device:s0
+/dev/nvhost-nvcsi				u:object_r:camera_device:s0
+
+/dev/block/platform/3460000.sdhci/by-name/UDA		u:object_r:userdata_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/MDA		u:object_r:metadata_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/CAC		u:object_r:cache_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/kernel		u:object_r:boot_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/kernel_b		u:object_r:boot_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/SOS		u:object_r:boot_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/SOS_b		u:object_r:boot_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/APP		u:object_r:system_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/APP_b		u:object_r:system_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/vendor		u:object_r:system_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/vendor_b		u:object_r:system_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/MSC		u:object_r:misc_block_device:s0
+
+/dev/block/platform/2450000.ufshci/by-name/UDA		u:object_r:userdata_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/MDA		u:object_r:metadata_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/kernel		u:object_r:boot_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/kernel_b		u:object_r:boot_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/SOS		u:object_r:boot_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/SOS_b		u:object_r:boot_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/APP		u:object_r:system_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/APP_b		u:object_r:system_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/vendor		u:object_r:system_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/vendor_b		u:object_r:system_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/MSC		u:object_r:misc_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/BMP		u:object_r:bootloader_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/BMP_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/CAC		u:object_r:cache_block_device:s0
+#bootloader block device
+/dev/block/platform/3460000.sdhci/by-name/BCT		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mb1		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mb1_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/MB1_BCT		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/MB1_BCT_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/spe-fw		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/spe-fw_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mb2		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mb2_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mts-preboot		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mts-preboot_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mts-bootpack		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/mts-bootpack_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/cpu-bootloader		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/cpu-bootloader_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bootloader-dtb		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bootloader-dtb_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/secure-os		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/secure-os_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/adsp-fw		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/adsp-fw_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bpmp-fw		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bpmp-fw_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bpmp-fw-dtb		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/bpmp-fw-dtb_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/sce-fw		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/sce-fw_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/sc7		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/sc7_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/BMP		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/BMP_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/kernel-dtb		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/kernel-dtb_b		u:object_r:bootloader_block_device:s0
+/dev/block/platform/3460000.sdhci/by-name/FCT		u:object_r:factorycalib_block_device:s0
+
+/dev/block/platform/3270000.spi/mtdblock0		u:object_r:bootloader_block_device:s0
+# display
+/sys/devices/13e10000.host1x/152[0-2]0000.nvdisplay/smartdimmer(/.*)	u:object_r:sysfs_smartdimmer:s0
+/sys/devices/13e10000.host1x/152[0-2]0000.nvdisplay/cmu_enable		u:object_r:sysfs_cmu:s0
+
+# lkm - loadable kernel module service
+/vendor/bin/lkm_loader.sh	u:object_r:lkm_loader_exec:s0
+
+# storage daemon
+(/system)?/vendor/bin/storageproxyd	u:object_r:tee_exec:s0
+
+# rpmb device
+/dev/block/platform/3460000.sdhci/mmcblk0rpmb		u:object_r:rpmb_block_device:s0
+
+# GPU available frequency devfreq sysfs
+/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/available_frequencies	u:object_r:sysfs_devfreq:s0
+
+# GPU scaling max and min for nvpmodel to access
+/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/max_freq	u:object_r:sysfs_gpu_freq_limit:s0
+/sys/devices/17000000.gp10b/devfreq/17000000.gp10b/min_freq	u:object_r:sysfs_gpu_freq_limit:s0
+
+#factory reset protection
+/dev/block/platform/3460000.sdhci/by-name/fac_rst_protection	u:object_r:frp_block_device:s0
+/dev/block/platform/2450000.ufshci/by-name/fac_rst_protection	u:object_r:frp_block_device:s0
+
+# platform tnspec
+/sys/firmware/devicetree/base/chosen/plugin-manager/tnspec(/.*)?	u:object_r:sysfs_tnspec:s0
+
+# cpuset parameter
+/vendor/bin/cpuset.sh             u:object_r:cpuset_exec:s0
+
+# Input device sysfs
+/sys/devices/gpio-keys/input/input0(/.*)?	u:object_r:sysfs_input_dev:s0
+/sys/devices/3610000.xhci/usb1/1-4/1-4:1.0/input/input.*/enabled	u:object_r:sysfs_input_dev:s0
+/sys/devices/3180000.i2c/i2c-2/2-002a/input/input.*/enabled	u:object_r:sysfs_input_dev:s0
+
+# display device
+/sys/devices/13e10000.host1x/15200000.nvdisplay/panel_rotation	u:object_r:sysfs_disp_dev:s0

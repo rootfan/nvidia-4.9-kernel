@@ -1,0 +1,208 @@
+#Copyright (c) 2011-2018, NVIDIA Corporation.  All Rights Reserved.
+#
+#NVIDIA Corporation and its licensors retain all intellectual property and
+#proprietary rights in and to this software and related documentation.  Any
+#use, reproduction, disclosure or distribution of this software and related
+#documentation without an express license agreement from NVIDIA Corporation
+#is strictly prohibited.
+
+on boot
+    # bluetooth
+    # change back to bluetooth from system
+    chown bluetooth bluetooth /data/misc/bluetooth
+
+    # power up/down interface
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+
+    chown bluetooth bluetooth ro.bt.bdaddr_path
+    chown bluetooth bluetooth /system/etc/bluetooth
+    chown bluetooth bluetooth /mnt/factory/bluetooth/bt_mac.txt
+
+    chown system bluetooth /factory/wifi_config/ts_config.conf
+    chown system bluetooth /factory/wifi_config/jarvis_config.conf
+
+    # Wifi firmware reload path
+    chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
+    chown wifi wifi /sys/module/bcmdhd_pcie/parameters/firmware_path
+
+    # Wifi op mode reload path
+    chmod 0660 /sys/module/bcmdhd/parameters/op_mode
+    chmod 0660 /sys/module/bcmdhd_pcie/parameters/op_mode
+    chown wifi wifi /sys/module/bcmdhd/parameters/op_mode
+    chown wifi wifi /sys/module/bcmdhd_pcie/parameters/op_mode
+
+on property:init.svc.lkm_loader=stopped
+
+    # Finish loading wifi loadable modules
+    start wifiloader
+
+    # power up/down interface
+    chmod 0660 /sys/class/rfkill/rfkill0/state
+    chmod 0660 /sys/class/rfkill/rfkill0/type
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/state
+    chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
+
+    # Wifi firmware reload path
+    chown wifi wifi /sys/module/bcmdhd/parameters/firmware_path
+    chown wifi wifi /sys/module/bcmdhd_pcie/parameters/firmware_path
+
+    # Wifi op mode reload path
+    chmod 0660 /sys/module/bcmdhd/parameters/op_mode
+    chmod 0660 /sys/module/bcmdhd_pcie/parameters/op_mode
+    chown wifi wifi /sys/module/bcmdhd/parameters/op_mode
+    chown wifi wifi /sys/module/bcmdhd_pcie/parameters/op_mode
+
+    # Upgrade SELinux security contexts for Blake.
+    restorecon_recursive /sys/devices/virtual/ozmo_wpan/ozwpan
+    restorecon_recursive /sys/class/ozmo_wpan/ozwpan
+
+    # wifi_product path
+    chown system /sys/class/net/wlan0/wifi_product
+
+    # nvwifi
+    chown system system /sys/class/net/wlan0/histogram/tcpdump
+    chown system system /sys/class/net/wlan0/histogram/scan
+    chown system system /sys/class/net/wlan0/histogram/stat
+    chown system system /sys/class/net/wlan0/histogram/rssi
+
+    chmod 0660 /sys/module/brcmfmac/parameters/alternative_fw_path
+    chown wifi wifi /sys/module/brcmfmac/parameters/alternative_fw_path
+
+# bluetooth mac address programming
+service bt_loader /vendor/bin/bt_loader.sh
+    class main
+    user root
+    group root
+    oneshot
+    disabled
+
+on fs
+    # Wifi support rx-filter
+    setprop wifi.rx-filter 1
+    # limit size of BT snoop logs
+    setprop persist.bluetooth.btsnoopsize 0x7D00
+
+    # Increase rmem_max for 4k GS
+    write /proc/sys/net/core/rmem_max 1048576
+
+on post-fs-data
+    mkdir /data/misc/wifi 0771 wifi wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi wifi
+
+    #create bluedroid_log files
+    mkdir /data/misc/bluedroid_log
+    chown bluetooth system /data/misc/bluedroid_log
+    chmod 0770 /data/misc/bluedroid_log
+
+    start bt_loader
+    start supplicant_log
+
+on property:init.svc.wifiloader=stopped
+    chown system /sys/class/net/wlan0/histogram/tcpdump
+    chown system /sys/class/net/wlan0/histogram/scan
+
+# wifiloader - set the wifi commchip_id accordingly
+service wifiloader /vendor/bin/wifi_loader.sh
+    class main
+    user root
+    group root wifi
+    oneshot
+    disabled
+
+service dhcpcd_p2p_wlan0 /system/bin/dhcpcd p2p-wlan0-0
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_p2p_p2p0 /system/bin/dhcpcd p2p-p2p0-0
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd -aABKL -y 0
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_p2p /system/bin/dhcpcd -aABKL
+    class main
+    disabled
+    oneshot
+
+service dhcpcd_eth0 /system/bin/dhcpcd -ABKL -f/system/etc/dhcpcd/dhcpcd.conf
+     class main
+     disabled
+     oneshot
+
+service dhcpcd_hv1 /system/bin/dhcpcd -ABKL -f/system/etc/dhcpcd/dhcpcd.conf
+     class main
+     disabled
+     oneshot
+
+service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_bt-pan /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_wlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_p2p /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_eth0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_hv1 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/p2p_supplicant_overlay.conf \
+    -puse_p2p_group_interface=1p2p_device=1 \
+    -m/data/misc/wifi/p2p_supplicant.conf \
+    -O/data/misc/wifi/sockets \
+    -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
+    class late_start
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service p2p_supplicant /vendor/bin/hw/wpa_supplicant \
+    -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
+    -I/system/etc/wifi/p2p_supplicant_overlay.conf \
+    -m/data/misc/wifi/p2p_supplicant.conf -O/data/misc/wifi/sockets \
+    -e/data/misc/wifi/entropy.bin -puse_p2p_group_interface=1p2p_device=1 \
+    -f/data/misc/wifi/supplicant.log -g@android:wpa_wlan0
+    class main
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service supplicant_log /vendor/bin/supplicant_log_monitor.sh
+    class main
+    user system
+    group system wifi
+
+service dns_masq /system/bin/dnsmasq --no-daemon --no-resolv --no-poll --dhcp-option-force=43,ANDROID_METERED --dhcp-range=192.168.42.2,192.168.42.254,1h &
+    class main
+    user dhcp
+    group dhcp wifi system
+    disabled
+    oneshot

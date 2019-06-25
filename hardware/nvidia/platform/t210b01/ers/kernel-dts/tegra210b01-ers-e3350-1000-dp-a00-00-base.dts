@@ -1,0 +1,205 @@
+/*
+ * Copyright (c) 2017, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; version 2 of the License.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+#include "tegra210b01-ers-e3350-1000-a00-00-base.dts"
+/ {
+	host1x {
+
+		dc@54240000 {
+			nvidia,dc-or-node = "/host1x/sor1";
+			nvidia,dc-connector = <&sor1>;
+		};
+
+		sor1 {
+			status = "okay";
+			nvidia,active-panel = <&sor1_dp_display>;
+			dp-display {
+				status = "okay";
+				compatible = "dp, display";
+				nvidia,hpd-gpio = <&gpio TEGRA_GPIO(CC, 1) 1>; /* PN7 */
+				nvidia,is_ext_dp_panel = <1>;
+				nvidia,lanes = <4>;
+
+				disp-default-out {
+					nvidia,out-type = <TEGRA_DC_OUT_DP>;
+					nvidia,out-align = <TEGRA_DC_ALIGN_MSB>;
+					nvidia,out-order = <TEGRA_DC_ORDER_RED_BLUE>;
+					nvidia,out-flags = <TEGRA_DC_OUT_CONTINUOUS_MODE>;
+					nvidia,out-pins = <TEGRA_DC_OUT_PIN_H_SYNC TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_V_SYNC TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_PIXEL_CLOCK TEGRA_DC_OUT_PIN_POL_LOW
+							   TEGRA_DC_OUT_PIN_DATA_ENABLE TEGRA_DC_OUT_PIN_POL_HIGH>;
+					nvidia,out-parent-clk = "pll_d2_out0";
+				};
+				/* Setting for LT data */
+				lt-data {
+					tegra-dp-vs-regs {
+						/* postcursor2 L0 */
+						pc2_l0 = <
+							/* pre-emphasis: L0, L1, L2, L3 */
+							0x13 0x19 0x1e 0x28 /* voltage swing: L0 */
+							0x1e 0x25 0x2d /* L1 */
+							0x28 0x32 /* L2 */
+							0x39 /* L3 */
+						>;
+						/* postcursor2 L1 */
+						pc2_l1 = <
+							0x12 0x17 0x1b 0x25
+							0x1c 0x23 0x2a
+							0x25 0x2f
+							0x37
+						>;
+						/* postcursor2 L2 */
+						pc2_l2 = <
+							0x12 0x16 0x1a 0x22
+							0x1b 0x20 0x27
+							0x24 0x2d
+							0x35
+						>;
+						/* postcursor2 L3 */
+						pc2_l3 = <
+							0x11 0x14 0x17 0x1f
+							0x19 0x1e 0x24
+							0x22 0x2a
+							0x32
+						>;
+					};
+					tegra-dp-pe-regs {
+						/* postcursor2 L0 */
+						pc2_l0 = <
+							/* pre-emphasis: L0, L1, L2, L3 */
+							0x00 0x08 0x12 0x24 /* voltage swing: L0 */
+							0x01 0x0e 0x1d /* L1 */
+							0x01 0x13 /* L2 */
+							0x00 /* L3 */
+						>;
+						/* postcursor2 L1 */
+						pc2_l1 = <
+							0x00 0x08 0x12 0x24
+							0x00 0x0e 0x1d
+							0x00 0x13
+							0x00
+						>;
+						/* postcursor2 L2 */
+						pc2_l2 = <
+							0x00 0x08 0x12 0x24
+							0x00 0x0e 0x1d
+							0x00 0x13
+							0x00
+						>;
+						/* postcursor2 L3 */
+						pc2_l3 = <
+							0x00 0x08 0x12 0x24
+							0x00 0x0e 0x1d
+							0x00 0x13
+							0x00
+						>;
+					};
+					tegra-dp-pc-regs {
+						/* postcursor2 L0 */
+						pc2_l0 = <
+							/* pre-emphasis: L0, L1, L2, L3 */
+							0x00 0x00 0x00 0x00 /* voltage swing: L0 */
+							0x00 0x00 0x00 /* L1 */
+							0x00 0x00 /* L2 */
+							0x00 /* L3 */
+						>;
+						/* postcursor2 L1 */
+						pc2_l1 = <
+							0x02 0x02 0x04 0x05
+							0x02 0x04 0x05
+							0x04 0x05
+							0x05
+						>;
+						/* postcursor2 L2 */
+						pc2_l2 = <
+							0x04 0x05 0x08 0x0b
+							0x05 0x09 0x0b
+							0x08 0x0a
+							0x0b
+						>;
+						/* postcursor2 L3 */
+						pc2_l3 = <
+							0x05 0x09 0x0b 0x12
+							0x09 0x0d 0x12
+							0x0b 0x0f
+							0x12
+						>;
+					};
+					tegra-dp-tx-pu {
+						/* postcursor2 L0 */
+						pc2_l0 = <
+							/* pre-emphasis: L0, L1, L2, L3 */
+							0x20 0x30 0x40 0x60 /* voltage swing: L0 */
+							0x30 0x40 0x60 /* L1 */
+							0x40 0x60 /* L2 */
+							0x60 /* L3 */
+						>;
+						/* postcursor2 L1 */
+						pc2_l1 = <
+							0x20 0x20 0x30 0x50
+							0x30 0x40 0x50
+							0x40 0x50
+							0x60
+						>;
+						/* postcursor2 L2 */
+						pc2_l2 = <
+							0x20 0x20 0x30 0x40
+							0x30 0x30 0x40
+							0x40 0x50
+							0x60
+						>;
+						/* postcursor2 L3 */
+						pc2_l3 = <
+							0x20 0x20 0x20 0x40
+							0x30 0x30 0x40
+							0x40 0x40
+							0x60
+						>;
+					};
+				};//lt-data;
+
+				dp-lt-settings {
+					lt-setting@0 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x3>;
+					};
+					lt-setting@1 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0 PRE_EMPHASIS_L0>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x4>;
+					};
+					lt-setting@2 {
+						nvidia,drive-current = <DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0 DRIVE_CURRENT_L0>;
+						nvidia,lane-preemphasis = <PRE_EMPHASIS_L1 PRE_EMPHASIS_L1 PRE_EMPHASIS_L1 PRE_EMPHASIS_L1>;
+						nvidia,post-cursor = <POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0 POST_CURSOR2_L0>;
+						nvidia,tx-pu = <0>;
+						nvidia,load-adj = <0x6>;
+					};
+				};
+			};
+			hdmi-display {
+				status = "disabled";
+			};
+		};
+	};
+};
+

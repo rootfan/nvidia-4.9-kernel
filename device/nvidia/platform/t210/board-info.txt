@@ -1,0 +1,1 @@
+require product=t210ref|SHIELDtabletPro|loki|foster

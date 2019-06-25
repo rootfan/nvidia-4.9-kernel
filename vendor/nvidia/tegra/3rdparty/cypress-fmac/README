@@ -1,0 +1,66 @@
+Cypress Wifi Android FMAC Driver Package - README
+=================================================
+
+Package FMAC Version
+--------------------
+v4.14.52-manda-android-RTM.1-0-g9a615c8
+
+Package Android Version
+-----------------------
+Android 8.0
+
+Release Date
+------------
+2018.10.12
+
+Description
+-----------
+This is Cypress's Android brcmfmac driver and firmware support package.
+Brcmfmac is an open-source driver project.
+
+The release package includes:
+* backports-wireless
+	FMAC wireless backports source code
+* firmware:
+	1. 43455 Firmware/clm_blob files
+	2. 4356  Firmware/clm_blob files
+* nvram:
+	1. 43455 wlpagb nvram
+* patches:
+	Android patches
+* utilities:
+	wl tool for debugging.
+* README
+
+Instructions
+------------
+1. Extract the release package and move cypress folder to $ANDROID_BUILD_TOP/vendor/.
+
+2. Apply or porting the Android patches in $ANDROID_BUILD_TOP/vendor/cypress/patches.
+
+3. Run 'make' in $ANDROID_BUILD_TOP folder
+
+4. Re-flash following images in $OUT folder
+	a. boot-imx6sx.img
+	b. ramdisk.img
+	c. vendor.img
+	d. system.img
+
+Troubleshooting
+---------------
+Q1: wlfmac cannot work. The error shows "wl drvier adapter not found"
+A1: Please check the wifi is turned ON and the console permission is root.
+
+Q2: How to change to ROOT permission
+A2: Execute "adb root" or "su" in uart console mode.
+
+Q3: I cannot push file to vendor or system partition.
+A3: Execute "adb root; adb remount" to set write permission first.
+
+Q4: I cannot remount the partition, and error shows "dm_verity is enabled on the system partition."
+A4: Execute "adb disable-verity" with adb version 1.0.39 or later version, then reboot the device.
+
+Q5: I cannot find my device in "adb devices"
+A5: Please execute adb daemon as root permission.
+    Execute "adb kill-server; sudo adb devices", then you can execute "adb devices" to check.
+

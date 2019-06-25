@@ -1,0 +1,35 @@
+# Copyright (c) 2015-2017, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+allow init cache_file:dir mounton;
+allow init configfs:dir write;
+allow init kernel:system module_request;
+allow init storage_file:dir mounton;
+allow init sysfs:dir write;
+allow init tmpfs:lnk_file create;
+
+allow init configfs:dir add_name;
+allow init sdcardd_exec:file getattr;
+allow init configfs:dir create;
+allow init configfs:file write;
+allow init configfs:lnk_file { create unlink };
+
+allow init userdata_block_device:blk_file rw_file_perms;
+allow init cache_block_device:blk_file rw_file_perms;
+
+# mnand_rfsh
+# libsepol.report_failure: neverallow on line 284 of external/sepolicy/init.te
+# violated by allow init system_file:file { execute_no_trans };
+#allow init system_file:file execute_no_trans;
+

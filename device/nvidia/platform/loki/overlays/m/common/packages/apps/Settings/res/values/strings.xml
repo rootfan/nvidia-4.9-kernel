@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+   <!-- [CHAR LIMIT=35] Feedback on the device -->
+   <!-- this is Android L string that is not in K -->
+   <add-resource type="string" name="device_feedback" />
+   <string name="device_feedback">Send feedback to NVIDIA</string>
+</resources>

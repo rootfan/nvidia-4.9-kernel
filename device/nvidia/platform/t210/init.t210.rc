@@ -1,0 +1,31 @@
+import init.t210_common.rc
+
+on boot
+    write /sys/devices/system/cpu/cpuquiet/tegra_cpuquiet/enable 0
+
+# Sensor permissions
+    chown system system /sys/class/sensors/light/device/amb_clear
+
+# Tegra CEC permissions
+     chown system system /sys/devices/70015000.tegra_cec/cec_logical_addr_config
+     chmod 0660 /sys/devices/70015000.tegra_cec/cec_logical_addr_config
+
+# TCP divisor for traffic throttling
+    chown system system /sys/module/tcp_output/parameters/tcp_window_divisor
+
+# Enable tachometer
+    write /sys/devices/pwm-fan/tach_enabled 1
+
+# override cpuset cpus to 0-3
+    write /dev/cpuset/foreground/cpus 0-3
+    write /dev/cpuset/foreground/boost/cpus 0-3
+    write /dev/cpuset/background/cpus 0-3
+    write /dev/cpuset/system-background/cpus 0-3
+    write /dev/cpuset/top-app/cpus 0-3
+
+on property:log.tag.TegraHDMICEC="V"
+    exec - system system -- /vendor/bin/cecutil --enable-rx-snoop
+
+on property:log.tag.TegraHDMICEC=""
+    exec - system system -- /vendor/bin/cecutil --disable-rx-snoop
+

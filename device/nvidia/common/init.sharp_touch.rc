@@ -1,0 +1,31 @@
+#Copyright (c) 2015-2018 NVIDIA Corporation.  All Rights Reserved.
+#
+#NVIDIA Corporation and its licensors retain all intellectual property and
+#proprietary rights in and to this software and related documentation.  Any
+#use, reproduction, disclosure or distribution of this software and related
+#documentation without an express license agreement from NVIDIA Corporation
+#is strictly prohibited.
+
+on early-init
+    export INPUT_DBG_RAWDATA_PATH /data/shtouch
+    export INPUT_DBG_RAWDATA_FILE dump.csv
+
+on post-fs-data
+    mkdir /data/shtouch 0770 system system
+    chown system system /sys/devices/virtual/misc/touch/report_mode
+    chmod 0660 /sys/devices/virtual/misc/touch/report_mode
+    chown system system /sys/devices/virtual/misc/touch/slowscan_enable
+    chmod 0660 /sys/devices/virtual/misc/touch/slowscan_enable
+    chown system system /sys/devices/virtual/misc/touch/version
+    chown system system /sys/devices/virtual/misc/touch/wakeup_enable
+    chown system system /sys/devices/virtual/misc/touch/log
+
+
+on property:persist.tch.tap2wake=2
+    write /sys/class/misc/touch/wakeup_enable "1 2"
+
+on property:persist.tch.tap2wake=0
+    write /sys/class/misc/touch/wakeup_enable "0 "
+
+on property:persist.tch.tap2wake=1
+    write /sys/class/misc/touch/wakeup_enable "2 "
