@@ -1,9 +1,0 @@
-<hal format="hidl">
-   <name>vendor.nvidia.hardware.phs</name>
-   <transport>hwbinder</transport>
-   <version>1.0</version>
-   <interface>
-       <name>INVPHS</name>
-       <instance>nvphsd</instance>
-   </interface>
-</hal>

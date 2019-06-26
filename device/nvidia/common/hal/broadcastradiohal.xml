@@ -1,9 +1,0 @@
-<hal format="hidl">
-   <name>android.hardware.broadcastradiohal</name>
-   <transport>hwbinder</transport>
-   <version>1.0</version>
-   <interface>
-       <name>IBroadcastRadio</name>
-       <instance>default</instance>
-   </interface>
-</hal>

@@ -1,3 +1,0 @@
-# Allow device specific system calls
-uname: 1
-_llseek: 1
