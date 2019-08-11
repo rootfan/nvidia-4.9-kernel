@@ -117,7 +117,7 @@ tegra210b01_core_therm_caps_ucm2[MAX_THERMAL_LIMITS] = {
 
 static struct dvfs_rail tegra210_dvfs_rail_vdd_cpu = {
 	.reg_id = "vdd-cpu",
-	.max_millivolts = 1285,
+	.max_millivolts = 1300,
 	.min_millivolts = 800,
 	.step = VDD_SAFE_STEP,
 	.step_up = 1300,
@@ -134,7 +134,7 @@ static struct dvfs_rail tegra210_dvfs_rail_vdd_cpu = {
 
 static struct dvfs_rail tegra210_dvfs_rail_vdd_core = {
 	.reg_id = "vdd-core",
-	.max_millivolts = 1285,
+	.max_millivolts = 1300,
 	.step = VDD_SAFE_STEP,
 	.step_up = 1300,
 	.alignment = {
@@ -525,7 +525,7 @@ static struct cpu_dvfs cpu_fv_dvfs_table[] = {
 		.speedo_id = 0,
 		.process_id = 1,
 		.min_mv = 850,
-		.max_mv = 1285,
+		.max_mv = 1284,
 		CPU_PLL_CVB_TABLE,
 	},
 };
@@ -685,6 +685,9 @@ static struct dvfs cpu_lp_dvfs = {
 		{  844800, { }, {  1233208,     8144,     -940,      808,   -21583,      226 }, }, \
 		{  921600, { }, {  1275100,     8144,     -940,      808,   -21583,      226 }, }, \
 		{  998400, { }, {  1316991,     8144,     -940,      808,   -21583,      226 }, }, \
+                {  1075200, { }, {  1316991,     8144,     -940,      808,   -21583,      226 }, }, \
+                {  1152000, { }, {  1100000,     0,     0,      0,   0,      0 }, }, \
+                {  1228800, { }, {  1150000,     0,     0,      0,   0,      0 }, }, \
 		{ 0,	   { }, { }, }, \
 	}
 
@@ -777,12 +780,12 @@ static struct cvb_dvfs gpu_cvb_dvfs_table[] = {
 #endif
 	},
 
-	{
+	{ // shields gpu speedo and process
 		.speedo_id = 1,
 		.process_id = -1,
 		.pll_min_millivolts = 840,
 		.max_mv = 1150,
-		.max_freq = 998400,
+		.max_freq = 1228800,
 #ifdef CONFIG_TEGRA_USE_NA_GPCPLL
 		NA_FREQ_CVB_TABLE,
 #else
@@ -1078,9 +1081,6 @@ static int set_cpu_dvfs_data(struct cpu_dvfs *d,
 		mv = tegra_get_cvb_voltage(speedo, d->speedo_scale,
 					   &d->cvb_pll_table[i].coefficients);
 
-                // printk("coefficients: %i  %i  %i\n",d->cvb_pll_table[i].coefficients.c0,d->cvb_pll_table[i].coefficients.c1,d->cvb_pll_table[i].coefficients.c2);
-                                 
-   
 		mv = (100 + CVB_PLL_MARGIN) * mv / 100;
 		mv = tegra_round_cvb_voltage(mv, d->voltage_scale, align);
 		mv = max(mv, min_mv);
@@ -1135,7 +1135,7 @@ static int set_cpu_dvfs_data(struct cpu_dvfs *d,
 static int set_cpu_lp_dvfs_data(unsigned long max_freq, struct cpu_dvfs *d,
 				struct dvfs *cpu_lp_dvfs, int *max_freq_index)
 {
-	int i, mv, min_mv,loopIndex;
+	int i, mv, min_mv;
 	struct rail_alignment *align = &vdd_cpu_rail.alignment;
 
 	min_mv = d->min_mv;
@@ -1169,10 +1169,6 @@ static int set_cpu_lp_dvfs_data(unsigned long max_freq, struct cpu_dvfs *d,
 		cpu_lp_millivolts[i] = mv;
 	}
         
-        printk("Low power dvfs\n");
-        for(loopIndex = 0; loopIndex < i; ++loopIndex)
-        printk("index %i freq: %lu volts: %i\n",loopIndex,cpu_lp_dvfs->freqs[loopIndex],cpu_lp_millivolts[loopIndex]);
-
 	/* Table must not be empty */
 	if (!i) {
 		pr_err("tegra210_dvfs: invalid cpu lp dvfs table\n");
@@ -1889,6 +1885,9 @@ static int set_gpu_dvfs_data(struct device_node *node, unsigned long max_freq,
 	 * CVB entry specifies gpu frequency and CVB coefficients to calculate
 	 * the respective voltage.
 	 */
+        printk("GPU DVFS DATA");
+        printk("GPU Max MV: %d\n",d->max_mv);
+
 	for (i = 0; i < MAX_DVFS_FREQS; i++) {
 		table = &d->cvb_table[i];
 		if (!table->freq || (table->freq > max_freq))
@@ -1896,6 +1895,7 @@ static int set_gpu_dvfs_data(struct device_node *node, unsigned long max_freq,
 
 		mv = tegra_get_cvb_voltage(
 			speedo, d->speedo_scale, &table->cvb_pll_param);
+                printk("%d: MV: %d Freq: %ld\n",i,tegra_round_cvb_voltage(mv, d->voltage_scale, align),table->freq);
 
 		for (j = 0; j < thermal_ranges; j++) {
 			int mvj = mv;
@@ -1954,6 +1954,7 @@ static int set_gpu_dvfs_data(struct device_node *node, unsigned long max_freq,
 	gpu_dvfs->speedo_id = d->speedo_id;
 	gpu_dvfs->process_id = d->process_id;
 	gpu_dvfs->freqs_mult = d->freqs_mult;
+
 
 	*max_freq_index = i - 1;
 

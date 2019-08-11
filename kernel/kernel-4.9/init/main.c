@@ -361,13 +361,21 @@ static inline void smp_prepare_cpus(unsigned int maxcpus) { }
  */
 static void __init setup_command_line(char *command_line)
 {
-	saved_command_line =
-		memblock_virt_alloc(strlen(boot_command_line) + 1, 0);
-	initcall_command_line =
-		memblock_virt_alloc(strlen(boot_command_line) + 1, 0);
-	static_command_line = memblock_virt_alloc(strlen(command_line) + 1, 0);
-	strcpy(saved_command_line, boot_command_line);
-	strcpy(static_command_line, command_line);
+        int pos;
+        char* consoleEntry;        
+
+	// saved_command_line = memblock_virt_alloc(strlen(boot_command_line) + 3, 0);
+	initcall_command_line = memblock_virt_alloc(strlen(boot_command_line) + 3, 0);
+	static_command_line = memblock_virt_alloc(strlen(command_line) + 3, 0);
+       
+	// strcpy(saved_command_line, boot_command_line);
+
+        consoleEntry = strstr(command_line,"console=ttyS0,115200n8");
+	strncpy(static_command_line,command_line,consoleEntry-command_line);
+        strcat(static_command_line,"console=ttyUSB0,115200n8");
+        strcat(static_command_line,consoleEntry+22);
+        saved_command_line = static_command_line;
+
 }
 
 /*
@@ -515,7 +523,7 @@ asmlinkage __visible void __init start_kernel(void)
 	build_all_zonelists(NULL, NULL);
 	page_alloc_init();
 
-	pr_notice("Kernel command line: %s\n", boot_command_line);
+	pr_notice("Kernel command line: %s\n", saved_command_line);
 	parse_early_param();
 	after_dashes = parse_args("Booting kernel",
 				  static_command_line, __start___param,

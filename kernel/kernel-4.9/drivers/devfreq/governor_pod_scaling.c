@@ -253,12 +253,22 @@ static void podgov_set_freq_request(struct devfreq *df, int freq_request)
 
 	/* update the request only if podgov is enabled, device is turned on
 	 * and the scaling is in user mode */
-	if (podgov->enable && podgov->p_user &&
-	    pm_runtime_active(dev)) {
+	if (podgov->enable && podgov->p_user) {
+                printk("Podgov freq request acknowledged!");
 		podgov->adjustment_frequency = freq_request;
 		podgov->adjustment_type = ADJUSTMENT_LOCAL;
 		update_devfreq(df);
 	}
+        else {
+        printk("Podgov request failed!");
+        if(!podgov->enable)
+        printk("Podgov is not enabled!");
+        if(!podgov->p_user)
+        printk("Podgov user mode is not enabled!");
+        if(!pm_runtime_active(dev))
+        printk("Podgov pm_runtime is not active!");
+        }
+         
 
 	mutex_unlock(&df->lock);
 	pm_runtime_put(dev);
@@ -322,6 +332,7 @@ static unsigned long scaling_state_check(struct devfreq *df, ktime_t time)
 	scaling_limit(df, &res);
 	trace_podgov_scaling_state_check(df->dev.parent,
 					 df->previous_freq, res);
+
 	return res;
 }
 
@@ -498,8 +509,9 @@ static ssize_t freq_request_store(struct kobject *kobj,
 		container_of(attr, struct podgov_info_rec, freq_request_attr);
 	unsigned long val = 0;
 
-	if (kstrtoul(buf, 10, &val) < 0)
+	if (kstrtoul(buf, 10, &val) < 0){
 		return -EINVAL;
+        }
 
 	podgov_set_freq_request(podgov->power_manager, val);
 
@@ -673,7 +685,8 @@ static int nvhost_pod_init(struct devfreq *df)
 
 	/* store the limits */
 	df->min_freq = podgov->freqlist[0];
-	df->max_freq = podgov->freqlist[podgov->freq_count - 1];
+	//df->max_freq = podgov->freqlist[podgov->freq_count - 1];
+        df->max_freq = 998400000;
 	podgov->p_freq_request = df->max_freq;
 
 	podgov->idle_avg = 0;

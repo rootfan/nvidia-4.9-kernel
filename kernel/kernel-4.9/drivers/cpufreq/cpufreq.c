@@ -34,6 +34,7 @@
 #endif
 #include <trace/events/power.h>
 
+unsigned long maxFreqLimit = 1912500;
 static LIST_HEAD(cpufreq_policy_list);
 
 static inline bool policy_is_inactive(struct cpufreq_policy *policy)
@@ -740,8 +741,65 @@ static ssize_t store_##file_name					\
 	return ret ? ret : count;					\
 }
 
+
+static ssize_t store_scaling_max_freq (struct cpufreq_policy *policy, const char *buf, size_t count)		
+{									
+	int ret, temp;							
+	struct cpufreq_policy new_policy;				
+									
+	memcpy(&new_policy, policy, sizeof(*policy));			
+									
+	ret = sscanf(buf, "%u", &new_policy.max);
+		
+	if (ret != 1)							
+		return -EINVAL;
+          
+         if(maxFreqLimit && new_policy.max > maxFreqLimit)
+          new_policy.max = maxFreqLimit;  						
+									
+	if (new_policy.max < policy->cpuinfo.min_freq)		
+		new_policy.max = policy->cpuinfo.min_freq;		
+	else if (new_policy.max > policy->cpuinfo.max_freq)		
+		new_policy.max = policy->cpuinfo.max_freq;		
+									
+	temp = new_policy.max;					
+	new_policy.user_policy.max = temp;				
+	new_policy.min = new_policy.user_policy.min;			
+	new_policy.max = new_policy.user_policy.max;			
+	ret = cpufreq_set_policy(policy, &new_policy);			
+	if (!ret)							
+		policy->user_policy.max = temp;			
+									
+	return ret ? ret : count;					
+}
+
+
 store_one(scaling_min_freq, min);
-store_one(scaling_max_freq, max);
+
+
+/* max freq limiter stuff */
+static ssize_t show_scaling_max_freq_limiter(struct cpufreq_policy *policy, char *buf)
+{       
+	return sprintf(buf, "%lu\n", maxFreqLimit);
+}
+
+
+ssize_t store_scaling_max_freq (struct cpufreq_policy *policy, const char *buf, size_t count);	
+static ssize_t store_scaling_max_freq_limiter(struct cpufreq_policy *policy, const char *buf, size_t count) {
+   unsigned long temp;
+   int ret;
+   ret = sscanf(buf,"%lu",&temp);
+   if(!ret){
+    maxFreqLimit = 0;
+    return -EINVAL;
+   }
+  maxFreqLimit = temp;
+  store_scaling_max_freq (policy, buf, count);
+  return count;
+}
+
+
+
 
 /**
  * show_cpuinfo_cur_freq - current CPU frequency as detected by hardware
@@ -918,6 +976,8 @@ cpufreq_freq_attr_rw(scaling_min_freq);
 cpufreq_freq_attr_rw(scaling_max_freq);
 cpufreq_freq_attr_rw(scaling_governor);
 cpufreq_freq_attr_rw(scaling_setspeed);
+cpufreq_freq_attr_rw(scaling_max_freq_limiter);
+
 
 static struct attribute *default_attrs[] = {
 	&cpuinfo_min_freq.attr,
@@ -931,6 +991,7 @@ static struct attribute *default_attrs[] = {
 	&scaling_driver.attr,
 	&scaling_available_governors.attr,
 	&scaling_setspeed.attr,
+        &scaling_max_freq_limiter.attr,
 	NULL
 };
 
@@ -1060,7 +1121,8 @@ static int cpufreq_init_policy(struct cpufreq_policy *policy)
 		pr_debug("Restoring governor %s for cpu %d\n",
 				policy->governor->name, policy->cpu);
 	} else {
-		gov = cpufreq_default_governor();
+		//gov = cpufreq_default_governor();
+                gov = find_governor("interactive") ? find_governor("interactive") : cpufreq_default_governor();
 		if (!gov)
 			return -ENODATA;
 	}
@@ -2240,6 +2302,9 @@ static int cpufreq_set_policy(struct cpufreq_policy *policy,
 {
 	struct cpufreq_governor *old_gov;
 	int ret;
+
+        if(maxFreqLimit && new_policy->max > maxFreqLimit)
+        new_policy->max = maxFreqLimit;
 
 	pr_debug("setting new policy for CPU %u: %u - %u kHz\n",
 		 new_policy->cpu, new_policy->min, new_policy->max);
