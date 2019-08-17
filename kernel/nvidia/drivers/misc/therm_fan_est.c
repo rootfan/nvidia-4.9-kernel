@@ -33,6 +33,7 @@
 #include <linux/hwmon-sysfs.h>
 #include <linux/version.h>
 
+
 #define DEFERRED_RESUME_TIME 3000
 #define THERMAL_GOV_PID "pid_thermal_gov"
 #define DEBUG 0
@@ -394,9 +395,51 @@ static ssize_t set_temps(struct device *dev,
 }
 #endif
 
+
+static ssize_t show_trip_temps(struct device *dev,
+				struct device_attribute *da,
+				char *buf)
+{
+	struct therm_fan_estimator *est = dev_get_drvdata(dev);
+        int index;
+        char tempBuffer[50];
+
+        for(index = 0; index < est->trip_length; ++index) {
+           memset(tempBuffer,0,50);
+           sprintf(tempBuffer,"%d ",est->active_trip_temps[index]);
+           strcat(buf,tempBuffer);
+        }
+
+        buf[strlen(buf) - 1] = '\n';        
+        return strlen(buf);
+}
+
+// send "index value"
+static ssize_t set_trip_temps(struct device *dev,
+				struct device_attribute *da,
+				const char *buf, size_t count)
+{
+        struct therm_fan_estimator *est = dev_get_drvdata(dev);  
+        char* split,*end;
+        int index;
+        split = strstr(buf," ");
+        if(!split)
+          return 0;
+        
+        (*split) = '\0';
+        index = simple_strtoul(buf,&end,10);
+
+        if(index > (est->trip_length - 1))
+          return 0;
+             
+        est->active_trip_temps[index] = simple_strtoul(++split,&end,10); 
+	return count;
+}
+
 static struct sensor_device_attribute therm_fan_est_nodes[] = {
 	SENSOR_ATTR(coeff, S_IRUGO | S_IWUSR, show_coeff, set_coeff, 0),
 	SENSOR_ATTR(offset, S_IRUGO | S_IWUSR, show_offset, set_offset, 0),
+        SENSOR_ATTR(trip_temps, S_IRUGO | S_IWUSR,show_trip_temps,set_trip_temps, 0),
 #if DEBUG
 	SENSOR_ATTR(temps, S_IRUGO | S_IWUSR, show_temps, set_temps, 0),
 #else

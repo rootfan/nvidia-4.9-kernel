@@ -229,6 +229,35 @@ static int fan_step_time_show(void *data, u64 *val)
 	return 0;
 }
 
+
+static ssize_t fan_rpm_table_write(struct file *file, const char __user *buf,
+				size_t count, loff_t *offset)
+{
+	char buffer[20];
+	const size_t maxlen = 19;
+        char* split,*end;
+        int index;
+        struct fan_dev_data *fan_data = file->f_inode->i_private;
+
+	memset(buffer, 0, sizeof(buffer));
+	if (copy_from_user(buffer, buf, count > maxlen ? maxlen : count))
+		return -EFAULT;
+        
+        split = strstr(buffer," ");
+        if(!split)
+          return 0;
+        
+        (*split) = '\0';
+        index = simple_strtoul(buffer,&end,10);
+
+        if(index > (fan_data->active_steps - 1))
+          return 0;
+             
+        fan_data->fan_pwm[index] = simple_strtoul(++split,&end,10); 
+	return count;
+} 
+
+
 static int fan_debugfs_show(struct seq_file *s, void *data)
 {
 	int i;
@@ -254,6 +283,7 @@ static int fan_debugfs_open(struct inode *inode, struct file *file)
 static const struct file_operations fan_rpm_table_fops = {
 	.open		= fan_debugfs_open,
 	.read		= seq_read,
+        .write          = fan_rpm_table_write,
 	.llseek		= seq_lseek,
 	.release	= single_release,
 };
