@@ -353,6 +353,44 @@ static inline void setup_nr_cpu_ids(void) { }
 static inline void smp_prepare_cpus(unsigned int maxcpus) { }
 #endif
 
+// removes all occurences of string remove in string text
+static void __init removeCommandTag(char* text, char* remove) {
+ char* removeStart = strstr(text,remove),*removeEnd;
+ if(!removeStart)
+   return;
+ removeEnd = strchr(removeStart,' ');
+ if(!removeEnd)
+    *(--removeStart) = '\0';
+
+ else{
+    strcpy(removeStart,++removeEnd);
+    removeCommandTag(removeStart,remove);
+}
+}
+
+// removes a space delimited set of arguments from the command line
+static void __init removeBootArgs(char *command_line, char* removeFlags) {
+
+char* delimiter = strchr(removeFlags,' ');
+char currentTag[50];
+
+if(delimiter){
+strncpy(currentTag,removeFlags,delimiter-removeFlags);
+removeCommandTag(command_line,currentTag);
+removeCommandTag(boot_command_line,currentTag);
+removeBootArgs(command_line,++delimiter);
+}
+else{
+removeCommandTag(command_line,removeFlags);
+removeCommandTag(boot_command_line,removeFlags);
+}
+
+}
+
+
+
+
+
 /*
  * We need to store the untouched command line for future reference.
  * We also need to store the touched command line since the parameter
@@ -361,21 +399,19 @@ static inline void smp_prepare_cpus(unsigned int maxcpus) { }
  */
 static void __init setup_command_line(char *command_line)
 {
-        int pos;
-        char* consoleEntry;        
+        char* extras = "console=ttyUSB0,115200n8";
+        int extLen = strlen(extras);
 
-	// saved_command_line = memblock_virt_alloc(strlen(boot_command_line) + 3, 0);
-	initcall_command_line = memblock_virt_alloc(strlen(boot_command_line) + 3, 0);
-	static_command_line = memblock_virt_alloc(strlen(command_line) + 3, 0);
-       
-	// strcpy(saved_command_line, boot_command_line);
+	saved_command_line =
+		memblock_virt_alloc(strlen(boot_command_line) + extLen + 1, 0);
+	initcall_command_line =
+		memblock_virt_alloc(strlen(boot_command_line) + extLen + 1, 0);
+	static_command_line = memblock_virt_alloc(strlen(command_line) + extLen + 1, 0);
 
-        consoleEntry = strstr(command_line,"console=ttyS0,115200n8");
-	strncpy(static_command_line,command_line,consoleEntry-command_line);
-        strcat(static_command_line,"console=ttyUSB0,115200n8");
-        strcat(static_command_line,consoleEntry+22);
-        saved_command_line = static_command_line;
-
+	strcpy(saved_command_line, boot_command_line);
+        memcpy(saved_command_line+strlen(saved_command_line)-1,extras,extLen+1);
+	strcpy(static_command_line, command_line);
+        memcpy(static_command_line+strlen(static_command_line)-1,extras,extLen+1);       
 }
 
 /*
@@ -514,6 +550,7 @@ asmlinkage __visible void __init start_kernel(void)
 	pr_notice("%s", linux_banner);
 	setup_arch(&command_line);
 	mm_init_cpumask(&init_mm);
+        removeBootArgs(command_line,"console=ttyS0,115200n8");
 	setup_command_line(command_line);
 	setup_nr_cpu_ids();
 	setup_per_cpu_areas();
@@ -529,6 +566,7 @@ asmlinkage __visible void __init start_kernel(void)
 				  static_command_line, __start___param,
 				  __stop___param - __start___param,
 				  -1, -1, NULL, &unknown_bootoption);
+         
 	if (!IS_ERR_OR_NULL(after_dashes))
 		parse_args("Setting init args", after_dashes, NULL, 0, -1, -1,
 			   NULL, set_init_arg);
