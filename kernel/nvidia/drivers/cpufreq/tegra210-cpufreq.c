@@ -262,8 +262,8 @@ static int cpufreq_table_make_from_dt(void)
         printk("%i %i",loopIndex,ftbl[loopIndex].frequency);
         
         // Make sure dm_verity is off. Move this somewhere else later
-        updateStringProperty("android,system","mnt_flags","ro,noatime");
-        updateStringProperty("android,vendor","mnt_flags","ro,noatime"); 
+        updateStringProperty("android,system","fsmgr_flags","wait");
+        updateStringProperty("android,vendor","fsmgr_flags","wait"); 
          
 
 	/* Set cpufreq suspend configuration */
