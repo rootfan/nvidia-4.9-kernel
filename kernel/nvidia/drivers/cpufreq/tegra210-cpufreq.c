@@ -96,6 +96,23 @@ static void pm_qos_register_notifier(void)
 		&tfreq_priv->max_freq_notifier);
 }
 
+
+
+// Updates a string property in the device tree. Find a less odd place to put this later.
+static void updateStringProperty(char* nodeCompatible,char* propertyName,char* newValue) {
+
+struct device_node *np = of_find_compatible_node(NULL, NULL, nodeCompatible);
+struct property *newProperty = kzalloc(sizeof(*newProperty),GFP_KERNEL);
+char *name = kmalloc(strlen(propertyName)+1,GFP_KERNEL), *value = kmalloc(strlen(newValue)+1,GFP_KERNEL);
+strcpy(name,propertyName);
+strcpy(value,newValue); 
+newProperty->name = name;
+newProperty->value = value;
+newProperty->length = strlen(value)+1;
+of_update_property(np,newProperty);
+
+}
+
 struct device_node *of_get_scaling_node(const char *name)
 {
 	struct device *dev = &tfreq_priv->pdev->dev;
@@ -244,6 +261,9 @@ static int cpufreq_table_make_from_dt(void)
         for(loopIndex = 0; loopIndex <= i; ++loopIndex)
         printk("%i %i",loopIndex,ftbl[loopIndex].frequency);
         
+        // Make sure dm_verity is off. Move this somewhere else later
+        updateStringProperty("android,system","mnt_flags","ro,noatime");
+        updateStringProperty("android,vendor","mnt_flags","ro,noatime"); 
          
 
 	/* Set cpufreq suspend configuration */
