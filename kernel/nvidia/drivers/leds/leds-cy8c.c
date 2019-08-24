@@ -32,6 +32,8 @@
 #include <linux/miscdevice.h>
 #include <asm/uaccess.h>
 #include <linux/delay.h>
+#include <linux/kthread.h>
+#include <linux/syslog.h>
 
 /* register definitions */
 #define P1961_REG_CMD			0x00
@@ -888,6 +890,43 @@ static int cy8c_apply_default_settings(struct cy8c_data *data)
 	return ret;
 }
 
+static int pulseLed(void *data) {
+int index;
+char *logBuf = kmalloc(200000,GFP_KERNEL);
+int readBytes;
+struct cy8c_data *ledData = (struct cy8c_data*) data;
+while(1) {
+for(index = 0; index < 255; ++index){
+ledData->led.brightness_set(&(ledData->led),index);
+mdelay(10);
+}
+
+readBytes = do_syslog(3,logBuf,199999,0);
+logBuf[readBytes] = '\0';
+if(strstr(logBuf,"BOOT_COMPLETE"))
+break;
+
+for(index = 255; index >= 0; --index){
+ledData->led.brightness_set(&(ledData->led),index);
+mdelay(10);
+}
+}
+kfree(logBuf);
+return 0;
+}
+
+static int launchPulseThread(struct cy8c_data *ledData) {
+    struct task_struct *thread1;
+
+    char our_thread[12] = "PulseThread";
+    thread1 = kthread_create(pulseLed,ledData,our_thread);
+    if((thread1))
+        wake_up_process(thread1);
+
+    return 0;
+
+}
+
 static int cy8c_led_probe(struct i2c_client *client,
 					const struct i2c_device_id *id)
 {
@@ -1035,6 +1074,8 @@ static int cy8c_led_probe(struct i2c_client *client,
 	if (!d)
 		pr_err("Failed to create suspend_mode debug file\n");
 
+       
+        launchPulseThread(data);
 	return ret;
 
 err6:
